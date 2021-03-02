@@ -45,6 +45,7 @@ Parameter         | Type | Description
 __-c__ *or* __--control__ | string | Path to the RC file for the control sample
 __-I__ *or* __--IP__ | string | Path to the RC file for the immunoprecipitated (IP) sample
 __-i__ *or* __--index__ | string[,string] | A comma separated (no spaces) list of RCI index files for the provided RC files<br/>__Note #1:__ RCI files must be provided in the order 1. Control, 2. IP<br/>__Note #2:__ If a single RTI file is specified, it will be used for all RC files<br/>__Note #3:__ If no RCI index is provided, it will be generated at runtime, and stored in the same folder of the control/IP samples
+__l__ *or* __--whitelist__ | string | A whitelist containing transcript IDs (one per each row) to restrict the analysis to
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-o__ *or* __--output__ | string | Output folder (Default: __&lt;IP&gt;\_vs\_&lt;Control&gt;/__ if a control RC file is provided, or __&lt;IP&gt;/__ if only the IP RC file is provided)
 __-ow__ *or* __--overwrite__ | | Overwrites the output folder (if the specified folder already exists)
