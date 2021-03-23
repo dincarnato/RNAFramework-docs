@@ -45,6 +45,7 @@ __-cc__ *or* __--collapse-consecutive__ | | Collapses consecutive mutations/inde
 __-mc__ *or* __--max-collapse-distance__ | int | Maximum distance between consecutive mutations/indels to allow collapsing (requires ``-cc``, &ge;0, Default_ __2__)
 __-mv__ *or* __--max-coverage__ | int | Downsamples reads to achieve this maximum mean per-base coverage (&ge;1000, Default: __off__)
 __-mm__ *or* __--mutation-map__ | | Generates a mutation map (MM) file for alternative structure deconvolution with [DRACO](https://github.com/dincarnato/draco)
+__-wl__ *or* __--whitelist__ | int | Generates a DRACO-compatible whitelist file, containing the IDs of transcripts with median coverage &ge; to the specified value
 
 <br/>
 ## Coverage calculation
