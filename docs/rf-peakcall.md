@@ -6,7 +6,7 @@ Analysis is performed by sliding a window of length *w* along the transcript, an
 where *i* and *i+w* are the start and end position of the window, *&#x3BC;<sub>IP(i)</sub>* and *&#x3BC;<sub>Ctrl(i)</sub>* are respectively the  coverage at position *i* in the IP and control samples, *Md<sub>IP</sub>* and *Md<sub>Ctrl</sub>* are respectively the median coverage on the whole transcript in the IP and control samples, and *p* is a pseudocount added to deal with non-covered regions/transcripts.<br/>When a control sample is not provided, the signal enrichment is simply calculated as:<br/>
 
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>E</mi><mrow><mo>(</mo><mi>i</mi><mo>.</mo><mo>.</mo><mi>i</mi><mo>+</mo><mi>w</mi><mo>)</mo></mrow></msub><mo>=</mo><mfrac bevelled="true"><mrow><munderover><mo>&#x2211;</mo><mrow><mi>j</mi><mo>=</mo><mn>i</mn></mrow><mrow><mi>i</mi><mo>+</mo><mi>w</mi></mrow></munderover><msub><mi>log</mi><mrow><mo>2</mo></mrow></msub><mfenced><mstyle displaystyle="true"><mfrac bevelled="true"><mfenced><mrow><msub><mi>&#x3BC;</mi><mrow><mi>I</mi><mi>P</mi><mo>(</mo><mi>j</mi><mo>)</mo></mrow></msub><mo>+</mo><mi>p</mi></mrow></mfenced><mfenced><mrow><mi>M</mi><msub><mi>d</mi><mrow><mi>I</mi><mi>P</mi></mrow></msub><mo>+</mo><mi>p</mi></mrow></mfenced></mfrac></mstyle></mfenced></mrow><mrow><mi>w</mi></mrow></mfrac></math><br/>
-A p-value is then calculated for each window with detected enrichment above a defined cutoff, using a __Fisher's exact test__. Thus, the following 2x2 contingency matrix is defined for each cutoff-passing window:<br/>
+A p-value is then calculated for each window with detected enrichment above a defined cutoff, using a Fisher test. Thus, the following 2x2 contingency matrix is defined for each cutoff-passing window:<br/>
 
  &nbsp; | n<sub>11</sub> | n<sub>12</sub>
 -------------: | :------------:  | :------------:
@@ -49,11 +49,9 @@ __l__ *or* __--whitelist__ | string | A whitelist containing transcript IDs (one
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-o__ *or* __--output__ | string | Output folder (Default: __&lt;IP&gt;\_vs\_&lt;Control&gt;/__ if a control RC file is provided, or __&lt;IP&gt;/__ if only the IP RC file is provided)
 __-ow__ *or* __--overwrite__ | | Overwrites the output folder (if the specified folder already exists)
-__-g__ *or* __--img__ | | Enables the generation of coverage plots
-__-mp__ *or* __--meta-plot__ | | Enables the generation of meta-gene plots (both coverage and peaks' distribution)
-__-eo__ *or* __--plot-enriched-only__ | | Meta-gene plots will be calculated only on transcripts with a detected enrichment (requires ``-mp``)
-__-w__ *or* __--window__ | int | Window size (in nt) for peak calling (&ge;10, Default: __150__)
-__-f__ *or* __--offset__ | int | Offset (in nt) for window sliding (&ge;1, Default: __window / 2__)
+ | | __Peak calling options__
+ __-w__ *or* __--window__ | int | Window size (in nt) for peak calling (&ge;10, Default: __150__)
+ __-f__ *or* __--offset__ | int | Offset (in nt) for window sliding (&ge;1, Default: __window / 2__)
 __-md__ *or* __--merge-distance__ | int | Maximum distance (in nt) for merging non-overlapping windows (&ge;0, Default: __50__)
 __-e__ *or* __--enrichment__ | float | Minimum log<sub>2</sub> enrichment in IP vs. Control for reporting a peak (&ge;1, Default: __3__)
 __-v__ *or* __--p-value__ | float | P-value cutoff for reporting a peak (0 &le; *p* &le; 1, Default: __0.05__)
@@ -64,6 +62,15 @@ __-pc__ *or* __--pseudocount__ | float | Pseudocount added to read counts to avo
 __-mc__ *or* __--mean-coverage__ | float | Discards any transcript with mean coverage in control sample below this threshold (&ge;0, Default: __0__)
 __-ec__ *or* __--median-coverage__ | float | Discards any transcript with median coverage in control sample below this threshold (&ge;0, Default: __0__)
 __-D__ *or* __--decimals__ | int | Number of decimals for reporting enrichment/p-value (1-10, Default: __3__)
+ | | __Plotting options__
+__-g__ *or* __--img__ | | Enables the generation of coverage plots
+__-mp__ *or* __--meta-plot__ | | Enables the generation of meta-gene plots (both coverage and peaks' distribution)
+__-mcp__ *or* __--meta-coding-plot__ | | Enables the generation of a protein-coding-only meta-gene plot, by aligning the TSS, start codon, stop codon, and TES<br/>__Note:__ the longest ORF will be automatically identified
+__-mo__ *or* __--min-orf-length__ | int | Minimum length (in aa) to select the longest ORF (requires ``-mcp``, Default: 50)
+__-als__ *or* __--alt-start__ | | The longest ORF is allowed to start with alternative start codons (requires ``-mcp``)
+__-ans__ *or* __--any-start__ | | The longest ORF is allowed to start with any codon (requires ``-mcp``)
+__-gc__ *or* __--genetic-code__ | int | Genetic code table for the reference organism (requires ``-mcp``, 1-33, Default: __1__)<br/>__Note:__ for a detailed list of the available genetic code tables, please refer to the [__RF Mutate__](https://rnaframework-docs.readthedocs.io/en/latest/rf-mutate/#genetic-code-tables) docs, or to [https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi)
+__-eo__ *or* __--plot-enriched-only__ | | Meta-gene plots will be calculated only on transcripts with a detected enrichment (requires ``-mp`` or ``-mcp``)
 
 <br/>
 ## Output BED files

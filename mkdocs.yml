@@ -18,10 +18,12 @@ pages:
     - 'rf-compare': 'rf-compare.md'
     - 'rf-modcall': 'rf-modcall.md'
     - 'rf-peakcall': 'rf-peakcall.md'
+    - 'rf-motifdiscovery': 'rf-motifdiscovery.md'
     - 'rf-combine': 'rf-combine.md'
     - 'rf-correlate': 'rf-correlate.md'
     - 'rf-wiggle': 'rf-wiggle.md'
     - 'rf-mutate': 'rf-mutate.md'
+    - 'rf-json2rc': 'rf-json2rc.md'
     - 'Application cases': 'cases.md'
 markdown_extensions:
     - markdown.extensions.admonition

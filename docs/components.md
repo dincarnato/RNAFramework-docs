@@ -8,12 +8,14 @@ __rf-fold__       | Produces secondary structures for the analyzed transcripts u
 __rf-compare__    | Compares secondary structures inferred by ``rf-fold`` with a set of reference structures, and computes PPV and sensitivity
 __rf-jackknife__     | Iteratively optimize slope and intercept parameters to maximize PPV and sensitivity using a set of reference structures
 __rf-modcall__    | Performs analysis of &Psi;-seq/Pseudo-seq and 2OMe-seq data
-__rf-peakcall__   | Performs peak calling of RNA immunoprecipitation (IP) experiments
+__rf-peakcall__   | Performs peak calling of RNA immunoprecipitation (RIP) experiments
+__rf-motifdiscovery__  | Discovers significantly enriched sequence motifs in RIP peaks
 __rf-combine__    | Combines results of multiple experiments into a single profile
 __rf-correlate__ | Calculates pairwise correlation of structure probing experiments
 __rf-wiggle__    | Produces WIGGLE track files from RC or XML input files
 __rf-rctools__   | Allows manipulating RC files
-__rf-mutate__  | Designs structure disrupting (and rescuing) mutations
+__rf-mutate__  | Designs structure disrupting (and compensatory) mutations
+__rf-json2rc__  | Post-processes DRACO JSON output files into RC files
 
 <br/>
 ![RNAFramework pipeline](http://www.rnaframework.com/images/overview.png)
