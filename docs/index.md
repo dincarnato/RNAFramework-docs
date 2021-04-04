@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2021-02-27] RNA Framework v2.7.0 [major release]:__<br/>Introduced support for DRACO (Deconvolution of alternative RNA conformations). Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2021-02-27] RNA Framework v2.7.1 [major release]:__<br/>Introduced two new tools, ``rf-motifdiscovery`` (for the identification of enriched sequence motifs from RIP experiments), and ``rf-json2rc`` (for the post-parsing of DRACO JSON output files, into RC files). Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
