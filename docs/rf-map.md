@@ -1,6 +1,12 @@
 The RF Map module can process any number of FastQ files, both from single-read or paired-end experiments. Reads are first pre-processed (trimmed and clipped), and mapped to the reference transcriptome.<br/>The resulting SAM/BAM files can be then passed to the RF Count module.<br /><br />
 
 # Usage
+
+```bash
+$ rf-map [options] file1.fastq ... filen.fastq.gz
+$ rf-map [options] file1_R1.fastq,file1_R2.fastq ... filen_R1.fastq.gz,filen_R2.fastq.gz
+```
+
 To list the required parameters, simply type:
 
 ```bash

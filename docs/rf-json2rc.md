@@ -67,4 +67,4 @@ Transcript_1    1024    1358    974         1408    0.537;0.463         0.537;0.
 Transcript_n    27984   28294   27934       28344   0.570;0.430         0.510;0.490
 Transcript_n    29184   29358   29134       29408   0.380;0.314;0.307   0.344;0.299;357
 ```
-where __Transcript__ is the transcript ID, __start__ and __end__ are the coordinates (0-based) of the window, and __extStart__ and __extEnd__ are the coordinates of the window after being extended by ``--extend`` bases. Following these columns, a column will be present for each replicate being analyzed, reporting the relative stoichiometries of the conformations for that window.
+where __Transcript__ is the transcript ID, __start__ and __end__ are the coordinates (0-based) of the window, and __extStart__ and __extEnd__ are the coordinates of the window after being extended by ``--extend`` bases. Following these columns, a column will be present for each replicate having been analyzed, reporting the relative stoichiometries of the conformations for that window.

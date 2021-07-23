@@ -5,6 +5,7 @@ __rf-map__        | Performs reads pre-processing and mapping
 __rf-count__      | Calculates per-base RT-stops/mutations and coverage
 __rf-norm__       | Performs whole-transcriptome normalization of structure probing data
 __rf-fold__       | Produces secondary structures for the analyzed transcripts using structure probing data to guide folding
+__rf-duplex__       | Analyzes direct RNA-RNA interaction mapping experiments (i.e. COMRADES, SPASH, PARIS, etc.)
 __rf-compare__    | Compares secondary structures inferred by ``rf-fold`` with a set of reference structures, and computes PPV and sensitivity
 __rf-jackknife__     | Iteratively optimize slope and intercept parameters to maximize PPV and sensitivity using a set of reference structures
 __rf-modcall__    | Performs analysis of &Psi;-seq/Pseudo-seq and 2OMe-seq data
