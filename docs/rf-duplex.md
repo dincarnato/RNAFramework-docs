@@ -1,9 +1,14 @@
-The RF Duplex module performs the analysis of direct RNA-RNA interaction mapping experiments, such as PARIS, SPLASH and COMRADES. It enables clustering chimeric reads and estimation of base-pairing probabilities. <br /><br />
+The RF Duplex module performs the analysis of direct RNA-RNA interaction mapping experiments, such as PARIS, SPLASH and COMRADES. It enables clustering chimeric reads and estimation of base-pairing probabilities. <br />
 !!! warning "Important"
     It is strongly advised to use [STAR](https://github.com/alexdobin/STAR) for read mapping. Currently, mapping has to be performed by directly calling STAR. In future releases, support for STAR will be added to the ``rf-index`` and ``rf-map`` modules.
 <br />
-
 # Usage
+RF Duplex accepts as input a comma-separated list of two files: a BAM file and a Chimeric.out.junction file. If an aligner other than STAR is being used, the Chimeric.out.junction file can be omitted.
+
+```bash
+$ rf-duplex file1.bam,file1_Chimeric.out.junction ... filen.bam,filen_Chimeric.out.junction
+```
+
 To list the required parameters, simply type:
 
 ```bash
