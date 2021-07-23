@@ -74,4 +74,4 @@ Furthemore, base-pairing probabilities can be exported as arc-plots in SVG forma
 In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference.
 
 !!! note "Information"
-    Starting from the next release, it will be possible to directly import constraint files into ``rf-fold``, hence enabling the integration of structure probing and direct RNA-RNA interaction capture data.
+    Starting with the next release, it will be possible to directly import constraint files into ``rf-fold``, hence enabling the integration of structure probing and direct RNA-RNA interaction capture data.
