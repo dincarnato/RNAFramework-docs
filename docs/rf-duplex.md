@@ -28,6 +28,8 @@ __-mh__ *or* __--min-half__ | int | Minimum length (in nt) of each half of a chi
 __-xr__ *or* __--max-reads__ | int | Maximum number of chimeric reads to analyze for each transcript (>0, Default: __100000__)<br/>__Note:__ all chimeric reads are first imported, then a random sample is extracted
 __-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file containing the inferred base-pairs whose probability exceeds a given threshold (controlled by ``-ct`` or ``--constraint-theshold``)
 __-ct__ *or* __--constraint-threshold__ | float | Sets the probability threshold to include a base-pair in the constraint (0.5-1, Default: __0.5__)
+__-es__ *or* __--eval-structures__ | string | Path to a folder of structure files (in .db or .ct format), for which the number of chimeric reads supporting each base-pair will be calculated<br/>__Note:__ structure files must be named after their respective reference transcript
+__-eo__ *or* __--eval-only__ | | Only calculates the chimeric read support for a reference structure (requires ``-es``), and exits
  | | __Base-pairs inference options__
 __-nv__ *or* __--no-use-vienna__ | | A modified Smith-Waterman local alignment algorithm is used instead of the ViennaRNA package to infer base-pairs from chimeric reads
 __-mr__ *or* __--min-reads__ | int | Minimum number of chimeric reads to retain a cluster (>0, Default: __2__)
