@@ -26,7 +26,7 @@ __-wl__ *or* __--whitelist__ | string | A whitelist containing transcript IDs (o
 __-mg__ *or* __--min-gap__ | int | Minimum gap length (in nt) to consider a chimeric read (>0, Default: __1__)
 __-mh__ *or* __--min-half__ | int | Minimum length (in nt) of each half of a chimeric read to consider it (>0, Default: __20__)
 __-xr__ *or* __--max-reads__ | int | Maximum number of chimeric reads to analyze for each transcript (>0, Default: __100000__)<br/>__Note:__ all chimeric reads are first imported, then a random sample is extracted
-__-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file containing the inferred base-pairs whose probability exceeds a given threshold (controlled by ``-ct`` or ``--constraint-theshold``)
+__-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file containing the inferred base-pairs whose probability exceeds a given threshold (controlled by ``-ct`` or ``--constraint-theshold``), to be used with the [``rf-fold`` module](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/)
 __-ct__ *or* __--constraint-threshold__ | float | Sets the probability threshold to include a base-pair in the constraint (0.5-1, Default: __0.5__)
 __-es__ *or* __--eval-structures__ | string | Path to a folder of structure files (in .db or .ct format), for which the number of chimeric reads supporting each base-pair will be calculated<br/>__Note:__ structure files must be named after their respective reference transcript
 __-eo__ *or* __--eval-only__ | | Only calculates the chimeric read support for a reference structure (requires ``-es``), and exits

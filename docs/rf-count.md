@@ -1,5 +1,9 @@
-The RF Count module is the core component of the framework. It can process any number of SAM/BAM files to calculate per-base RT-stops/mutations and read coverage on each transcript.<br /><br />
+The RF Count module is the core component of the framework. It can process any number of SAM/BAM files to calculate per-base RT-stops/mutations and read coverage on each transcript.<br />
 
+!!! note "Information"
+    In future releases, the ``rf-count`` module will be superseded by the ``rf-count-genome`` module. The functionalities of the current ``rf-count`` module connected with the generation of MM files for ensemble deconvolution using __DRACO__ will be provided by a new tool.
+
+<br/>
 # Usage
 To list the required parameters, simply type:
 

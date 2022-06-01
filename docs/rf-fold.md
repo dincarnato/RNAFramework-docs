@@ -2,23 +2,23 @@ The RF Fold module is designed to allow transcriptome-wide reconstruction of RNA
 Prediction can be performed either on the whole transcript, or through a windowed approach (see next paragraph).
 <br/><br/>
 ## Windowed folding    
-The windowed folding approach is based on the original method described in Siegfried *et al*., 2014 (PMID: [25028896](https://www.ncbi.nlm.nih.gov/pubmed/25028896)), and consists of 3 main steps, outlined below:
+The windowed folding approach is inspired by the original method described in Siegfried *et al*., 2014 (PMID: [25028896](https://www.ncbi.nlm.nih.gov/pubmed/25028896)). Since version __2.8.0__, the underlying logic of the windowed approach has been slightly changed, by performing the detection of pseudoknots as the last step. The procedure is outlined below:
 <br/><br/>
 ![RNAFramework pipeline](http://www.rnaframework.com/images/windowed_folding.png)
 <br/><br/>
-In step I (optional), a window is slid along the RNA, and pseudoknotted structures are detected using the same approach employed by the __ShapeKnots__ algorithm (Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844))). Our implementation of the ShapeKnots algorithm relies on the __ViennaRNA package__ (instead of __RNAstructure__ as the original implementation did), thus is __much__ faster:
+In step I, a window is slid along the RNA, and partition function is calculated. If provided, soft-constraints from structure probing are applied. Predicted base-pair probabilities are averaged across all windows in which they have appeared, and base-pairs with >99% probability are retained, and hard-constrained to be paired in step III.<br/>
+In step II, a window is slid along the RNA, and MFE folding is performed, including (where present) soft-constraints from probing data, and base-pairs from step I. Predicted base-pairs are retained if they appear in >50% of analyzed windows.<br/>
+In step III (optional), a window is slid along the RNA, and putative pseudoknots are detected using the same approach employed by the __ShapeKnots__ algorithm (Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844))). Our implementation of the ShapeKnots algorithm relies on the __ViennaRNA package__ (instead of __RNAstructure__ as in the original implementation), thus it is __much__ faster:
 <br/><br/>
 ![ShapeKnots/RNA Framework comparison](http://www.rnaframework.com/images/shapeknots.png)
 <br/><br/>
 Nonetheless, both algorithms work in single thread. Alternatively, the multi-thread implementation ``ShapeKnots-smp`` shipped with the latest __RNAstructure__ version can be used.<br/> 
-If constraints from structure probing experiments are provided, these are incorporated in the form of soft-constraints. Predicted pseudoknotted base-pairs are retained if they apper in >50% of analyzed windows. In case constraints are provided, pseudoknots are retained only if the average reactivity of bases on both sides of the helices is below a certain reactivity cutoff.<br/>
-In step II, a window is slid along the RNA, and partition function is calculated. If provided, soft-constraints are applied. If step I has been performed, pseudoknotted bases are hard-constrained to be single-stranded. Predicted base-pair probabilities are averaged across all windows in which they have appeared, and base-pairs with >99% probability are retained, and hard-constrained to be paired in step III.<br/>
-In step III, a window is slid along the RNA, and MFE folding is performed, including (where present) soft-constraints from probing data, and hard-constraints from stages I and II. Predicted base-pairs are retained if they appear in >50% of analyzed windows.
+If constraints from structure probing experiments are provided, these are incorporated in the form of soft-constraints. Predicted pseudoknotted base-pairs are retained if they apper in >50% of analyzed windows and if they do not clash with the nested base-pairs indentified in step II. In case structure probing constraints are provided, pseudoknots are retained only if the average reactivity of bases on both sides of the pseudoknotted helix is below a certain reactivity cutoff.<br/>
 
 !!! note "Note"
     At all stages, increased sampling is performed at the 5'/3'-ends to avoid end biases
 
-At this stage, if step I has been peformed, pseudoknotted base-pairs are added back to the structure, and the free energy is computed. Along with the predicted structure, the windowed method also produces a WIGGLE track file containing per-base Shannon entropies.<br/>Regions with higher Shannon entropies are likely to form alternative structures, while those with low Shannon entropies correspond to regions with well-defined RNA structures, or persistent single-strandedness (Siegfried *et al*., 2014).<br/>
+Along with the predicted structure, the windowed method also produces a WIGGLE track file containing per-base Shannon entropies.<br/>Regions with higher Shannon entropies are likely to form alternative structures, while those with low Shannon entropies correspond to regions with well-defined RNA structures, or persistent single-strandedness (Siegfried *et al*., 2014).<br/>
 Shannon entropy is calculated as: <br/>
 
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>H</mi><mi>i</mi></msub><mo>=</mo><mo>-</mo> <munderover><mo>&sum;</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>J</mi></munderover><msub><mi>p</mi><mi>i,j&#xA0;</mi></msub><msub><mi>log</mi><mn>10&#xA0;</mn></msub><msub><mi>p</mi><mi>i,j</mi></msub></math><br/>
@@ -39,7 +39,7 @@ $ rf-fold -h
 
 Parameter         | Type | Description
 ----------------: | :--: |:------------
-__-o__ *or* __--output-dir__ | string | Output directory for writing inferred structures (Default: rf_fold/)
+__-o__ *or* __--output-dir__ | string | Output directory for writing inferred structures (Default: __rf_fold/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT format (Default: __Dot-bracket notation__)
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
@@ -52,6 +52,7 @@ __-md__ *or* __--maximum-distance__ | int | Maximum pairing distance (in nt) bet
 __-nlp__ *or* __--no-lonelypairs__ | | Disallows lonely base-pairs (1 bp helices) inside predicted structures
 __-i__ *or* __--ignore-reactivity__ | | Ignores XML reactivity data when performing folding (MFE unconstrained prediction)
 __-hc__ *or* __--hard-constraint__ | | Besides performing soft-constraint folding, allows specifying a reactivity cutoff (specified by ``-f``) for hard-constraining a base to be single-stranded
+__-c__ *or* __--constraints__ | string | Path to a directory containing [constraint files](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/#constraint-files) (in dot-bracket notation), that will be used to enforce specific base-pairs in the structure models
 __-f__ *or* __--cutoff__ | float | Reactivity cutoff for constraining a position as unpaired (&gt;0, Default: __0.7__) 
 __-w__ *or* __--windowed__ | | Enables windowed folding
 __-pt__ *or* __--partition__ | string | Path to RNAstructure ``partition`` executable (Default: assumes ``partition`` is in PATH)<br/>__Note:__ by default, ``partition-smp`` will be used (if available)
@@ -68,7 +69,7 @@ __-ksl__ *or* __--pseudoknot-slope__ | float | Sets slope used for pseudoknots p
 __-kin__ *or* __--pseudoknot-intercept__ | float | Sets intercept used for pseudoknots prediction (Default: same as ``-in <intercept>``)
 __-kp1__ *or* __--pseudoknot-penality1__ | float | Pseudoknot penality P1 (Default: __0.35__)
 __-kp2__ *or* __--pseudoknot-penality2__ | float | Pseudoknot penality P2 (Default: __0.65__)
-__-kt__ *or* __--pseudoknot-tollerance__ | float | Maximum tollerated deviation of suboptimal structures energy from MFE (>0-1, Default: __0.25__ [25%])
+__-kt__ *or* __--pseudoknot-tollerance__ | float | Maximum tollerated deviation of suboptimal structures energy from MFE (>0-1, Default: __0.5__ [50%])
 __-kh__ *or* __--pseudoknot-helices__ | int | Number of candidate pseudoknotted helices to evaluate (>0, Default: __100__)
 __-kw__ *or* __--pseudoknot-window__ | int | Window size (in nt) for performing pseudoknots detection (>=50, Default: __600__)
 __-ko__ *or* __--pseudoknot-offset__ | int | Offset (in nt) for pseudoknots detection window sliding (Default: __200__)
@@ -100,6 +101,21 @@ __-d__ *or* __--data-path__ | string | Path to RNAstructure data tables (Default
 !!! note "Information"
     For additional details relatively to ShapeKnots pseudoknots detection parameters, please refer to Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844)).
 <br/> 
+<br/> 
+## Constraint files
+Constraint files allow forcing base-pairing of certain positions in the RNA. These files are standard dot-bracket files and they must be named after the transcript ID used in the corresponding XML files (for instance, if the XML file is named ``XYZ.xml``, the module will look for a ``XYZ.db`` file in the constraint folder):<br/>
+  
+```
+>XYZ
+UUUCGUACGUAGCGAGCGAGUAGCUGAUGCUGAUAGCGGCGAUGCUAGCUGAUCGUAGCGCGCGAUCGAUCGAUGC
+..(((.............................................................))).......
+```
+In the above example, the constraint file instructs the module to force the base-pairing between positions 3-69, 4-68 and 5-67 of the XYZ transcript.
+
+!!! note "Information"
+    At present, only nested base-pairs are allowed. Pseudoknotted helices will be automatically discarded. 
+<br/> 
+<br/>
 ## Output dot-plot files
 When option ``-dp`` is provided, RF Fold produces a dot-plot file for each transcript being analyzed, with the following structure:<br/>
 

@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2022-07-22] RNA Framework v2.7.2 [major release]:__<br/>Introduced two new tools, ``rf-duplex`` for the analysis of direct RNA-RNA interaction mapping experiments (PARIS, SPLASH, COMRADES). ``rf-count`` has been improved to achieve a significant speed-up when analyzing multiple files simultaneously. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2022-05-31] RNA Framework v2.8.0 [major release]:__<br/>Introduced two new modules. ``rf-count-genome`` to handle genome-level SAM/BAM alignments. ``rf-structextract`` to extract structure motifs according to user-defined criteria (including elements residing within low reactivity - low Shannon entropy regions). Introduced ``rf-rctools`` __extract__ tool to allow extracting regions of interest from an RC file, provided a BED or GTF annotation. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
