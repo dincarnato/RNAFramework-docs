@@ -3,7 +3,7 @@ RF Compare allows comparing RF Fold-inferred secondary structures, with a refere
 >Transcript#1AAAAAAAAAAAAAAAAAAAAUUUUUUUUUUUUUUUUUUUUU.((((((((((((((((((....))))))))))))))))))>Transcript#2CCCCCCCCCCCCCCCCCGGGGGGGGGGGGGGGGGGGG(((((((((((((((((...)))))))))))))))))>Transcript#3GCUAGCUAGCUAGCUAGCUAGUCAAGACGAGUCGAUGCU(((((((((....))))))))).................
 ```The name of the sequence in the reference structure file __must__ match the compared file's name (e.g. "Transcript#1" expects a file named "Transcript#1.ct" or "Transcript#1.db").<br/>RF Compare can be invoked both on a single structure, or on an entire folder of RF Fold-predicted structure files. Structures can be provided either in CT or Vienna (dot-bracket) format.<br/>
 Since version 2.5, RF Compare generates vector graphical reports (SVG format) for each structure, reporting the reference structure and the compared structure, with base-pairs colored according to their presence in both structures:<br/><br/>
-![RF Compare plot](http://www.rnaframework.com/images/rf-compare_img.png)
+![RF Compare plot](http://www.incarnatolab.com/images/docs/RNAframework/rf-compare.png)
 <br/><br/>
 
 # Usage

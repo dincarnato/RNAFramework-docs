@@ -58,7 +58,7 @@ __-wl__ *or* __--whitelist__ | int | Generates a DRACO-compatible whitelist file
 It is important to note that, by default (so when counting RT-stop events), RF Count will consider the contribution of the RT drop-off event to the coverage of the base on which the drop-off has occurred.<br/>
 Take into account the following example:
 <br/><br/>
-![Coverage calculation](http://www.rnaframework.com/images/coverage.png)
+![Coverage calculation](http://www.incarnatolab.com/images/docs/RNAframework/coverage.png)
 <br/><br/>
 In this case, 3 sets of reads have been aligned to the reference, resulting in 3 RT-stop sites, respectively corresponding to 2, 4 and 3 RT drop-off events. When executing RF count without specifying either parameters ``-co`` or ``-m``, these additional counts will be added to the coverage of the base corresponding to the site on which the RT dropped off (-1 with respect to the read start mapping position).
 <br/><br/>
@@ -66,7 +66,7 @@ In this case, 3 sets of reads have been aligned to the reference, resulting in 3
 Mutational profiling (MaP) methods for RNA structure analysis are based on the ability of certain reverse transcriptase enzymes to read-through the sites of SHAPE/DMS modification under specific reaction conditions. Some of them (e.g. SuperScript II) can introduce deletions when encountering a SHAPE/DMS-modified residue. When performing reads mapping, the aligner often reports a single possible alignment of the deletion, although many equally-scoring alignments are possible.<br/>
 To avoid counting of ambiguously aligned deletions, that can introduce noise in the measured structural signal, RF Count performs a *deletion re-alignment step* to detect and re-align/discard these ambiguously aligned deletions (see also "__Handling of mutations/indels__"):
 <br/><br/>
-![Ambiguous deletions](http://www.rnaframework.com/images/ambiguous_deletions.png)
+![Ambiguous deletions](http://www.incarnatolab.com/images/docs/RNAframework/ambiguous_deletions.png)
 <br/><br/>
 For more information, please refer to Smola *et al*., 2015 (PMID: [26426499](https://www.ncbi.nlm.nih.gov/pubmed/26426499)).
 <br/><br/>
@@ -75,7 +75,7 @@ For more information, please refer to Smola *et al*., 2015 (PMID: [26426499](htt
 By giving a rapid look to the numerous parameters provided by RF Count, it appears immediately clear that different parameter combinations produce very different outcomes.
 Here follows a brief scheme aimed at illustrating the different behaviors of RF Count with different parameter combinations (dots correspond to sites of assigned mutations):
 <br/><br/>
-![RF Count MaP handling](http://www.rnaframework.com/images/rf-count_MaP.png)
+![RF Count MaP handling](http://www.incarnatolab.com/images/docs/RNAframework/rf-count_MaP.png)
 <br/><br/>
 ## Downsampling reads for analysis with DRACO
 
@@ -83,7 +83,7 @@ One of the possibilities offered by RF Count is the generation of mutation map (
 DRACO (<u>D</u>econvolution of <u>R</u>NA <u>A</u>lternative <u>CO</u>nformations) is a method that allows deconvoluting the individual structural profiles of coexisting RNA structural conformations, from MaP experiments.<br/>
 When analyzing a transcript, DRACO keeps in memory all the reads mapping to that transcript. At extreme sequencing depths (&gt;500,000X), the memory consumption can become prohibitive, so it might be beneficial to randomly downsample the reads along the transcript, to achieve a lower mean coverage. Furthermore, as the coverage along the transcript might be unevenly distributed because of library preparation and sequencing biases, downsampling will result in a more uniform coverage. Usually, a coverage of __20,000X__ is sufficient for DRACO to deconvolute the underlying structural heterogeneity.
 <br/><br/>
-![DRACO downsampling](http://www.rnaframework.com/images/rf-count_DRACO_downsample.png)
+![DRACO downsampling](http://www.incarnatolab.com/images/docs/RNAframework/rf-count_DRACO_downsample.png)
 <br/><br/>
 Downsampling is controlled via the ``-mv`` (or ``--max-coverage``). In the above example, reads have been downsampled to reach a final maximum coverage per base of 1,000X. To do this, RF Count estimates the median read length, and calculates the theoretical number of reads of that length, starting at each position of the transcript, needed to achieve that mean coverage per base. However, as a consequence of adapter trimming and soft clipping, read lengths can significantly differ within the same experiment; this results in a less uniform coverage than it would be theoretically expected, as it is possible to observe in the second track (in green).<br/>
 To partially compensate for this, it is advisable to set the ``-ds`` (or ``--discard-shorter``) parameter to the value __MEDIAN__ (case insensitive). In this way, reads shorter than the median read length will be discarded, resulting in a much more uniform coverage, as it is possible to observe in the third track (in blue).
@@ -127,7 +127,7 @@ __offset__ | Offset of transcript in the RC file | uint64\_t
 <br/>
 ## MM (Mutation Map) format
 
-When invoked with the ``-mm`` parameter, RF Count produces a MM (Mutation Map) file for each analyzed sample. These files serve as input for the deconvolution of coexisting RNA conformations with [DRACO](https://github.com/dincarnato/draco). MM files are binary files storing, for each aligned read, the start and end mapping position, the position of the mutations (or indels) with respect to the reference, as well as the reference transcript’s ID and sequence, . These files can be indexed for fast random access.<br/>
+When invoked with the ``-mm`` parameter, RF Count produces a MM (Mutation Map) file for each analyzed sample. These files serve as input for the deconvolution of coexisting RNA conformations with [DRACO](https://github.com/dincarnato/draco). MM files are binary files storing, for each aligned read, the start and end mapping position, the position of the mutations (or indels) with respect to the reference, as well as the reference transcript’s ID and sequence. These files can be indexed for fast random access.<br/>
 Each entry in a MM file is structured as follows:
 
 Field             | Description    |  Type
@@ -138,7 +138,7 @@ __len\_seq__ | Length of sequence | uint32\_t
 __seq__ | 4-bit encoded sequence: 'ACGTN' -> \[0,4] (High nybble first) | uint8\_t\[(len_seq+1)/2]
 __read\_count__ | Number of reads mapping on the transcript | uint32\_t
 
-This is followed by *n* blocks (where *n* is equal to __read\_count_), with the following structure:
+This is followed by *n* blocks (where *n* is equal to __read\_count__), with the following structure:
 
 Field             | Description    |  Type
 ----------------: | :------------: | :----------

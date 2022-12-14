@@ -4,13 +4,13 @@ Prediction can be performed either on the whole transcript, or through a windowe
 ## Windowed folding    
 The windowed folding approach is inspired by the original method described in Siegfried *et al*., 2014 (PMID: [25028896](https://www.ncbi.nlm.nih.gov/pubmed/25028896)). Since version __2.8.0__, the underlying logic of the windowed approach has been slightly changed, by performing the detection of pseudoknots as the last step. The procedure is outlined below:
 <br/><br/>
-![RNAFramework pipeline](http://www.rnaframework.com/images/windowed_folding.png)
+![RNAFramework pipeline](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_windowed_folding.png)
 <br/><br/>
 In step I, a window is slid along the RNA, and partition function is calculated. If provided, soft-constraints from structure probing are applied. Predicted base-pair probabilities are averaged across all windows in which they have appeared, and base-pairs with >99% probability are retained, and hard-constrained to be paired in step III.<br/>
 In step II, a window is slid along the RNA, and MFE folding is performed, including (where present) soft-constraints from probing data, and base-pairs from step I. Predicted base-pairs are retained if they appear in >50% of analyzed windows.<br/>
 In step III (optional), a window is slid along the RNA, and putative pseudoknots are detected using the same approach employed by the __ShapeKnots__ algorithm (Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844))). Our implementation of the ShapeKnots algorithm relies on the __ViennaRNA package__ (instead of __RNAstructure__ as in the original implementation), thus it is __much__ faster:
 <br/><br/>
-![ShapeKnots/RNA Framework comparison](http://www.rnaframework.com/images/shapeknots.png)
+![ShapeKnots/RNA Framework comparison](http://www.incarnatolab.com/images/docs/RNAframework/rnaframework_vs_shapeknots.png)
 <br/><br/>
 Nonetheless, both algorithms work in single thread. Alternatively, the multi-thread implementation ``ShapeKnots-smp`` shipped with the latest __RNAstructure__ version can be used.<br/> 
 If constraints from structure probing experiments are provided, these are incorporated in the form of soft-constraints. Predicted pseudoknotted base-pairs are retained if they apper in >50% of analyzed windows and if they do not clash with the nested base-pairs indentified in step II. In case structure probing constraints are provided, pseudoknots are retained only if the average reactivity of bases on both sides of the pseudoknotted helix is below a certain reactivity cutoff.<br/>
@@ -24,7 +24,7 @@ Shannon entropy is calculated as: <br/>
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>H</mi><mi>i</mi></msub><mo>=</mo><mo>-</mo> <munderover><mo>&sum;</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>J</mi></munderover><msub><mi>p</mi><mi>i,j&#xA0;</mi></msub><msub><mi>log</mi><mn>10&#xA0;</mn></msub><msub><mi>p</mi><mi>i,j</mi></msub></math><br/>
 where *p<sub>i,j</sub>* is the probability of base *i* of being base-paired to base *j*, over all its potential J pairing partners.<br/>
 Since version 2.5, RF Fold generates vector graphical reports (SVG format) for each structure, reporting the per-base reactivity, the MEA structure, the per-base Shannon entropy, and the base-pairing probabilities:<br/><br/>
-![Graphical report](http://www.rnaframework.com/images/graphical_report.png)
+![Graphical report](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_graphical_report.png)
 <br/><br/>
 
 !!! note "Note"

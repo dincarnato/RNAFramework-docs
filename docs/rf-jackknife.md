@@ -12,7 +12,7 @@ csv<-data.matrix(csv)
 heatmap.2(csv[nrow(csv):1,], col = rev(brewer.pal(11, "Spectral")), trace = "none", cellnote = round(csv[nrow(csv):1,], digits = 2), notecol = "black", Rowv = FALSE, Colv = FALSE, dendrogram = "none", xlab = "Intercept (kcal/mol)", ylab = "Slope (kcal/mol)", key = FALSE)
 ```
 <br/>
-![PPV Sensitivity table](http://www.rnaframework.com/images/PPV_Sensitivity_table.png)
+![PPV Sensitivity table](http://www.incarnatolab.com/images/docs/RNAframework/rf-jackknife_PPV_Sensitivity.png)
 
 # Usage
 To list the required parameters, simply type:

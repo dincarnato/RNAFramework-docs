@@ -79,7 +79,7 @@ Transcript_3;0,99;(((...(((...)))...))),189
 ```
 Motif start positions __must__ correspond to the first base-paired residue in a helix. In the following example, valid start positions are marked in green:
 <br/><br/>
-![Helix start](http://www.rnaframework.com/images/helixstart.png)
+![Helix start](http://www.incarnatolab.com/images/docs/RNAframework/rf-mutate_helixstart.png)
 <br/><br/>
 
 !!! note "Note"

@@ -25,7 +25,7 @@ P-values are then subjected to Benjamini-Hochberg correction. Consecutive signif
 
 ## Peak refinement
 Peaks are called by sliding a window of a fixed size, with a user-defined offset. This means that, in some cases, the called interval might not include the full peak (or it might include additional low-enrichment bases). Consider the following example:<br/><br/>
-![Peak refinement](http://www.rnaframework.com/images/peak_refinement.png)
+![Peak refinement](http://www.incarnatolab.com/images/docs/RNAframework/rf-peakcall_peak_refinement.png)
 <br/><br/>
 In this example, peaks are called using a window size of 150 nt (default offset: 75 nt) and an enrichment threshold of 3 fold. With default parameters, the called interval does not entangle the full peak (as the coverage slightly drops around half of the peak in the IP sample). When the ``-r`` (or ``--refine``) parameter is specified, RF PeakCall will progressively enlarge (or shrink) the interval to only include bases exceeding the enrichment threshold. In this case, refinement trims all the non-enriched bases from the 5' end of the interval. However, because of the slightly lower coverage of the second half of the peak, the enrichment (2.87) is just below the acceptance threshold. To account for such situations, the ``-x`` (or ``--relaxed``) parameter can be specified to enable a more *loose* evaluation of the coverage in the IP sample. Specifically, the coverage will be rounded to nearest multiple of 0.5.
 

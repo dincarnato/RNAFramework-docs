@@ -44,7 +44,7 @@ Aim of the module is to extract high-confidence RNA structure elements, more lik
 6. If the motif has a free energy higher than expected by chance. Briefly, if the flag ``--evalEnergy`` is enabled, the sequence of the motif is randomly shuffled &times; ``--nShufflings`` times and the probability of obtaining by chance a structure having a free energy &le; that that of the original motif is calculated from the corresponding Z-score. If the probability is &ge; ``--pvalue``, the motif is discarded. When the ``--dinuclShuffle`` flag is enabled, the sequence of the motif is shuffled in such a way that the dinucleotide frequencies are preserved.
 
 <br/>
-![Overview](http://www.rnaframework.com/images/rf-structextract.png)
+![Overview](http://www.incarnatolab.com/images/docs/RNAframework/rf-structextract.png)
 <br/>
 <br/>
 In the above example, the effect of smoothing reactivities and Shannon entropy is shown. The red dashed lines correspond to the median reactivity and median Shannon entropy along the entire trascript. The inset further shows an independently folded structural domain. The green dots mark the loops that represent the possible starting points for the bidirectional extension and motif extraction. In this example, only the two motifs, colored in green (respectively marked #1 and #2) will be reported, as they fall inside regions of low reactivity and low Shannon entropy. The base-pairs marked in red will not be part of motif #1 as, when included, the reactivity would exceed the global median reactivity for more than 1 - ``--minBelowMedian`` bases.

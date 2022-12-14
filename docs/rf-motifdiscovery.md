@@ -42,7 +42,7 @@ Once significantly enriched k-mers have been identified, motifs are built as fol
 4. The core motif is extended by identifying significant k-mers overlapping by at least 75% with the core motif
 5. This expanded set of sequences is then used to build a Position Frequency Matrix for the motif
 <br/><br/>
-![Coverage calculation](http://www.rnaframework.com/images/motifdiscovery.png)
+![Motif discovery](http://www.incarnatolab.com/images/docs/RNAframework/rf-motifdiscovery.png)
 <br/><br/>
 Significantly enriched motifs will be reported as Position Frequency Matrices (PFMs), in [TRANSFAC format](https://meme-suite.org/meme/doc/transfac-format.html):
 

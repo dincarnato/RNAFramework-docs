@@ -58,20 +58,17 @@ Analysis performed RF Duplex can be quite computational intensive. To this end, 
 <br/><br/>
 When analyzing large COMRADES datasets, clustering can become challenging. To this end, it is possible to limit the analysis to a randomly extracted sample of ``--max-reads`` chimeric reads. Clustering is performed by using a modified version of the K-means algorithm, that allows automatically determining the optimal number of clusters. To speed up the process, clustering is performed in mini-batches of ``--min-sample-size`` reads. The maximum number of K-means clustering iterations is controlled via the ``--max-iterations`` parameter.
 <br/><br/>
-![Centroid definition](http://www.rnaframework.com/images/rf-duplex_centroid.png)
+![Centroid definition](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_centroid.png)
 <br/><br/>
 As shown above, for each cluster, a *centroid* is defined by identifying the point of maximum coverage on both sides of the chimeras making up the cluster, and by enlarging it upstream and downstream by *L*/2, where *L* is the median length of the each half of the chimeras in the cluster. A new chimeric read is assigned to a given cluster if each half of the chimera overlap by at least ``--min-overlap-frac`` with the corresponding half of the centroid. Clusters supported by &lt; ``--min-reads`` chimeric reads are discarded.<br/>The results of clustering can be visualized by enabling the generation of clustered BAM files via the ``--make-cluster-bam`` parameter. These BAM files store the cluster each read has been assigned to in their __XG__ tag, and they can be easily visualized with __Integrative Genomics Viewer (IGV)__ (for additional details, please refer to the official <a href="http://software.broadinstitute.org/software/igv/">Broad Institute's IGV page</a>).
 <br/><br/>
-![IGV Clusters](http://www.rnaframework.com/images/rf-duplex_clusters.png)
+![IGV Clusters](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_clusters.png)
 <br/><br/>
 Once clusters have been defined, the algorithm proceeds to identifying the possible base-pairs, and it estimates the base-pairing probabilities. By default, base-pairs are identified by taking the cluster centroid, and by co-folding the two halves of the centroid using the ViennaRNA package. Alternatively, if the ``--no-use-vienna`` parameter is provided, a modified Smith-Watherman algorithm is used to identify the candidate base-pairs. If &lt; ``--min-paired-frac`` of the centroid is base-paired, the cluster is discarded. For each cluster, a probability is calculated as the ratio of the number of reads belonging to the cluster, divided by the total number of reads in the cluster, plus the reads belonging to clusters that are incompatible with the cluster in analysis. This probability is then assigned to the base-pairs inferred from that cluster. It is theoretically possible, under certain extreme conditions, for two clusters to share one or more base-pairs; in such situations, the base-pair is assigned the sum of the probabilities of the two clusters.<br/>
-As an alternative to estimating base-pairs from the cluster centroid, one might evaluate independently each of the chimeras making up a given cluster by enabling the ``--require-min-chimera`` parameter; in this case, only the base-pairs common to at least ``--min-chimera-frac`` &times; the chimeras of the cluster will be retained. Base-pairing probabilities are reported as dot-plot files, that can be readily imported and visualized with __IGV__. 
-<br/><br/>
-![IGV Dotplot](http://www.rnaframework.com/images/rf-duplex_dotplot.png)
-<br/><br/>
+As an alternative to estimating base-pairs from the cluster centroid, one might evaluate independently each of the chimeras making up a given cluster by enabling the ``--require-min-chimera`` parameter; in this case, only the base-pairs common to at least ``--min-chimera-frac`` &times; the chimeras of the cluster will be retained. Base-pairing probabilities are reported as dot-plot files, that can be readily imported and visualized with __IGV__. <br/>
 Furthemore, base-pairing probabilities can be exported as arc-plots in SVG format by enabling the ``--img`` parameter.
 <br/><br/>
-![Graphics](http://www.rnaframework.com/images/rf-duplex_graphics.png)
+![Graphics](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_graphics.png)
 <br/><br/>
 In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference.
 

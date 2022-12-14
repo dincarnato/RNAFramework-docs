@@ -21,4 +21,4 @@ __rf-mutate__  | Designs structure disrupting (and compensatory) mutations
 __rf-json2rc__  | Post-processes DRACO JSON output files into RC files
 
 <br/>
-![RNAFramework pipeline](http://www.rnaframework.com/images/overview.png)
+![RNAFramework pipeline](http://www.incarnatolab.com/images/docs/RNAframework//overview.png)
