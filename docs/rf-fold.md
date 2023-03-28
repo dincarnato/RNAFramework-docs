@@ -64,6 +64,8 @@ __-po__ *or* __--partition-offset__ | int | Offset (in nt) for partition functio
 __-wt__ *or* __--window-trim__ | int | Number of bases to trim from both ends of the partition windows to avoid end biases (Default: __100__)
 __-dp__ *or* __--dotplot__ | | Enables generation of dot-plots of base-pairing probabilities
 __-sh__ *or* __--shannon-entropy__ | | Enables generation of a WIGGLE track file with per-base Shannon entropies
+__-pmr__ *or* __--plot-median-react__ | | Plots the difference between the transcript's median reactivity and the median reactivity in sliding windows
+__-pms__ *or* __--plot-median-shannon__ | | Plots the difference between the transcript's median Shannon entropy and the median Shannon entropy in sliding windows
 __-pk__ *or* __--pseudoknots__ | | Enables detection of pseudoknots (computationally intensive)
 __-ksl__ *or* __--pseudoknot-slope__ | float | Sets slope used for pseudoknots prediction (Default: same as ``-sl <slope>``)
 __-kin__ *or* __--pseudoknot-intercept__ | float | Sets intercept used for pseudoknots prediction (Default: same as ``-in <intercept>``)
