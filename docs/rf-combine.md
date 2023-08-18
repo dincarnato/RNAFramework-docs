@@ -27,6 +27,7 @@ __-m__ *or* __--min-values__ | float | Minimum number of values to calculate cor
 __-c__ *or* __--min-correlation__ | float | Minimum correlation to report a combined profile (-1&lt;r&lt;1, Default: __off__)<br/>__Note:__ if more than two replicates are being combined, RF Combine requires this threshold to be satisfied all pairwise comparisons
 __-S__ *or* __--spearman__ | | Uses Spearman instead of Pearson to calculate correlation
 __-l__ *or* __--log-transform__ | | Log transforms reactivity values before averaging
+__-i__ *or* __--ignore-NaNs__ | | NaNs are ignored when calculating mean reactivities<br/>__Note:__ this parameter enables combining XML files from experiments with different sets of reactive bases (e.g., A/C and G/U)
 
 !!! note "Note"
     When ``--min-values`` specified value is interpreted as a fraction of the transcript's length, only reactive bases (specified by the XML ``reactive`` attribute; for additional details, please refer to the [RF Norm documentation](https://rnaframework-docs.readthedocs.io/en/latest/rf-norm/)) are considered. For example, if a transcript containing 25% of each base has been modified with DMS (than only modifies A/C residues), setting ``--min-values`` to 0.5 will cause RF Combine to skip the transcript if more than 50% of the A/C residues are NaNs.
