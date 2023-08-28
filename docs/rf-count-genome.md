@@ -30,7 +30,7 @@ __-m__ *or* __--count-mutations__ | | Enables mutations count instead of RT-stop
  | | __Mutation count mode options__
 __-om__ *or* __--only-mut__ | string | Only the specified mutations will be counted<br/>__Note #1:__ mutations must be provided in the form [original]2[mutated]. For example, "A2T" (or "A>T", or "A:T") will only count mutation events in which a reference A base has been sequenced as a T. IUPAC codes are also accepted. Multiple mutations must be provided as a comma (or semi-colon) separated list (e.g. A2T;C:N,G>A)<br/>__Note #2:__ when specified, this parameter automatically disables insertion and deletion count
 __-ds__ *or* __--discard-shorter__ | int | Discards reads shorter than this length (excluding clipped bases, Default: __1__)
-s__-q__ *or* __--min-quality__ | int | Minimum quality score value to consider a mutation (Phred+33, requires ``-m``, Default: __20__)
+__-q__ *or* __--min-quality__ | int | Minimum quality score value to consider a mutation (Phred+33, requires ``-m``, Default: __20__)
 __-es__ *or* __--eval-surrounding__ | | When considering a mutation/indel, also evaluates the quality of surrounding bases (&#177;1 nt)<br/>__Note:__ the quality score threshold set by ``-q`` (or ``--min-quality``) also applies to these bases
 __-nd__ *or* __--no-deletions__ | | Ignores deletions
 __-ni__ *or* __--no-insertions__ | | Ignores insertions
@@ -54,8 +54,8 @@ The strandedness of each sample can be specified by appending one of the followi
 String     | Strandedness
 -----------| :------------
 __:u__ *or* __:unstranded__ | The information on the genomic strand that originated the transcript is not preserved
-__:f__ *or* __:first__ *or* __:first-strand__ | Reads align to the strand complementary to the one that originated the transcript
-__:s__ *or* __:second__ *or* __:second-strand__ | Reads align to the same strand that originated the transcript
+__:f__ *or* __:first__ *or* __:first-strand__ | R1 aligns to the strand complementary to the one that originated the transcript
+__:s__ *or* __:second__ *or* __:second-strand__ | R1 aligns to the same strand that originated the transcript
 
 <br/>
 __Second-strand__ is the default (and only accepted) mode for the analysis of RT-stop-based RNA structure mapping experiments. When mutation count (``-m``) or coverage-only (``-co``) modes are enabled, if the strandedness of the samples is not specified, samples are assumed to be __unstranded__.<br/>
