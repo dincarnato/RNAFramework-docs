@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2023-08-16] RNA Framework v2.8.4 [major release]:__<br/>Several bug fixes & added features. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2023-09-25] RNA Framework v2.8.5 [major release]:__<br/>Various bug fixes. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
