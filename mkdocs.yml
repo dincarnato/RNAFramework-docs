@@ -6,7 +6,6 @@ theme:
         - yaml
         - rust
 build:
-    os: ubuntu-23.10
     tools:
         python: "3.11"
 pages:
