@@ -30,6 +30,7 @@ __-i__ *or* __--ignore-terminal__ | float | Coverage and mutation counts for thi
 __-mor__ *or* __--min-overlap-reps__ | float | Minimum fractional overlap between windows across replicates to be merged (0-1, Default: __0.75__)
 __-mcr__ *or* __--min-corr-reps__ | float | Minimum correlation between corresponding conformations for matched windows across replicates, to be reported (0-1, Default: __0.7__)
 __-s__ *or* __--spearman__ | | Spearman will be used instead of Pearson for correlation analysis
+__-cf__ *or* __--cap-mut-freqs__ | float | Mutation frequencies will be capped to this value for correlation calculation (>0-1, Default: __1__ (no cap))
 
 <br/>
 ## Understanding the algorithm
