@@ -5,10 +5,6 @@ theme:
     hljs_languages:
         - yaml
         - rust
-build:
-    os: "ubuntu-22.04"
-    tools:
-        python: "3.11"
 pages:
     - 'Overview': 'index.md'
     - 'Framework components': 'components.md'
