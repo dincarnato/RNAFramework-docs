@@ -29,3 +29,11 @@ __-r__ *or* __--ratio__ | | Correlation is calculated on the ratio between, the 
 
 !!! note "Note"
     When ``--min-values`` specified value is interpreted as a fraction of the transcript's length, only reactive bases (specified by the ``reactive`` [attribute](https://rnaframework-docs.readthedocs.io/en/latest/rf-norm/) for XML files, or via the ``--keep-bases`` parameter for RC files) are considered. For example, if a transcript containing 25% of each base has been modified with DMS (than only modifies A/C residues), setting ``--min-values`` to 0.5 will cause RF Correlate to skip the transcript if more than 50% of the A/C residues are NaNs (or do not exceed the ``--min-coverage`` threshold for RC files).
+    
+<br/>
+## Output file
+RF Correlate generates a TSV file containing 3 fields:
+
+1. Transcript ID
+2. Correlation coefficient
+3. P-value

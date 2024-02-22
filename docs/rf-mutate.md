@@ -16,6 +16,7 @@ __-p__ *or* __--processors__ | int | Number of processors to use (Default: __1__
 __-o__ *or* __--output-dir__ | string | Output directory (Default: __rf_mutate/__)
 __-ow__ *or* __--overwrite__ | string | Overwrites output directory if already exists
 __-mf__ *or* __--motif-file__ | string | Path to a file containing the list of motifs to mutate (mandatory)
+__-tf__ *or* __--target-file__ | string | Path to a file containing a list of target structures the motifs should fold into upon mutagenesis (optional)
 __-of__ *or* __--orf-file__ | string | Path to a file containing transcript ORFs (optional)
 __-lo__ *or* __--longest-orf__ | | Automatically finds the longest ORF
 __-mo__ *or* __--min-orf-length__ | int | Minimum length (in aa) to select the longest ORF (requires ``-lo``, Default: __50__)
@@ -24,7 +25,7 @@ __-ans__ *or* __--any-start__ | | Longest ORF is allowed to start with any codon
 __-gc__ *or* __--genetic-code__ | int | Genetic code table for the reference organism (1-33, Default: __1__)<br/>__Note:__ for a detailed list of the available genetic code tables, please refer to [https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi)
 __-ec__ *or* __--exclude-codons__ | string | A comma (or semicolon) separated list of rare codons to be avoided 
 __-md__ *or* __--min-distance__ | float | Minimum (fractional) base-pair distance between wild-type and mutant (0-1, Default: __0.5__)
-__-t__ *or* __--tollerance__ | float | Maximum (fractional) base-pair distance between wild-type and rescue (0-1, Default: __0.2__)
+__-t__ *or* __--tolerance__ | float | Maximum (fractional) base-pair distance between wild-type and rescue (0-1, Default: __0.2__)
 __-mi__ *or* __--max-iterations__ | int | Maximum number of iterations (>0, Default: __1000__)
 __-me__ *or* __--max-evaluate__ | int | Maximum number of mutants to evaluate (>0, Default: __1000__)
 __-mr__ *or* __--max-results__ | int | Maximum number of mutants to report per motif (Default: __all__)
@@ -113,6 +114,17 @@ ATGGGGATCTATCAGATTCTGGCGATCTACTCAACTGTCGCCAGTTCACTGGTGCTTTTGGTCTCCTAA
 ..(((((((((((((...((((((((..........))))))))....)))))).....)))))))...
 ```
 it will be sufficient to indicate in the ORF file the starting "MGIYQ" portion (for example) of the amino acid sequence, to make RF Mutate identify the full underlying ORF.<br/><br/>
+
+## Target file
+The target file allows specifying a target structure each motif should fold into upon mutagenesis.<br/>
+It is composed of one or more lines, each one reporting the transcript ID, the motif position (as indicated in the motif file) and the target structure in dot-bracket notation. The motif position and the target structure should be separated by a colon, while consecutive motifs on the same transcript must be separated by a semicolon or a comma:<br/>
+
+```
+Transcript_1;48:(((((.....)))))...(((((.....)))))
+Transcript_2,122:((((((...)))..)))
+Transcript_3;95:(((...(((...)))...)));189:(((...)))...((((((.....))))))
+```
+<br/><br/>
     
 ## Ouput XML files
 For each motif being mutagenized, RF Mutate will generate an XML file, with the following structure:

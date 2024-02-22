@@ -44,4 +44,4 @@ __-rp__ *or* __--rf-fold-params__ | string | Manually specify additional RF Fold
 
 <br/>
 ## Output CSV files
-RF PeakCall produces 3 CSV files, one for PPV, one for sensitivity, and one with the geometric mean of the 2 values, with intercept values on the x-axis, and slope values on the y-axis
+RF JackKnife produces 3 CSV files, one for PPV, one for sensitivity, and one with the geometric mean of the 2 values, with intercept values on the x-axis, and slope values on the y-axis

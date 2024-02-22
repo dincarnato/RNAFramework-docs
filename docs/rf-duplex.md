@@ -30,6 +30,8 @@ __-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file contain
 __-ct__ *or* __--constraint-threshold__ | float | Sets the probability threshold to include a base-pair in the constraint (0.5-1, Default: __0.5__)
 __-es__ *or* __--eval-structures__ | string | Path to a folder of structure files (in .db or .ct format), for which the number of chimeric reads supporting each base-pair will be calculated<br/>__Note:__ structure files must be named after their respective reference transcript
 __-eo__ *or* __--eval-only__ | | Only calculates the chimeric read support for a reference structure (requires ``-es``), and exits
+__-dc__ *or* __--dump-chimaeras__ | | Dumps extracted chimeric reads to file
+__do__ *or* __--dump-chimaeras-only__ | | Only dumps chimeric reads to file (requires ``-dc``) and exits
  | | __Base-pairs inference options__
 __-nv__ *or* __--no-use-vienna__ | | A modified Smith-Waterman local alignment algorithm is used instead of the ViennaRNA package to infer base-pairs from chimeric reads
 __-mr__ *or* __--min-reads__ | int | Minimum number of chimeric reads to retain a cluster (>0, Default: __2__)
@@ -70,7 +72,4 @@ Furthemore, base-pairing probabilities can be exported as arc-plots in SVG forma
 <br/><br/>
 ![Graphics](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_graphics.png)
 <br/><br/>
-In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference.
-
-!!! note "Information"
-    Starting with the next release, it will be possible to directly import constraint files into ``rf-fold``, hence enabling the integration of structure probing and direct RNA-RNA interaction capture data.
+In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference using ``rf-fold``.

@@ -27,6 +27,7 @@ __-mcm__ *or* __--min-corr-merge__ | float | Minimum average correlation between
 __-e__ *or* __--extend__ | int |  Windows are extended by these many bases upstream and downstream (Default: __off__)<br/>__Note:__ these bases will be assigned a coverage and mutation count of 0
 __-sr__ *or* __--surround-to-rc__ | | Instead of getting coverage and mutation count of 0, bases in up/downstream extensions will be assigned the same coverage and mutation count they have in the input RC files (requires ``-e``)
 __-i__ *or* __--ignore-terminal__ | float | Coverage and mutation counts for this fraction of bases at window termini will be set to 0 (0-0.2, Default: __0.05__)
+__-ki__ *or* __--keep-ignored__ | | Bases ignored during correlation calculation, will be kept in the output RC files<br/>__Note:__ by default, both counts and coverage for these bases is set to 0
 __-mor__ *or* __--min-overlap-reps__ | float | Minimum fractional overlap between windows across replicates to be merged (0-1, Default: __0.75__)
 __-mcr__ *or* __--min-corr-reps__ | float | Minimum correlation between corresponding conformations for matched windows across replicates, to be reported (0-1, Default: __0.7__)
 __-s__ *or* __--spearman__ | | Spearman will be used instead of Pearson for correlation analysis

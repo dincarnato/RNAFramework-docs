@@ -85,9 +85,10 @@ __-pc__ *or* __--pseudocount__ | float | Pseudocount added to reactivities to av
 __-s__ *or* __--max-score__ | float | Score threshold for capping raw reactivities (&gt;0, Default: __10__)
  | | __Scoring method #3 options (Siegfried *et al*., 2014)__
 __-mu__ *or* __--max-untreated-mut__ | float | Maximum per-base mutation rate in untreated sample (&le;1, Default: __0.05__ [5%])
-__-mm__ *or* __--max-mutation-rate__ | float | Maximum per-base mutation rate (&le;1, Default: __0.2__ [20%])
- | | __Scoring method #4 options (Zubradt *et al*., 2017)__
-__-mm__ *or* __--max-mutation-rate__ | float | Maximum per-base mutation rate (&le;1, Default: __0.2__ [20%])
+ | | __Scoring methods #1 and #3 options (Ding et al., 2014 & Siegfried et al., 2014)__
+__-il__ *or* __--ignore-lower-than-untreated__ | | Bases having raw reactivity in the treated sample lower than the untreated control, will be ignored (not used during reactivity normalization) and will be reported as NaNs
+ | | __Scoring methods #3 and #4 options (mutational profiling)__
+__-mm__ *or* __--max-mutation-rate__ | float | Maximum per-base mutation rate (&le;1, Default: __1__ [100%])
 
 <br/>
 ## Configuration files
