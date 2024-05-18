@@ -23,8 +23,7 @@ Parameter         | Tool | Type | Description
 __-t__ *or* __--tab__ | __view__ | | Switches to tabular output format
 __-o__ *or* __--output__ | __merge__ *or* __extract__ | string | Output RC filename (Default: __merge.rc__ *or* __&lt;annotation&gt;.rc__)
 __-ow__ *or* __--overwrite__ | __merge__ *or* __extract__ | | Overwrites output file (if the specified file already exists)
-__-i__ *or* __--index__ | __merge__ | string[,string] | A comma separated (no spaces) list of RCI index files for the provided RC files<br/>__Note:__ RCI files must be provided in the same order as RC files. If a single RCI file is specified along with multiple RC files, it will be used for all of them.
-__-T__ *or* __--tmp-dir__ | __merge__ | string | Temporary directory (Default: __/tmp__)
+__-i__ *or* __--index__ | __extract__ | string | RCI index file<br/>__Note:__ if an RCI index is not specified, the program will look in the same directory of the input RC file for a file named after the RC file with one of the following extensions: __.rci__, __.plus.rc.rci__, __.minus.rc.rci__.
 __-a__ *or* __--annotation__ | __extract__ | string | BED/GTF file containing a list of regions to be extracted (mandatory)
 __-f__ *or* __--GTFfeature__ | __extract__ | string | If a GTF file is provided, only entries corresponding to this feature type will be extracted (Default: __exon__)
 __-b__ *or* __--GTFattribute__ | __extract__ | string | If a GTF file is provided, this attribute will be used as the entry ID in the output RC file (Default: __transcript_id__)

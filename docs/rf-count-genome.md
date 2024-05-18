@@ -19,12 +19,12 @@ __-r__ *or* __--sorted__ | | In case SAM/BAM files are passed, assumes that they
 __-t5__ *or* __--trim-5prime__ | int[,int] | Comma separated list (no spaces) of values indicating the number of bases trimmed from the 5'-end of reads in the respective sample SAM/BAM files (Default: __0__)<br/>__Note #1:__ Values must be provided in the same order as the input files (e.g. rf-count -t5 0,5 file1.bam file2.bam, will consider 0 bases trimmed from file1 reads, and 5 bases trimmed from file2 reads)<br/>__Note #2:__ If a single value is specified along with multiple SAM/BAM files, it will be used for all files
 __-fh__ *or* __--from-header__ | | Instead of providing the number of bases trimmed from 5'-end of reads through the ``-t5`` (or ``--trim-5prime``) parameter, RF Count will try to guess it automatically from the header of the provided SAM/BAM files
 __-f__ *or* __--fasta__ | string | Path to a FASTA file containing the reference transcripts<br/>__Note:__ Transcripts in this file must match transcripts in SAM/BAM file headers
-__-mf__ *or* __--mask-file__ | string | Path to a mask file
 __-ndd__ *or* __--no-discard-duplicates__ | | Reads marked as PCR/optical duplicates, discarded by default, will be also considered
 __-pn__ *or* __--primary-only__ | | Considers only primary alignments (SAM bitwise flag != 256)
 __-po__ *or* __--paired-only__ | | When processing SAM/BAM files from paired-end experiments, only those reads for which both mates are mapped will be considered
 __-pp__ *or* __--properly-paired__ | | When processing SAM/BAM files from paired-end experiments, only those reads mapped in a proper pair will be considered
 __-mq__ *or* __--map-quality__ | int | Minimum mapping quality to consider a read (Default: __0__)
+__-ls__ *or* __--library-strandedness__ | string | Defines which genomic strand alignment-derived counts must be assigned to (check ["Strandedness of genome-level alignments"](https://rnaframework-docs.readthedocs.io/en/latest/rf-count-genome/#strandedness-of-genome-level-alignments) below for possible values, Default: unstranded (with `-m` or `-co`), second-strand otherwise)<br/>__Note:__ strandedness specified via `-ls` can be overridden for individual samples by appending a colon followed by the library type to the sample name (check ["Strandedness of genome-level alignments"](https://rnaframework-docs.readthedocs.io/en/latest/rf-count-genome/#strandedness-of-genome-level-alignments) below for additional details).
 __-co__ *or* __--coverage-only__ | | Only calculates per-base coverage (disables RT-stops/mutations count)
 __-m__ *or* __--count-mutations__ | | Enables mutations count instead of RT-stops count (for SHAPE-MaP/DMS-MaPseq)
  | | __Mutation count mode options__
@@ -47,25 +47,28 @@ __-mc__ *or* __--max-collapse-distance__ | int | Maximum distance between consec
 
 <br/>
 ## Strandedness of genome-level alignments
-An important difference with transcriptome-level analyses is that, at the level of the genome, the structure signal can be originated by either of the two DNA strands, dependening on where the gene resides. The strandedness depends on how the library has been generated. Specifying the proper strandedness of the library is __crucial__ as it determines the way ``rf-count-genome`` will assign the RT-stop/mutation counts.<br/>
-The strandedness of each sample can be specified by appending one of the following strings to the path to the SAM/BAM files to be processed:
+An important difference with transcriptome-level analyses is that, at the level of the genome, the structure signal can be originated by either of the two DNA strands, dependening on where the gene resides. The strandedness depends on how the library has been generated. Specifying the proper strandedness of the library is __crucial__ as it determines the way ``rf-count-genome`` will assign the RT-stop/mutation counts to the two genomic strands.<br/>
+The strandedness of each sample can be specified in two ways:
 
+1. by specifying a single library type for all samples being analyzed via the `-ls` (or `--library-strandedness`)
+2. by appending a colon followed by the library type to each individual SAM/BAM file being passed to `rf-count-genome` (see below)
 
-String     | Strandedness
+Value     | Strandedness
 -----------| :------------
-__:u__ *or* __:unstranded__ | The information on the genomic strand that originated the transcript is not preserved
-__:f__ *or* __:first__ *or* __:first-strand__ | R1 aligns to the strand complementary to the one that originated the transcript
-__:s__ *or* __:second__ *or* __:second-strand__ | R1 aligns to the same strand that originated the transcript
+__0__ *or* __u__ *or* __unstranded__ | The information on the genomic strand that originated the transcript is not preserved
+__1__ *or* __f__ *or* __first__ *or* __first-strand__ | R1 aligns to the strand complementary to the one that originated the transcript
+__2__ *or* __s__ *or* __second__ *or* __second-strand__ | R1 aligns to the same strand that originated the transcript
 
 <br/>
 __Second-strand__ is the default (and only accepted) mode for the analysis of RT-stop-based RNA structure mapping experiments. When mutation count (``-m``) or coverage-only (``-co``) modes are enabled, if the strandedness of the samples is not specified, samples are assumed to be __unstranded__.<br/>
-For instance, in the example below:
+For instance, in the examples below:
 
 ```bash
 $ rf-count-genome -m -f reference.fasta -r sample1.bam:s sample2.bam:f sample3.bam
+$ rf-count-genome -m -f reference.fasta -r -ls second-strand sample1.bam:s sample2.bam:f sample3.bam
 ```
 
-*sample1.bam* is generated using a second-strand directional library prep strategy, *sample1.bam* is generated using a first-strand directional library prep strategy and *sample3.bam* is assumed to have been generated using a non-directional library prep strategy.<br/>
+*sample1.bam* is generated using a second-strand directional library prep strategy, whìle *sample1.bam* is generated using a first-strand directional library prep strategy. In the first example *sample3.bam* is assumed to have been generated using a non-directional library prep strategy (unstranded), while in the second example *sample3.bam* is assumed to have been generated using a second-strand directional library prep strategy (`-ls second-strand`).<br/>
 
 When processing __unstranded__ experiments, ``rf-count-genome`` will generate a single output RC file, named after the sample, having the ``.plus.rc`` suffix. When processing __stranded__ experiments, two output RC files will be generated, named after the sample, respectively having the ``.plus.rc`` and ``.minus.rc`` suffixes and corresponding to the plus and minus strands of the genome.<br/>
 Transcriptome-level RC files can be generated starting from genome-level RC files using the ``extract`` tool of the ``rf-rctools`` module. For additional information, please refer to the [manual page](https://rnaframework-docs.readthedocs.io/en/latest/rf-rctools/).

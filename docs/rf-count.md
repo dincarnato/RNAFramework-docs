@@ -1,7 +1,4 @@
-The RF Count module is the core component of the framework. It can process any number of SAM/BAM files to calculate per-base RT-stops/mutations and read coverage on each transcript.<br />
-
-!!! note "Information"
-    In future releases, the ``rf-count`` module will be superseded by the ``rf-count-genome`` module. The functionalities of the current ``rf-count`` module connected with the generation of MM files for ensemble deconvolution using __DRACO__ will be provided by a new tool.
+The RF Count module is the core component of the framework. It can process any number of SAM/BAM files to calculate per-base RT-stops/mutations and read coverage on each transcript.
 
 <br/>
 # Usage
@@ -170,6 +167,8 @@ The mask file is composed of one or more lines, each one reporting the transcrip
 ```
 Transcript_1;AGCGTATTAGCGATGCGATGCGA;25-38;504-551
 Transcript_2,331-402,AUAUGGAUCGGACG,984-1008
-Transcript_3;GUUACAUUCGA,98-123;47-68
+Transcript_3;rc:GUUACAUUCGA,98-123;47-68
 ```
+When `rc:` is prepended to a sequence, it specifies that the sequence has to be reverse complemented. This is useful, for example, to mask the pairing region of a reverse primer.<br/>
+
 Transcript regions specified in the mask file will have both 0 counts and coverage in the resulting RC file.
