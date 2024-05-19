@@ -16,7 +16,7 @@ The fraction of base-pairs present in the reference structure that are also pres
 ### Fowlkes-Mallows index (FMI)
 The geometric mean of PPV and sensitivity (introduced by Deigan *et al.*, 2009, PMID:[19109441](https://pubmed.ncbi.nlm.nih.gov/19109441/)):<br/>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mi>M</mi><mi>I</mi><mo>&#xa0;</mo><mo>=</mo><mo>&#xa0;</mo><mfrac><mrow><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub></mrow><msqrt><mrow><mfenced><mrow><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub></mrow></mfenced><mfenced><mrow><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow></mfenced></mrow></msqrt></mfrac></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mi>M</mi><mi>I</mi><mo>&#xa0;</mo><mo>=</mo><mo>&#xa0;</mo><mfrac><mrow><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub></mrow><msqrt><mrow><mrow><mo>(</mo><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>r</mi><mi>e</mi><mi>f</mi></mrow></msub><mo>)</mo></mrow><mrow><mo>(</mo><msub><mi>P</mi><mrow><mi>b</mi><mi>o</mi><mi>t</mi><mi>h</mi></mrow></msub><mo>+</mo><msub><mi>P</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><mo>)</mo></mrow></msqrt></mfrac></math>
 
 <br/>
 where *P<sub>both</sub>* is the number of base-pairs common to both reference and predicted structure, while *P<sub>ref</sub>* and *P<sub>pred</sub>* are the numbers of base-pairs respectively unique to reference and predicted structures.
@@ -24,7 +24,7 @@ where *P<sub>both</sub>* is the number of base-pairs common to both reference an
 ### Modified Fowlkes-Mallows index (mFMI)
 A variant of the FMI (introduced by Lan *et al.*, 2022, PMID:[35236847](https://pubmed.ncbi.nlm.nih.gov/35236847/)), which also rewards bases that are unpaired both in the reference and in the predicted structure:<br/>
 
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mi>m</mi><mi>F</mi><mi>M</mi><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>u</mi><mo>+</mo><mfenced><mrow><mn>1</mn><mo>-</mo><mi>u</mi></mrow></mfenced><mo>&#xd7;</mo><mi>F</mi><mi>M</mi><mi>I</mi></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mi>m</mi><mi>F</mi><mi>M</mi><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>u</mi><mo>+</mo><mrow><mo>(</mo><mn>1</mn><mo>-</mo><mi>u</mi><mo>)</mo></mrow><mo>&#xd7;</mo><mi>F</mi><mi>M</mi><mi>I</mi></math>
 
 <br/>
 where *u* is the number of unpaired bases common to both reference and predicted structure.
