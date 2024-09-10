@@ -11,9 +11,9 @@ Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-wt__ *or* __--working-threads__ | int | Number of working threads to use for each instance of SAMTools/Bowtie (Default: __1__).<br/>__Note:__ RT Counter executes 1 instance of SAMTools for each processor specified by ``-p``.  At least ``-p <processors>`` * ``-wt <threads>`` processors are required.
+__-bs__ *or* __--block-size__ | int | Maximum size of the chromosome block to keep in memory (&gt;1000, Default: __100000__)
 __-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_count_genome/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
-__-t__ *or* __--tmp-dir__ | string | Path to a directory for temporary files creation (Default: __<output-dir>/tmp__)<br/>__Note:__ If the provided directory does not exist, it will be created
 __-s__ *or* __--samtools__ | string | Path to ``samtools`` executable (Default: assumes ``samtools`` is in PATH)
 __-r__ *or* __--sorted__ | | In case SAM/BAM files are passed, assumes that they are already sorted lexicographically by transcript ID, and numerically by position
 __-t5__ *or* __--trim-5prime__ | int[,int] | Comma separated list (no spaces) of values indicating the number of bases trimmed from the 5'-end of reads in the respective sample SAM/BAM files (Default: __0__)<br/>__Note #1:__ Values must be provided in the same order as the input files (e.g. rf-count -t5 0,5 file1.bam file2.bam, will consider 0 bases trimmed from file1 reads, and 5 bases trimmed from file2 reads)<br/>__Note #2:__ If a single value is specified along with multiple SAM/BAM files, it will be used for all files

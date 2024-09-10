@@ -10,16 +10,14 @@ $ rf-count -h
 
 Parameter         | Type | Description
 ----------------: | :--: |:------------
-__-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
-__-wt__ *or* __--working-threads__ | int | Number of working threads to use for each instance of SAMTools/Bowtie (Default: __1__).<br/>__Note:__ RT Counter executes 1 instance of SAMTools for each processor specified by ``-p``.  At least ``-p <processors>`` * ``-wt <threads>`` processors are required.
+__-p__ *or* __--processors__ | int | Number of files to process in parallel (Default: __1__)<br/>__Note:__ please check "[Multithread support](https://rnaframework-docs.readthedocs.io/en/latest/rf-count/#multithread-support)" below for additional details
+__-wt__ *or* __--working-threads__ | int | Number of working threads to use for each file (Default: __1__).<br/>__Note:__ please check "[Multithread support](https://rnaframework-docs.readthedocs.io/en/latest/rf-count/#multithread-support)" below for additional details
+__-P__ *or* __--per-file-progress__ | | The progress of each individual file is shown as a separate progress bar<br/>__Note:__ this only works in interactive mode. If output is redirected to file, a single progress bar is shown reporting the overall status. Similarly, if the number of samples exceedes the number of lines in the terminal, a single progress bar is shown.
 __-a__ *or* __--fast__ | | Reference sequences are kept in memory instead of being loaded on the fly<br/>__Note:__ this can significantly decrease the runtime when processing large sets of transcripts, but increases memory usage
 __-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_count/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
-__-t__ *or* __--tmp-dir__ | string | Path to a directory for temporary files creation (Default: __<output-dir>/tmp__)<br/>__Note:__ If the provided directory does not exist, it will be created
 __-s__ *or* __--samtools__ | string | Path to ``samtools`` executable (Default: assumes ``samtools`` is in PATH)
-__-r__ *or* __--sorted__ | | In case SAM/BAM files are passed, assumes that they are already sorted lexicographically by transcript ID, and numerically by position
 __-t5__ *or* __--trim-5prime__ | int[,int] | Comma separated list (no spaces) of values indicating the number of bases trimmed from the 5'-end of reads in the respective sample SAM/BAM files (Default: __0__)<br/>__Note #1:__ Values must be provided in the same order as the input files (e.g. rf-count -t5 0,5 file1.bam file2.bam, will consider 0 bases trimmed from file1 reads, and 5 bases trimmed from file2 reads)<br/>__Note #2:__ If a single value is specified along with multiple SAM/BAM files, it will be used for all files<br/>__Note #3:__ This parameter has no effect when ``-m`` (or ``--count-mutations``) is enabled
-__-fh__ *or* __--from-header__ | | Instead of providing the number of bases trimmed from 5'-end of reads through the ``-t5`` (or ``--trim-5prime``) parameter, RF Count will try to guess it automatically from the header of the provided SAM/BAM files
 __-f__ *or* __--fasta__ | string | Path to a FASTA file containing the reference transcripts<br/>__Note:__ Transcripts in this file must match transcripts in SAM/BAM file headers
 __-mf__ *or* __--mask-file__ | string | Path to a mask file
 __-ndd__ *or* __--no-discard-duplicates__ | | Reads marked as PCR/optical duplicates, discarded by default, will be also considered
@@ -35,6 +33,7 @@ __-orc__ *or* __--only-raw-counts__ | | Generates a text file reporting raw (unf
 __-om__ *or* __--only-mut__ | string | Only the specified mutations will be counted<br/>__Note #1:__ mutations must be provided in the form [original]2[mutated]. For example, "A2T" (or "A>T", or "A:T") will only count mutation events in which a reference A base has been sequenced as a T. IUPAC codes are also accepted. Multiple mutations must be provided as a comma (or semi-colon) separated list (e.g. A2T;C:N,G>A)<br/>__Note #2:__ when specified, this parameter automatically disables insertion and deletion count<br/>__Note #3:__ when specified, an extra ouput folder ``frequencies/`` will be generated, with a text file for each sample, containing the overall base substitution frequencies
 __-ds__ *or* __--discard-shorter__ | int | Discards reads shorter than this length (excluding clipped bases, Default: __1__)<br/>__Note:__ when set to *MEDIAN* (case-insensitive), the median read length will be used
 __-q__ *or* __--min-quality__ | int | Minimum quality score value to consider a mutation (Phred+33, requires ``-m``, Default: __20__)
+__-ncl__ *or* __--no-cov-low-qual__ | | If a mutated base (or one of the surrounding bases, if `-es` is specified) does not exceed the `-mq` minimum quality threshold, that base will be considered as non covered
 __-es__ *or* __--eval-surrounding__ | | When considering a mutation/indel, also evaluates the quality of surrounding bases (&#177;1 nt)<br/>__Note:__ the quality score threshold set by ``-q`` (or ``--min-quality``) also applies to these bases
 __-nd__ *or* __--no-deletions__ | | Ignores deletions
 __-ni__ *or* __--no-insertions__ | | Ignores insertions
@@ -172,3 +171,12 @@ Transcript_3;rc:GUUACAUUCGA,98-123;47-68
 When `rc:` is prepended to a sequence, it specifies that the sequence has to be reverse complemented. This is useful, for example, to mask the pairing region of a reverse primer.<br/>
 
 Transcript regions specified in the mask file will have both 0 counts and coverage in the resulting RC file.
+
+<br/>
+## Multithread support
+Since version 2.8.9, RF Count has multithread support for faster processing. The way this is implemented is on a per-transcript base, meaning that __each process will analyze one transcript__. Therefore, when processing large BAM files encompassing a single transcript, specifying multiple processors will not speed up the analysis as a single processor will still be used.
+
+Parameters `-p` and `-wt` allow controlling the number of processors to be used for the analysis. Their meaning differs at different stages of the analysis:
+
+- During tasks such as SAM to BAM conversion, BAM sorting and BAM indexing, `-p` specifies the number of files to be processed in parallel, and each SAMTools process will use `-wt` cores.
+- During the count phase, all files are processed in parallel and the number of concurrent processes will be `-p` &times; `-wt`

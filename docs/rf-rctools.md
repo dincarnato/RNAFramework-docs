@@ -112,6 +112,12 @@ Optionally, the `view` tool allows specifying one or more transcript IDs (either
 $ rf-rctools view <file.rc> "Transcript_1;Transcript_2,Transcript_n"
 ```
 
+or a specific range of a given transcript (__note:__ numbering is 0-based):<br/>
+
+```bash
+$ rf-rctools view <file.rc> Transcript_1:1000-2000
+```
+
 <br/>
 ## Working with RCtools "extract"
 Starting from an input RC file, the `extract` command generates an output RC file containing only the regions from a user-specified BED or GTF annotation file. The tool can handle any [BED file format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) (BED3 through BED12).<br/>
