@@ -10,7 +10,7 @@ __Description:__ Disables check for updates from the RNA Framework's git reposit
 __Example:__
 
 ```bash
-export RF_NOCHECKUPDATES = 1     # Disables check for updates
+$ export RF_NOCHECKUPDATES = 1     # Disables check for updates
 ```
 <br/>
 
@@ -23,7 +23,7 @@ __Description:__ Controls the level of verbosity of RNA Framework's warnings and
 __Example:__
 
 ```bash
-export RF_VERBOSITY = 1     # With stack trace
+$ export RF_VERBOSITY = 1     # With stack trace
 
 # [!] Exception [Core::Process::Queue->start()]:
 #     Data looks binary, but binMode is not set to ":raw"
@@ -53,7 +53,7 @@ export RF_VERBOSITY = 1     # With stack trace
 #     -> Caught at lib/Core/Base.pm line 118.
         
 
-export RF_VERBOSITY = 0     # Default, without stack trace
+$ export RF_VERBOSITY = 0     # Default, without stack trace
 
 # [!] Exception [Core::Process::Queue->start()]:
 #     Data looks binary, but binMode is not set to ":raw"
