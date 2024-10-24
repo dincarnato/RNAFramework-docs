@@ -25,39 +25,39 @@ __Example:__
 ```bash
 export RF_VERBOSITY = 1     # With stack trace
 
-[!] Exception [Core::Process::Queue->start()]:
-    Data looks binary, but binMode is not set to ":raw"
-
-    Stack dump (descending):
-
-    [*] Package:    main
-        File:       rf-fold
-        Line:       502
-        Subroutine: Core::Process::Queue::start
-
-    [*] Package:    Core::Process::Queue
-        File:       lib/Core/Process/Queue.pm
-        Line:       121
-        Subroutine: Core::Process::start
-
-    [*] Package:    Core::Process
-        File:       lib/Core/Process.pm
-        Line:       108
-        Subroutine: main::fold
-
-    [*] Package:    main
-        File:       rf-fold
-        Line:       981
-        Subroutine: (eval)
-        
-    -> Caught at lib/Core/Base.pm line 118.
+# [!] Exception [Core::Process::Queue->start()]:
+#     Data looks binary, but binMode is not set to ":raw"
+#
+#     Stack dump (descending):
+#
+#     [*] Package:    main
+#         File:       rf-fold
+#         Line:       502
+#         Subroutine: Core::Process::Queue::start
+# 
+#     [*] Package:    Core::Process::Queue
+#         File:       lib/Core/Process/Queue.pm
+#         Line:       121
+#         Subroutine: Core::Process::start
+# 
+#     [*] Package:    Core::Process
+#         File:       lib/Core/Process.pm
+#         Line:       108
+#         Subroutine: main::fold
+# 
+#     [*] Package:    main
+#         File:       rf-fold
+#         Line:       981
+#         Subroutine: (eval)
+#         
+#     -> Caught at lib/Core/Base.pm line 118.
         
 
 export RF_VERBOSITY = 0     # Default, without stack trace
 
-[!] Exception [Core::Process::Queue->start()]:
-    Data looks binary, but binMode is not set to ":raw"
-    -> Caught at lib/Core/Base.pm line 118.
+# [!] Exception [Core::Process::Queue->start()]:
+#     Data looks binary, but binMode is not set to ":raw"
+#     -> Caught at lib/Core/Base.pm line 118.
 ```
 
 
