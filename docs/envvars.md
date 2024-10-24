@@ -3,7 +3,7 @@ Since v2.9.0, RNA Framework exports a number of environment variables, that will
 
 ### RF_NOCHECKUPDATES
 
-__Description:__ Disables check for updates from the RNA Framework's git repository at programs' startup.
+__Description:__ Disables check for updates from the RNA Framework's git repository at programs' startup.<br/>
 __Accepted values:__<br/>
 &nbsp;__0__ (update check enabled) [__default__]<br/>
 &nbsp;__1__ (update check disabled)<br/>
@@ -17,7 +17,7 @@ $ export RF_NOCHECKUPDATES=1     # Disables check for updates
 
 ### RF_VERBOSITY
 
-__Description:__ Controls the level of verbosity of RNA Framework's warnings and exceptions.
+__Description:__ Controls the level of verbosity of RNA Framework's warnings and exceptions.<br/>
 __Accepted values:__<br/>
 __-1__ (no warnings, without stack trace)<br/> 
 &nbsp;__0__ (warnings and exceptions, without stack trace) [__default__]<br/>
