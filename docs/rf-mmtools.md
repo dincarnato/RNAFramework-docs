@@ -79,7 +79,8 @@ Starting from an input MM file, the `extract` command generates an output MM fil
 If a [BED](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) annotation file is provided, the portion of reads falling within the user-defined regions will be extracted. 
 
 !!! note "Notes"
-    1. BED files will be interpreted as BED3, therefore only the start (0-based) and end (1-based) coordinates (2nd and 3rd field) will be considered).<br/>2. A single BED entry per transcript is allowed
+    1. BED files will be interpreted as BED3, therefore only the start (0-based) and end (1-based) coordinates (2nd and 3rd field) will be considered).
+    2. A single BED entry per transcript is allowed
 
 Reads can be filtered by mutated base (e.g., `-kb AC` or `-kb M` will only retain mutations on A/C bases), length (e.g., `-mrl 100` will only retain reads &ge; 100 bp), or minimum number of mutations per base (e.g., `-mpr 2` will only retain reads with &ge; 2 mutations. 
 
