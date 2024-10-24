@@ -9,10 +9,11 @@ $ rf-count-genome -h
 
 Parameter         | Type | Description
 ----------------: | :--: |:------------
-__-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
-__-wt__ *or* __--working-threads__ | int | Number of working threads to use for each instance of SAMTools/Bowtie (Default: __1__).<br/>__Note:__ RT Counter executes 1 instance of SAMTools for each processor specified by ``-p``.  At least ``-p <processors>`` * ``-wt <threads>`` processors are required.
+__-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)<br/>__Note:__ please check "[Multithread support](https://rnaframework-docs.readthedocs.io/en/latest/rf-count-genome/#multithread-support)" below for additional details
+__-wt__ *or* __--working-threads__ | int | Number of working threads to use for each file (Default: __1__)<br/>__Note:__ please check "[Multithread support](https://rnaframework-docs.readthedocs.io/en/latest/rf-count-genome/#multithread-support)" below for additional details
+__-P__ *or* __--per-file-progress__ | | The progress of each individual file is shown as a separate progress bar<br/>__Note:__ this only works in interactive mode. If output is redirected to file, a single progress bar is shown reporting the overall status. Similarly, if the number of samples exceedes the number of lines in the terminal, a single progress bar is shown.
 __-bs__ *or* __--block-size__ | int | Maximum size of the chromosome block to keep in memory (&gt;1000, Default: __100000__)
-__-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_count_genome/__)
+__-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf\_count\_genome/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-s__ *or* __--samtools__ | string | Path to ``samtools`` executable (Default: assumes ``samtools`` is in PATH)
 __-r__ *or* __--sorted__ | | In case SAM/BAM files are passed, assumes that they are already sorted lexicographically by transcript ID, and numerically by position
@@ -72,3 +73,12 @@ $ rf-count-genome -m -f reference.fasta -r -ls second-strand sample1.bam:s sampl
 
 When processing __unstranded__ experiments, ``rf-count-genome`` will generate a single output RC file, named after the sample, having the ``.plus.rc`` suffix. When processing __stranded__ experiments, two output RC files will be generated, named after the sample, respectively having the ``.plus.rc`` and ``.minus.rc`` suffixes and corresponding to the plus and minus strands of the genome.<br/>
 Transcriptome-level RC files can be generated starting from genome-level RC files using the ``extract`` tool of the ``rf-rctools`` module. For additional information, please refer to the [manual page](https://rnaframework-docs.readthedocs.io/en/latest/rf-rctools/).
+
+<br/>
+## Multithread support
+Since version 2.8.9, RF Count Genome has multithread support for faster processing. The way this is implemented is on a per-chromosome base, meaning that __each process will analyze one chromosome__. Therefore, when processing large BAM files encompassing a single chromosome, specifying multiple processors will not speed up the analysis as a single processor will still be used.
+
+Parameters `-p` and `-wt` allow controlling the number of processors to be used for the analysis. Their meaning differs at different stages of the analysis:
+
+- During tasks such as SAM to BAM conversion, BAM sorting and BAM indexing, `-p` specifies the number of files to be processed in parallel, and each SAMTools process will use `-wt` cores.
+- During the count phase, all files are processed in parallel and the number of concurrent processes will be *min(# available cores, `-p` &times; `-wt`)*

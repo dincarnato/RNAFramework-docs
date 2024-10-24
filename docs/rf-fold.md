@@ -1,12 +1,12 @@
 The RF Fold module is designed to allow transcriptome-wide reconstruction of RNA structures, starting from XML files generated using the RF Norm tool.This tool can process a single, or an entire directory of XML files, and produces the inferred secondary structures (either in dot-bracket notation, or CT format) and their graphical representation (either in Postscript, or SVG format).<br/>Folding inference can be performed using 2 different algorithms:<br/><br/>1. __ViennaRNA__<br/>2. __RNAstructure__<br/><br/>
 Prediction can be performed either on the whole transcript, or through a windowed approach (see next paragraph).
 <br/><br/>
-## Windowed folding    
-The windowed folding approach is inspired by the original method described in Siegfried *et al*., 2014 (PMID: [25028896](https://www.ncbi.nlm.nih.gov/pubmed/25028896)). Since version __2.8.0__, the underlying logic of the windowed approach has been slightly changed, by performing the detection of pseudoknots as the last step. The procedure is outlined below:
+## Structure modelling    
+The structure modelling approach is inspired by the original method described in Siegfried *et al*., 2014 (PMID: [25028896](https://www.ncbi.nlm.nih.gov/pubmed/25028896)). Since version __2.8.0__, the underlying logic of the windowed approach has been slightly changed, by performing the detection of pseudoknots as the last step. The procedure is outlined below:
 <br/><br/>
 ![RNAFramework pipeline](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_windowed_folding.png)
 <br/><br/>
-In step I, a window is slid along the RNA, and partition function is calculated. If provided, soft-constraints from structure probing are applied. Predicted base-pair probabilities are averaged across all windows in which they have appeared, and base-pairs with >99% probability are retained, and hard-constrained to be paired in step III.<br/>
+In step I, a window is slid along the RNA (if the `-w` option is enabled, otherwise the entire RNA is used), and partition function is calculated. If provided, soft-constraints from structure probing are applied. Predicted base-pair probabilities are averaged across all windows in which they have appeared, and base-pairs with >99% probability are retained, and hard-constrained to be paired in step III.<br/>
 In step II, a window is slid along the RNA, and MFE folding is performed, including (where present) soft-constraints from probing data, and base-pairs from step I. Predicted base-pairs are retained if they appear in >50% of analyzed windows.<br/>
 In step III (optional), a window is slid along the RNA, and putative pseudoknots are detected using the same approach employed by the __ShapeKnots__ algorithm (Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844))). Our implementation of the ShapeKnots algorithm relies on the __ViennaRNA package__ (instead of __RNAstructure__ as in the original implementation), thus it is __much__ faster:
 <br/><br/>
@@ -30,6 +30,44 @@ Since version 2.5, RF Fold generates vector graphical reports (SVG format) for e
 !!! note "Note"
     The calculation of Shannon entropy and base-pairing probabilities requires partition function to be computed. Since this is a *very slow* step, partition function folding is performed only in windowed mode, or if parameters ``-dp`` (or ``--dotplot``) or ``-sh`` (or ``--shannon``) are explicitly specified.
 
+
+## Combining multiple experiments
+Since version __2.9.0__, RF Fold can combine multiple experiments into a single prediction. These can either be replicates prepared using the same chemical probe, or experiments performed by using different chemical probes.<br/>
+
+The combination is achieved by iterating the folding process (as described in the "[Structure modelling](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/#structure-modelling)" paragraph above) over all experiments. Windows from all experiments are combined using a *majority voting* approach, so that only the pairs passing the above-detailed thresholds (i.e., pairs with >99% probability and pairs appearing in >50% windows) are retained. Therefore, if, for example, a certain base-pair appears in 100% of the windows for one replicate and in just 25% of the windows for another replicate, it will be included in the final model as, in total, it appears in 62.5% of the windows.<br/>
+
+In the example below:
+
+```bash
+$ rf-fold -sl 2.4 -in -0.2 experiment_1/ experiment_2/
+```
+
+the structure of the transcripts common to both experiments will be modelled y combining both sets of reactivities, while transcripts unique to either experiments will be modelled using a single set of reactivities.<br/>
+Single XML files and entire XML folders can also be combined:
+
+```bash
+$ rf-fold -sl 2.4 -in -0.2 experiment_1/ experiment_2/ transcript_1.xml
+```
+
+In the above example, __transcript_1__ will be modelled using data coming from both experiment #1 and #2 (if the file `transcript_1.xml` is present in the respective folders), as well as data from `transcript_1.xml`, while the all other transcripts potentially shared across experiments #1 and #2 will only be modelled using those two datasets.<br/>
+
+Importantly, it is possible combining even experiments generated using different chemical probes. In the following example:
+
+```bash
+$ rf-fold -sl 2.4 -in -0.2 DMS_data/ CMCT_data/
+```
+
+two experiments, one generated using DMS and the other using CMCT, are combined into a single prediction that incorporates both sets of reactivities.<br/>
+
+While in this case, the same slope and intercept values will be used for both experiments, this might not be ideal, as different reagents might require very different slope/intercept pairs. Therefore, RF Fold can also accept multiple slope/intercept pairs, as a comma-separated list, which must follow the same order as the provided experiments, for example:
+
+```bash
+$ rf-fold -sl 2.4,4.5 -in -0.2 DMS_data/ CMCT_data/
+```
+
+At this point, a slope of 2.4 will be used for the DMS dataset and a slope of 4.5 will be used for the CMCT datset, while the intercept will be -0.2 for both experiments.
+<br/>
+
 # Usage
 To list the required parameters, simply type:
 
@@ -39,11 +77,12 @@ $ rf-fold -h
 
 Parameter         | Type | Description
 ----------------: | :--: |:------------
-__-o__ *or* __--output-dir__ | string | Output directory for writing inferred structures (Default: __rf_fold/__)
+__-o__ *or* __--output-dir__ | string | Output directory for writing inferred structures (Default: __rf\_fold/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT format (Default: __Dot-bracket notation__)
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
+__-oc__ *or* __--only-common__ | | In case of multiple experiments, only transcripts covered across all experiments will be folded
 __-g__ *or* __--img__ | | Enables the generation of graphical reports
 __-t__ *or* __--temperature__ | float | Temperature in Celsius degrees (Default: __37.0__)
 __-sl__ *or* __--slope__ | float | Sets the slope used with structure probing data restraints (Default: __1.8__ [kcal/mol])
@@ -51,6 +90,7 @@ __-in__ *or* __--intercept__ | float | Sets the intercept used with structure pr
 __-md__ *or* __--maximum-distance__ | int | Maximum pairing distance (in nt) between transcript's residues (Default: __0__ [no limit])
 __-nlp__ *or* __--no-lonelypairs__ | | Disallows lonely base-pairs (1 bp helices) inside predicted structures
 __-i__ *or* __--ignore-reactivity__ | | Ignores XML reactivity data when performing folding (MFE unconstrained prediction)
+__-is__ *or* __--ignore-sequence__ | | In case of multiple experiments, nucleotide differences (e.g. SNVs) between XML files are ignored
 __-hc__ *or* __--hard-constraint__ | | Besides performing soft-constraint folding, allows specifying a reactivity cutoff (specified by ``-f``) for hard-constraining a base to be single-stranded
 __-c__ *or* __--constraints__ | string | Path to a directory containing [constraint files](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/#constraint-files) (in dot-bracket notation), that will be used to enforce specific base-pairs in the structure models
 __-f__ *or* __--cutoff__ | float | Reactivity cutoff for constraining a position as unpaired (&gt;0, Default: __0.7__) 
@@ -87,18 +127,12 @@ __-sk__ *or* __--shapeknots__ | string | Path to ``ShapeKnots`` executable (Defa
  | | __Folding method #1 options (ViennaRNA)__
 __-vrf__ *or* __--vienna-rnafold__ | string | Path to ViennaRNA ``RNAfold`` executable (Default: assumes ``RNAfold`` is in PATH)
 __-ngu__ *or* __--no-closing-gu__ | | Disallows G:U wobbles at the end of helices
-__-cm__ *or* __--constraint-method__ | int | Method for converting provided reactivities into pseudo-energies (1-2, Default: __1__):<br/>__1.__ Deigan *et al*., 2009<br/>__2.__ Zarringhalam *et al*., 2012
- | | __Zarringhalam *et al*., 2012 method options__
-__-cc__ *or* __--constraint-conversion__ | int | Method for converting ``rf-norm`` reactivities into pairing probabilities (1-5, Default: __1__):<br/>__1.__ Skip normalization step (reactivities are treated as pairing probabilities) <br/>__2.__ Linear mapping according to Zarringhalam *et al*., 2012<br/>__3.__ Use a cutoff to divide nucleotides into paired, and unpaired<br/>__4.__ Linear model for converting reactivities into probabilities of being unpaired<br/>__5.__ Linear model for converting the logarithm of reactivities into probabilities of being unpaired
-__-bf__ *or* __--beta-factor__ | float | Sets the magnitude of penalities for deviations from the observed pairing probabilities (Default: __0.5__)
-__-ms__ *or* __--model-slope__ | float | Sets the slope used by the linear model (Default: __0.68__ [Method #4], or __1.6__ [Method #5]; requires ``-cc 4`` or ``-cc 5``)
-__-mi__ *or* __--model-intercept__ | float | Sets the intercept used by the linear model (Default: __0.2__ [Method #4], or __-2.29__ [Method #5]; requires ``-cc 4`` or ``-cc 5``)
  | | __Folding method #2 options (RNAstructure)__
 __-rs__ *or* __--rnastructure__ | string | Path to RNAstructure ``Fold`` executable (Default: assumes ``Fold`` is in PATH)<br/>__Note:__ by default, ``Fold-smp`` will be used (if available)
 __-d__ *or* __--data-path__ | string | Path to RNAstructure data tables (Default: assumes __DATAPATH__ environment variable is already set)
 
 !!! note "Information"
-    For additional details relatively to ViennaRNA soft-constraint prediction methods, please refer to the [ViennaRNA documentation](http://www.tbi.univie.ac.at/RNA/documentation.html), or to Lorenz *et al*., 2016 (PMID: [26353838](https://www.ncbi.nlm.nih.gov/pubmed/26353838)).
+    For additional details relatively to ViennaRNA soft-constrained prediction, please refer to the [ViennaRNA documentation](http://www.tbi.univie.ac.at/RNA/documentation.html), or to Lorenz *et al*., 2016 (PMID: [26353838](https://www.ncbi.nlm.nih.gov/pubmed/26353838)).
 
 !!! note "Information"
     For additional details relatively to ShapeKnots pseudoknots detection parameters, please refer to Hajdin *et al.*, 2013 (PMID: [23503844](https://www.ncbi.nlm.nih.gov/pubmed/23503844)).

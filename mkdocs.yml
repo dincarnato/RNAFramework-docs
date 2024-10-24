@@ -8,6 +8,7 @@ theme:
 pages:
     - 'Overview': 'index.md'
     - 'Framework components': 'components.md'
+    - 'Environment variables': 'envvars.md'
     - 'rf-index': 'rf-index.md'
     - 'rf-map': 'rf-map.md'
     - 'rf-count': 'rf-count.md'

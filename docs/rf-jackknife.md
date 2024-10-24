@@ -13,6 +13,21 @@ heatmap.2(csv[nrow(csv):1,], col = rev(brewer.pal(11, "Spectral")), trace = "non
 ```
 <br/>
 ![PPV Sensitivity table](http://www.incarnatolab.com/images/docs/RNAframework/rf-jackknife_PPV_Sensitivity.png)
+<br/>
+
+## Combining multiple experiments
+Since version __2.9.0__ it is possible to identify a single slope/intercept pair that yields the best prediction across multiple experiments.<br/>
+
+In the follwing example:
+
+```bash
+$ rf-jackknife -x -r reference.db experiment_1/ experiment_2/ experiment_3/
+```
+
+slope and intercept will be optimized on the reference transcripts present in `reference.db`. All transcripts, including those that are present only in a subset of the experiments, will by default be used for parameter optimization. If parameter `-oc` is enabled, however, only transcripts for which reactivity data is available across all experiments will be used.
+
+For additional details on how multiple replicates are combined into a single prediction, please refer to the "[Combining multiple experiments](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/#combining-multiple-experiments)" paragraph of the RF Fold's documentation page.
+<br/>
 
 # Usage
 To list the required parameters, simply type:
@@ -24,9 +39,9 @@ $ rf-jackknife -h
 Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-r__ *or* __--reference__ | string | A file containing reference structures in Vienna format (dotbracket notation)
+__-oc__ *or* __--only-common__ | | In case of replicates, only transcripts covered across all experiments will be used to derive the optimal slope/intercept pair
 __-p__ *or* __--processors__ | int | Number of processors to use (Default: __1__)
 __-o__ *or* __--output-dir__ | string | Output directory (Default: __rf_jackknife/__)
-__-t__ *or* __--tmp-dir__ | string | Temporary directory (Default: __<output>/tmp__)
 __-ow__ *or* __--overwrite__ | | Overwrites output directory (if the specified path already exists)
 __-sl__ *or* __--slope__ | float,float | Range of slope values to test (Default: __0,5__)
 __-in__ *or* __--intercept__ | float,float | Range of intercept values to test (Default: __-3,0__)

@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2024-09-10] RNA Framework v2.8.9:__<br/>Major release, updates, improved performances and bug fixes. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2024-09-10] RNA Framework v2.9.0:__<br/>Major release, updates, improved performances and bug fixes. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
@@ -48,17 +48,11 @@ Please see <http://www.gnu.org/licenses/> for more information.
 - Bowtie v1.2.3 (<http://bowtie-bio.sourceforge.net/index.shtml>), or
   <br/>Bowtie v2.3.5 or greater (<http://bowtie-bio.sourceforge.net/bowtie2/index.shtml>)
 - SAMTools v1.2 or greater (<http://www.htslib.org/>)
-- BEDTools v2.30.0 or greater (<https://github.com/arq5x/bedtools2/>)
+- BEDTools v2.31.0 or greater (<https://github.com/arq5x/bedtools2/>)
 - Cutadapt v2.1 or greater (<http://cutadapt.readthedocs.io/en/stable/index.html>)
-- ViennaRNA Package v2.4.0 or greater (<http://www.tbi.univie.ac.at/RNA/>)
+- ViennaRNA Package v2.4.0 or greater (<http://www.tbi.univie.ac.at/RNA/>), __with__ Perl bindings
 - RNAstructure v5.6 or greater (<http://rna.urmc.rochester.edu/RNAstructure.html>)
 - Perl v5.12 (or greater), with ithreads support
-- Perl non-CORE modules (<http://search.cpan.org/>):
-
-    1. DBD::mysql    
-    3. RNA (installed by the __ViennaRNA__ package)  
-    4. XML::LibXML
-    5. Config::Simple  
 
 
 ## Installation
@@ -68,7 +62,7 @@ Clone the RNA Framework git repository:
 ```bash
 git clone https://github.com/dincarnato/RNAFramework
 ```
-This will create a "RNAFramework" folder.<br />
+This will create the `RNAFramework/` folder.<br />
 To add RNA Framework executables to your PATH, simply type:
 
 ```bash

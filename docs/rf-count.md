@@ -179,4 +179,4 @@ Since version 2.8.9, RF Count has multithread support for faster processing. The
 Parameters `-p` and `-wt` allow controlling the number of processors to be used for the analysis. Their meaning differs at different stages of the analysis:
 
 - During tasks such as SAM to BAM conversion, BAM sorting and BAM indexing, `-p` specifies the number of files to be processed in parallel, and each SAMTools process will use `-wt` cores.
-- During the count phase, all files are processed in parallel and the number of concurrent processes will be `-p` &times; `-wt`
+- During the count phase, all files are processed in parallel and the number of concurrent processes will be *min(# available cores, `-p` &times; `-wt`)*
