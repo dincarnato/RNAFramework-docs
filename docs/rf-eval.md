@@ -36,7 +36,13 @@ The __True Negative Rate__ (TNR) is instead calculated as:<br/><br/>
 where *TN* is the number of paired bases whose reactivity &ge; *t*, and *N* is the total number of paired bases in the structure.<br/><br/>
 The AUROC is then defined as the area underlying the curve described by the set of FPR-TPR value pairs at each value of *t*.
 <br/><br/>
-![AUROC](http://www.incarnatolab.com/images/docs/RNAframework/AUROC.png)
+Since version __2.9.1__, RF Eval can use __R__ to generate three types of plots to help visualize the three metrics:<br/>
+
+__a.__ Distribution of reactivities on paired vs. unpaired bases<br/>
+__b.__ Receiver Operating Characteristic (ROC) curves<br/>
+__c.__ Histogram of scores
+<br/><br/>
+![AUROC](http://www.incarnatolab.com/images/docs/RNAframework/rf-eval_metrics.png)
 <br/><br/>
 
 # Usage
@@ -50,7 +56,8 @@ Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-s__ *or* __--structures__ | string | Path to a (folder of) structure file(s)
 __-r__ *or* __--reactivities__ | string | Path to a (folder of) XML reactivity file(s)
-__-o__ *or* __--output__ | string | Output file with metrics per transcript (Default: __rf_eval.txt__)
+__-o__ *or* __--output__ | string | Output folder (Default: __rf_eval/__)
+__-g__ *or* __--img__ | | Generates plots for the various metrics (requires R)
 __-ow__ *or* __--overwrite__ | | Overwrites output file (if the specified file already exists)
 __-p__ *or* __--processors__ | int | Number of processors to use (&ge;1, Default: __1__)
 __-tu__ *or* __--terminal-as-unpaired__ | | Treats terminal base-pairs as if they were unpaired<br/>__Note:__ this parameter and ``-it`` are mutually exclusive
@@ -58,5 +65,7 @@ __-it__ *or* __--ignore_terminal__ | | Terminal base-pairs are excluded from cal
 __-kl__ *or* __--keep-lonelypairs__ | | Lonely base-pairs (helices of 1 bp) are retained
 __-kp__ *or* __--keep-pseudoknots__ | | Pseudoknotted base-pairs are retained
 __-c__ *or* __--reactivity-cutoff__ | | Cutoff for considering a base highly-reactive when computing the unpaired coefficient (&gt;0, Default: __0.7__)
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
+
 
 

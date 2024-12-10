@@ -54,6 +54,12 @@ Please see <http://www.gnu.org/licenses/> for more information.
 - RNAstructure v5.6 or greater (<http://rna.urmc.rochester.edu/RNAstructure.html>)
 - Perl v5.12 (or greater), with ithreads support
 
+Optionally, for plot generation, the following are also required:
+
+- R (<https://www.r-project.org/>) and the following packages:
+	1. ggplot2 (<https://cran.r-project.org/web/packages/ggplot2/index.html>)
+	2. patchwork (<https://cran.r-project.org/web/packages/patchwork/index.html>)
+
 
 ## Installation
 

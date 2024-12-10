@@ -21,7 +21,12 @@ __n<sub>21</sub>__ | *&#x3BC;<sub>IP(i..i+w)</sub>* | *Md<sub>IP</sub>*
 __n<sub>22</sub>__ | *&#x3BC;<sub>IP windows</sub>* | *Md<sub>IP</sub>*
 
 where *&#x3BC;<sub>IP windows</sub>* is the average of the mean values for each possible window in the IP sample.<br/>
-P-values are then subjected to Benjamini-Hochberg correction. Consecutive significantly enriched windows are then merged together, and p-values are combined by Stouffer's method.<br/>
+P-values are then subjected to Benjamini-Hochberg correction. Consecutive significantly enriched windows are then merged together, and p-values are combined by Stouffer's method.
+<br/><br/>
+Since version __2.9.1__, RF PeakCall can use __R__ to generate coverage plots for individual transcripts, as well as meta-gene (a) and meta-protein-coding-gene (b) plots across the entire experiment:
+<br/><br/>
+![Peak refinement](http://www.incarnatolab.com/images/docs/RNAframework/rf-peakcall_metaplots.png)
+<br/>
 
 ## Peak refinement
 Peaks are called by sliding a window of a fixed size, with a user-defined offset. This means that, in some cases, the called interval might not include the full peak (or it might include additional low-enrichment bases). Consider the following example:<br/><br/>
@@ -63,14 +68,16 @@ __-mc__ *or* __--mean-coverage__ | float | Discards any transcript with mean cov
 __-ec__ *or* __--median-coverage__ | float | Discards any transcript with median coverage in control sample below this threshold (&ge;0, Default: __0__)
 __-D__ *or* __--decimals__ | int | Number of decimals for reporting enrichment/p-value (1-10, Default: __3__)
  | | __Plotting options__
-__-g__ *or* __--img__ | | Enables the generation of coverage plots
-__-mp__ *or* __--meta-plot__ | | Enables the generation of meta-gene plots (both coverage and peaks' distribution)
-__-mcp__ *or* __--meta-coding-plot__ | | Enables the generation of a protein-coding-only meta-gene plot, by aligning the TSS, start codon, stop codon, and TES<br/>__Note:__ the longest ORF will be automatically identified
+__-g__ *or* __--img__ | | Enables the generation of coverage plots (one per transcript; requires R)
+__-mp__ *or* __--meta-plot__ | | Enables the generation of meta-gene plots (requires R)
+__-mcp__ *or* __--meta-coding-plot__ | | Enables the generation of a protein-coding-only meta-gene plot, by aligning the TSS, start codon, stop codon, and TES  (requires R)
+__-of__ *or* __--orf-file__ | string | Path to a BED file containing the transcript-level coordinates of the CDSs<br/>__Note:__ if no file is provided, the longest ORF will be automatically identified using the following parameters
 __-mo__ *or* __--min-orf-length__ | int | Minimum length (in aa) to select the longest ORF (requires ``-mcp``, Default: 50)
 __-als__ *or* __--alt-start__ | | The longest ORF is allowed to start with alternative start codons (requires ``-mcp``)
 __-ans__ *or* __--any-start__ | | The longest ORF is allowed to start with any codon (requires ``-mcp``)
 __-gc__ *or* __--genetic-code__ | int | Genetic code table for the reference organism (requires ``-mcp``, 1-33, Default: __1__)<br/>__Note:__ for a detailed list of the available genetic code tables, please refer to the [__RF Mutate__](https://rnaframework-docs.readthedocs.io/en/latest/rf-mutate/#genetic-code-tables) docs, or to [https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi)
 __-eo__ *or* __--plot-enriched-only__ | | Meta-gene plots will be calculated only on transcripts with a detected enrichment (requires ``-mp`` or ``-mcp``)
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 
 <br/>
 ## Output BED files
@@ -81,7 +88,7 @@ Field    | Description
 -------------: | :----------
 __Transcript ID__ | ID of the transcript
 __Start__ | Start coordinate of the peak (0-based)
-__End__ | End coordinate of the peak (0-based)
+__End__ | End coordinate of the peak (1-based)
 __Enrichment__ | Fold enrichment of the IP signal versus Control signal
 __p-value__ | Benjamini-Hochberg adjusted p-value
 
@@ -93,6 +100,4 @@ Field    | Description
 -------------: | :----------
 __Transcript ID__ | ID of the transcript
 __Start__ | Start coordinate of the summit (0-based)
-__End__ | End coordinate of the summit (0-based)
-__Enrichment__ | Fold enrichment of the IP signal versus Control signal
-__p-value__ | Benjamini-Hochberg adjusted p-value
+__End__ | End coordinate of the summit (1-based)

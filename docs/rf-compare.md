@@ -1,6 +1,6 @@
 RF Compare allows comparing RF Fold-inferred secondary structures, with a reference of known secondary structures, reporting for each comparison 4 metrics: the PPV, the sensitivity, the FMI (Fowlkes-Mallows index) and the mFMI (modified FMI). For additional details, check the [Metrics](https://rnaframework-docs.readthedocs.io/en/latest/rf-compare/#metrics) section below.<br/>
 Reference structures can be provided both in Vienna (dot-bracket), or in CT format. Since version 2.8.8, reference structures can be provided both as a single file containing multiple structures, or as a folder of individual structure files.<br/>The sequence ID of the reference structures __must__ match the compared file's name (e.g. "Transcript#1" expects a file named "Transcript#1.ct" or "Transcript#1.db").<br/>RF Compare can be invoked both on a single structure, or on an entire folder of RF Fold-predicted structure files. Structures can be provided either in CT or Vienna (dot-bracket) format.<br/>
-RF Compare can further generates vector graphical reports (SVG format) for each structure, reporting the reference structure and the compared structure, with base-pairs colored according to their presence in both structures:<br/><br/>
+RF Compare can further generates PDF graphical comparisons for each structure with respect to its reference:<br/><br/>
 ![RF Compare plot](http://www.incarnatolab.com/images/docs/RNAframework/rf-compare.png)
 <br/><br/>
 
@@ -41,13 +41,15 @@ Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-p__ *or* __--processors__ | int | Number of processors to use (&ge; 1; Default: __1__)
 __-r__ *or* __--reference__ | string | Path to a file containing reference structures in Vienna format (dot-bracket)
-__-g__ *or* __--img__ | | Enables generation of graphical comparison images
+__-g__ *or* __--img__ | | Enables generation of secondary structure comparison plots (requires R)
 __-o__ *or* __--output-dir__ | string | Images output directory (Default: __rf_compare/__, requires ``-g``)
 __-ow__ *or* __--overwrite__ | | Overwrites output directory (if the specified path already exists)
 __-x__ *or* __--relaxed__ | | Uses relaxed criteria (described in Deigan *et al.*, 2009) to calculate PPV and sensitivity
 __-kp__ *or* __--keep-pseudoknots__ | | Keeps pseudoknotted basepairs in reference structure
 __-kl__ *or* __--keep-lonelypairs__ | | Keeps isolated base-pairs (helices of length 1 bp) in reference structure
 __-i__ *or* __--ignore-sequence__ | | Ignores sequence differences (e.g. SNVs) between the compared structures
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
+
 
 !!! note "Note"
     When parameter ``--relaxed`` is specified, a basepair i-j is considered to be present in the reference structure if any of the following pairs exist: i/j; i-1/j; i+1/j; i/j-1; i/j+1. For additional details, please refer to Deigan *et al*., 2009 (PMID: [19109441](https://www.ncbi.nlm.nih.gov/pubmed/19109441))

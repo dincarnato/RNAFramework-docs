@@ -1,16 +1,5 @@
 The RF JackKnife takes one or more XML reactivity files, and a set of reference RNA structures in dotbracket notation, and iteratively calls ``rf-fold`` by tuning the slope and intercept folding parameters. This is useful to calibrate the folding parameters for a specific probing reagent or experiment type.<br/>
-It produces a CSV table the FMI (Fowlkes-Mallows index, the geometric mean of PPV and sensitivity), or the mFMI (modified FMI, for additional details check the [Metrics](https://rnaframework-docs.readthedocs.io/en/latest/rf-compare/#metrics) section of RF Compare) for each slope/intercept pair.<br/>
-R can be used to easily generate heatmaps using these CSV tables:<br/>
-
-```r
-library(gplots)
-library(RColorBrewer)
-csv<-read.csv("FMI.csv", sep = ";", check.names = FALSE)
-row.names(csv)<-csv$FMI
-csv<-csv[,-1]
-csv<-data.matrix(csv)
-heatmap.2(csv[nrow(csv):1,], col = rev(brewer.pal(11, "Spectral")), trace = "none", cellnote = round(csv[nrow(csv):1,], digits = 2), notecol = "black", Rowv = FALSE, Colv = FALSE, dendrogram = "none", xlab = "Intercept (kcal/mol)", ylab = "Slope (kcal/mol)", key = FALSE)
-```
+It produces a CSV table the FMI (Fowlkes-Mallows index, the geometric mean of PPV and sensitivity), or the mFMI (modified FMI, for additional details check the [Metrics](https://rnaframework-docs.readthedocs.io/en/latest/rf-compare/#metrics) section of RF Compare) for each slope/intercept pair:
 <br/>
 ![PPV Sensitivity table](http://www.incarnatolab.com/images/docs/RNAframework/rf-jackknife_PPV_Sensitivity.png)
 <br/>
@@ -43,6 +32,7 @@ __-oc__ *or* __--only-common__ | | In case of replicates, only transcripts cover
 __-p__ *or* __--processors__ | int | Number of processors to use (Default: __1__)
 __-o__ *or* __--output-dir__ | string | Output directory (Default: __rf_jackknife/__)
 __-ow__ *or* __--overwrite__ | | Overwrites output directory (if the specified path already exists)
+__-g__ *or* __--img__ | | Generates heatmap of grid search results (requires R)
 __-sl__ *or* __--slope__ | float,float | Range of slope values to test (Default: __0,5__)
 __-in__ *or* __--intercept__ | float,float | Range of intercept values to test (Default: __-3,0__)
 __-ss__ *or* __--slope-step__ | float | Step for testing slope values (Default: __0.2__)
@@ -56,6 +46,7 @@ __-e__ *or* __--median__ | | The FMI across multiple reference structures is agg
 __-am__ *or* __--arithmetic-mean__ | | The FMI across multiple reference structures is aggregated by arithmetic mean<br/>__Note:__ by default, FMI values are aggregated by geometric mean
 __-rf__ *or* __--rf-fold__ | string | Path to ``rf-fold`` executable (Default: assumes ``rf-fold`` is in PATH)
 __-rp__ *or* __--rf-fold-params__ | string | Manually specify additional RF Fold parameters (e.g. -rp "-md 500 -m 2")
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 
 <br/>
 ## Output CSV files

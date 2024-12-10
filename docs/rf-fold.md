@@ -23,7 +23,7 @@ Shannon entropy is calculated as: <br/>
 
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>H</mi><mi>i</mi></msub><mo>=</mo><mo>-</mo> <munderover><mo>&sum;</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>J</mi></munderover><msub><mi>p</mi><mi>i,j&#xA0;</mi></msub><msub><mi>log</mi><mn>10&#xA0;</mn></msub><msub><mi>p</mi><mi>i,j</mi></msub></math><br/>
 where *p<sub>i,j</sub>* is the probability of base *i* of being base-paired to base *j*, over all its potential J pairing partners.<br/>
-Since version 2.5, RF Fold generates vector graphical reports (SVG format) for each structure, reporting the per-base reactivity, the MEA structure, the per-base Shannon entropy, and the base-pairing probabilities:<br/><br/>
+Since version __2.9.1__, RF Fold can use __R__ to generate PDF graphical reports for each structure, reporting reactivity, MEA structure, Shannon entropy, and base-pairing probabilities:<br/><br/>
 ![Graphical report](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_graphical_report.png)
 <br/><br/>
 
@@ -83,7 +83,8 @@ __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT form
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-oc__ *or* __--only-common__ | | In case of multiple experiments, only transcripts covered across all experiments will be folded
-__-g__ *or* __--img__ | | Enables the generation of graphical reports
+__-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R)
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-t__ *or* __--temperature__ | float | Temperature in Celsius degrees (Default: __37.0__)
 __-sl__ *or* __--slope__ | float | Sets the slope used with structure probing data restraints (Default: __1.8__ [kcal/mol])
 __-in__ *or* __--intercept__ | float | Sets the intercept used with structure probing data restraints (Default: __-0.6__ [kcal/mol])
@@ -104,8 +105,6 @@ __-po__ *or* __--partition-offset__ | int | Offset (in nt) for partition functio
 __-wt__ *or* __--window-trim__ | int | Number of bases to trim from both ends of the partition windows to avoid end biases (Default: __100__)
 __-dp__ *or* __--dotplot__ | | Enables generation of dot-plots of base-pairing probabilities
 __-sh__ *or* __--shannon-entropy__ | | Enables generation of a WIGGLE track file with per-base Shannon entropies
-__-pmr__ *or* __--plot-median-react__ | | Plots the difference between the transcript's median reactivity and the median reactivity in sliding windows
-__-pms__ *or* __--plot-median-shannon__ | | Plots the difference between the transcript's median Shannon entropy and the median Shannon entropy in sliding windows
 __-pk__ *or* __--pseudoknots__ | | Enables detection of pseudoknots (computationally intensive)
 __-ksl__ *or* __--pseudoknot-slope__ | float | Sets slope used for pseudoknots prediction (Default: same as ``-sl <slope>``)
 __-kin__ *or* __--pseudoknot-intercept__ | float | Sets intercept used for pseudoknots prediction (Default: same as ``-in <intercept>``)

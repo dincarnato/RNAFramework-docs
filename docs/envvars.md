@@ -63,5 +63,17 @@ $ export RF_VERBOSITY=1     # With stack trace
 #         
 #     -> Caught at lib/Core/Base.pm line 118.
 ```
+<br/>
 
+### RF_RPATH
+
+__Description:__ Path to the R executable to be used by RNA Framework's modules for plotting.<br/>
+__Accepted values:__ absolute path to `R`<br/>
+
+__Example:__
+
+```bash
+$ export RF_RPATH=/usr/local/bin/R 
+```
+<br/>
 
