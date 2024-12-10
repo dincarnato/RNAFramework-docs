@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2024-09-10] RNA Framework v2.9.0:__<br/>Major release, updates, improved performances and bug fixes. Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2024-12-10] RNA Framework v2.9.1:__<br/>Major release, updates, improved performances and bug fixes, as well as integration with R and ggplot2! Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
