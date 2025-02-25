@@ -27,11 +27,12 @@ Parameter         | Tool | Type | Description
 __-o__ *or* __--output__ | __merge__, __extract__,  *or* __toRC__ | string | Output MM filename (Default: __merge.mm__ for `merge`, __&lt;input&gt;.extracted.rc__ for `extract`, *or* __&lt;input&gt;.rc__ for `toRC`)
 __-ow__ *or* __--overwrite__ | __merge__, __extract__,  *or* __toRC__ | | Overwrites output file (if the specified file already exists)
 __-kb__ *or* __--keepBases__ | __extract__ | string | Only retains mutations on specified bases (Default: __ACGT__)<br/>__Note:__ IUPAC codes are allowed
-__-mpr__ *or* __--minMutPerRead__ | __extract__ | int | Reads with &lt; than this number of mutations are discarded (Default: __1__)
+__-mpr__ *or* __--minMutPerRead__ | __extract__ | int | Reads with &lt; than this number of mutations are discarded (&ge;0, Default: __1__)
 __-mrl__ *or* __--minReadLen__ | __extract__ | int | Reads shorter than this length are discarded (&gt;0, Default: __1__)
 __-rs__ *or* __--randomSubsample__ | __extract__ | int | Randomly subsamples this fraction of reads (Default: __keep all reads__)<br/>__Note:__ for example, if `-rs 2`, 1/2 of the reads will be subsampled
 __-a__ *or* __--annotation__ | __extract__ | string | Path to a list of regions (in BED format) to extract from the MM file<br/>__Note:__ only the portion of the read falling within the boundaries of the provided BED intervals will be retained and subjected to the other filtering steps
 __-wl__ *or* __--whitelist__ | __extract__ | string | Path to a file containing a list (one per line) of transcripts to be extracted from the MM file
+__-dp__ *or* __--discardPositions__ | __extract__ | string | Path to a blacklist file containing a list of transcript positions to be filtered out of the output file (see [Blacklist files](https://rnaframework-docs.readthedocs.io/en/latest/rf-mmtools/#blacklist-files) below for details on the file format)
 
 <br/>
 ## MMtools "view" output
@@ -128,3 +129,14 @@ CGcTGgGATaCTA                                             read#1
 CGcTGCGgTGCTAGTtGAGC                                      read#2
 ```
 Let's now suppose that the `-kb AC -mpr 2 -mrl 20` filters have been specified, which would cause only reads at least 20 bp-long, carrying at least 2 mutations on A/C bases to be retained. *#read1*, which was originally 18 bp-long, has become 13 bp-long after being subsetted due to the region specified in the BED file, therefore it won't pass the `-mrl 20` filter. On the other hand, *#read2* is 20-bp long after subsetting, and it carries 3 mutations on A/C bases, therefore it will pass all filters and it will be retained.
+<br/>
+
+## Blacklist files
+Blacklist files allow excluding mutations occuring at specific positions of a transcript. Blacklist files contain on each row a transcript ID followed by a comma (or semicolon) separated list of positions (0-based) to be discarded.<br/>
+In the following example:<br/>
+
+```
+Transcript_1,10,44,90
+Transcript_2;22;55-60
+```
+positions 10, 44 and 90 will be removed from reads mapping to *Transcript_1*, if mutated, while position 22, as well as any position between 55 and 60 (inclusive) will be removed from reads mapping to *Transcript_2*.

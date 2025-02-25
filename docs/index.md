@@ -3,7 +3,7 @@
 <br />  
 
 !!! warning "Important"
-    __[2024-12-10] RNA Framework v2.9.1:__<br/>Major release, updates, improved performances and bug fixes, as well as integration with R and ggplot2! Please check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    __[2025-02-25] RNA Framework v2.9.2:__<br/>Major release, updates, improved performances and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
 ## Introduction
 
@@ -59,6 +59,7 @@ Optionally, for plot generation, the following are also required:
 - R (<https://www.r-project.org/>) and the following packages:
 	1. ggplot2 (<https://cran.r-project.org/web/packages/ggplot2/index.html>)
 	2. patchwork (<https://cran.r-project.org/web/packages/patchwork/index.html>)
+	3. RColorBrewer (<https://cran.r-project.org/web/packages/RColorBrewer/index.html>)
 
 
 ## Installation
