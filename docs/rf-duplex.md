@@ -40,6 +40,10 @@ __-mp__ *or* __--min-prob__ | float | Minimum probability to retain an inferred 
 __-rmc__ *or* __--require-min-chimera__ | | Instead of being inferred from the cluster's centroid, base-pairs are inferred from every single chimeric read belonging to the cluster, and only base-pairs common to a certain fraction of the reads in the cluster (controlled by ``-mcf`` or ``--min-chimera-frac``), are retained<br/>__Note:__ if no base-pair is supported by at least ``-mcf`` chimeric reads, then the cluster is discarded
 __-mcf__ *or* __--min-chimera-frac__ | float | Sets the minimum fraction of chimeric reads supporting a base-pair (requires -rmc; 0.5-1, Default: __0.5__)
  | | __Plotting options__
+__-hm__ *or* __--heatmap__ | | Generates contact heatmaps from chimeras (requires `R`)
+__-ho__ *or* __--heatmap-only__ | | Only generates heatmaps (requires `-hm`), and exits
+__-lhm__ *or* __--log-heatmap__ | | Read counts are log-transformed for heatmap generation (requires `-hm`)
+__-ghm__ *or* __--grey-heatmap__ | | Heatmap will be colored in grey scale
 __-g__ *or* __--img__ | | Enables the generation of graphical reports reporting the inferred base-pairing probabilities and, if -c is enabled, the inferred structure/constraint (requires R)
 __-cs__ *or* __--color-scale__ | string | Allows specifying 4 cut-points for the color scale used to report base-pairing probabilities (Default: __0.05,0.1,0.4,0.7__ for 0.05-0.1:grey, 0.1-0.4:yellow, 0.4-0.7:blue, 0.7-1:green)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
@@ -73,4 +77,7 @@ Furthemore, base-pairing probabilities can be exported as arc-plots in PDF forma
 <br/><br/>
 ![Arc-plot](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_graphics.png)
 <br/><br/>
-In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference using ``rf-fold``.
+In addition to computing base-pairing probabilities, if the ``--constraint`` parameter has been specified, the algorithm generates a constraint in dot-bracket (Vienna) format, containing only the inferred base-pairs whose probability exceedes ``--constraint-threshold``. This constraint, likely representing the base-pairs present in the predominant conformation for the RNA in analysis, can be further used for structure inference using ``rf-fold``.<br/>
+Additionally, contact heatmaps can be generated using the ``--heatmap``parameter:
+<br/><br/>
+![Heatmap](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_heatmap.png)

@@ -22,7 +22,9 @@ __-sm__ *or* __--scoring-method__ | int | Method for score calculation (1-4, Def
 __-nm__ *or* __--norm-method__ | int | Method for signal normalization (1-3, Default: __1__):<br/>__1.__ 2-8% Normalization <br/>__2.__ 90% Winsorizing <br/>__3.__ Box-plot Normalization
 __-rb__ *or* __--reactive-bases__ | string | Reactive bases to consider for signal normalization (Default: __all__ [ACGT])<br/>__Note:__ This parameter accepts any IUPAC code, or their combination (e.g. ``-rb M``, or ``-rb AC``)
 __-mc__ *or* __--min-coverage__ | int | Discards any base with coverage below this threshold (&ge;1, Default: __10__)
-__-ec__ éoré __--median-coverage__ | float | Discards transcripts having median coverage below this threshold (&ge; 0, Default: __0__)
+__-ec__ *or* __--median-coverage__ | float | Discards transcripts having median coverage below this threshold (&ge; 0, Default: __0__)
+__-rn__ *or* __--run-norm__ | | Automatically runs `rf-norm` with the derived normalization factors on the input files<br/>__Note:__ the default output folder name of rf-norm will be used, with appended `_normfactor`  suffix. Any pre-existing folder with the same name wil be overwritten
+__-rf__ *or* __--rf-norm__ | | Path to rf-norm executable (Default: assumes `rf-norm` is in PATH) 
  | | __Scoring method #1 options (Ding *et al*., 2014)__
 __-pc__ *or* __--pseudocount__ | float | Pseudocount added to reactivities to avoid division by 0 (&gt;0, Default: __1__)
 __-s__ *or* __--max-score__ | float | Score threshold for capping raw reactivities (&gt;0, Default: __10__)

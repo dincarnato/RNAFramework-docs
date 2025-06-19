@@ -44,6 +44,7 @@ __-kl__ *or* __--keep-lonelypairs__ | | Keeps lonely basepairs (helices of lengt
 __-i__ *or* __--ignore-sequence__ | | Ignores sequence differences (e.g. SNVs) between the compared structures
 __-e__ *or* __--median__ | | The FMI across multiple reference structures is aggregated by median<br/>__Note:__ by default, FMI values are aggregated by geometric mean
 __-am__ *or* __--arithmetic-mean__ | | The FMI across multiple reference structures is aggregated by arithmetic mean<br/>__Note:__ by default, FMI values are aggregated by geometric mean
+__-d__ *or* __--decimals__ | int | Number of decimals for reporting FMI/mFMI (1-10, Default: __3__)
 __-rf__ *or* __--rf-fold__ | string | Path to ``rf-fold`` executable (Default: assumes ``rf-fold`` is in PATH)
 __-rp__ *or* __--rf-fold-params__ | string | Manually specify additional RF Fold parameters (e.g. -rp "-md 500 -m 2")
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)

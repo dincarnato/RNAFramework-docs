@@ -65,6 +65,7 @@ __-it__ *or* __--ignore_terminal__ | | Terminal base-pairs are excluded from cal
 __-kl__ *or* __--keep-lonelypairs__ | | Lonely base-pairs (helices of 1 bp) are retained
 __-kp__ *or* __--keep-pseudoknots__ | | Pseudoknotted base-pairs are retained
 __-c__ *or* __--reactivity-cutoff__ | | Cutoff for considering a base highly-reactive when computing the unpaired coefficient (&gt;0, Default: __0.7__)
+__-no__ *or* __--no-overall__ | | Disables overall stats computation
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 
 

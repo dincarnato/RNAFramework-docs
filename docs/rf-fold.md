@@ -82,7 +82,7 @@ __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exis
 __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT format (Default: __Dot-bracket notation__)
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
-__-oc__ *or* __--only-common__ | | In case of multiple experiments, only transcripts covered across all experiments will be folded
+__-oc__ *or* __--only-common__ | int | In case of multiple experiments, only transcripts covered across at least this number of experiments will be folded
 __-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-t__ *or* __--temperature__ | float | Temperature in Celsius degrees (Default: __37.0__)

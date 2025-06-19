@@ -23,6 +23,7 @@ __-mb__ *or* __--minBelowMedian__ | float | Structure elements having less than 
 __-mp__ *or* __--minPairedFrac__ | float | Structure elements having less than this fraction of paired bases will be discarded (Default: __0.45__ [45%])
 __-mm__ *or* __--minMotifLen__ | int | Structure elements below this length will be discarded (Default: __50__)
 __-xm__ *or* __--maxMotifLen__ | int | Structure elements above this length will be discarded (Default: __no limit__)
+__-tm__ *or* __--truncateMotif__ | int | Structure elements above the length specified by `-xm`, will be truncated to that length and reported
 __-xl__ *or* __--maxLoopSize__ | int | Structure elements encompassing a loop larger than this number of bases, will be discarded (Default: __no limit__)
 __-mo__ *or* __--multiwayOnly__ | | Only report structure elements encompassing multiway junctions
 __-opf__ *or* __--onePerFile__ | | Extracted structure elements belonging to the same transcript are reported in separate files
@@ -39,7 +40,7 @@ Aim of the module is to extract high-confidence RNA structure elements, more lik
 
 2. If the fraction of base-paired positions in the motif is &lt; ``--minPairedFraction``
 3. If the motif is shorter than ``--minMotifLen`` (in which case the extension continues, if possible)
-4. If the motif is longer than ``--maxMotifLen``
+4. If the motif is longer than ``--maxMotifLen`` (unless ``--truncateMotif`` has been specified, in which case the motif is truncated to the value of ``--maxMotifLen`` and reported) 
 5. If the motif encompasses a loop larger than ``--maxLoopSize`` (__Note:__ in the case of junctions, the size of the loop is calculated as the number of unpaired residues residing in the junction loop)
 6. If the motif has a free energy higher than expected by chance. Briefly, if the flag ``--evalEnergy`` is enabled, the sequence of the motif is randomly shuffled &times; ``--nShufflings`` times and the probability of obtaining by chance a structure having a free energy &le; that that of the original motif is calculated from the corresponding Z-score. If the probability is &ge; ``--pvalue``, the motif is discarded. When the ``--dinuclShuffle`` flag is enabled, the sequence of the motif is shuffled in such a way that the dinucleotide frequencies are preserved.
 
