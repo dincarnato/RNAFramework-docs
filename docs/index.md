@@ -2,8 +2,12 @@
 <br />  
 <br />  
 
-!!! warning "Important"
-    __[2025-06-19] RNA Framework v2.9.3:__<br/>Major release, updates, improved performances and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+!!! warning "News"
+    __[2025-10-13] RNA Framework v2.9.4:__<br/>Major release, updates, improved performances and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+    
+!!! alert "Important"
+    A bug has been introduced in ViennaRNA v2.7.0, which breaks the pseudoknot detection functionality of `rf-fold`. However, RNAplot v2.7.0 is required to take advantage of the new secondary structure plotting functionality introduced with RNA Framework v2.9.4. Until a fix will be released, we advice the RNA Framework users to install the new ViennaRNA v2.7.0 in a separate folder and to provide the path to RNAplot v2.7.0 via the `-vrp` (or `--vienna-rnaplot`) parameter of `rf-fold`.
+    
     
 ## Introduction
 
@@ -50,7 +54,7 @@ Please see <http://www.gnu.org/licenses/> for more information.
 - SAMTools v1.2 or greater (<http://www.htslib.org/>)
 - BEDTools v2.31.0 or greater (<https://github.com/arq5x/bedtools2/>)
 - Cutadapt v2.1 or greater (<http://cutadapt.readthedocs.io/en/stable/index.html>)
-- ViennaRNA Package v2.4.0 or greater (<http://www.tbi.univie.ac.at/RNA/>), __with__ Perl bindings
+- ViennaRNA Package v2.5.0 or greater (<http://www.tbi.univie.ac.at/RNA/>), __with__ Perl bindings
 - RNAstructure v5.6 or greater (<http://rna.urmc.rochester.edu/RNAstructure.html>)
 - Perl v5.12 (or greater), with ithreads support
 

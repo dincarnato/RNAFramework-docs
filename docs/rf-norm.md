@@ -38,13 +38,14 @@ Since version __2.9.1__, RF Norm allows generating plots of raw RT-stop counts (
 ![Raw reactivity plot](http://www.incarnatolab.com/images/docs/RNAframework/rf-norm_raw_react.png)
 <br/><br/>
 ## Normalization of raw reactivities
-Raw reactivity scores can be normalized using 3 different approaches:<br/><br/>
+Raw reactivity scores can be normalized using 4 different approaches:<br/><br/>
 
-Method         | Description
--------------: | :------------
-__2-8% Normalization__ | From the top 10% of values, the top 2% is ignored, then any reactivity value along the entire transcript is divided by the average of the remaining 8%
-__90% Winsorizing__ | Each reactivity value above the 95<sup>th</sup> percentile is set to the 95<sup>th</sup> percentile and each reactivity value below the 5<sup>th</sup> percentile is set to the 5<sup>th</sup> percentile, then the reactivity at each position of the transcript is divided by the value of the 95<sup>th</sup> percentile
-__Box-plot Normalization__ | Values greater than 1.5x the interquartile range (numerical distance between the 25<sup>th</sup> and 75<sup>th</sup> percentiles) above the 75<sup>th</sup> percentile are removed. After excluding these outliers, the next 10% of remaining reactivities are averaged, and all reactivities (including outliers) are divided by this value.
+&#35;        | Method  | Description 
+----------------: | :-----: |:------------
+1 | __2-8% Normalization__ | From the top 10% of raw reactivity values, the top 2% is ignored, then any raw reactivity value along the entire transcript is divided by the average of the remaining 8% 
+2 | __90% Winsorizing__ | Each raw reactivity value above the 95<sup>th</sup> percentile is set to the 95<sup>th</sup> percentile and each raw reactivity value below the 5<sup>th</sup> percentile is set to the 5<sup>th</sup> percentile, then the raw reactivity at each position of the transcript is divided by the value of the 95<sup>th</sup> percentile 
+3 | __Box-plot Normalization__ | Raw reactivity values greater than 1.5x the interquartile range (numerical distance between the 25<sup>th</sup> and 75<sup>th</sup> percentiles) above the 75<sup>th</sup> percentile are removed. After excluding these outliers, the next 10% of remaining raw reactivities are averaged, and all raw reactivities (including outliers) are divided by this value. 
+4 | __Mitchell Normalization__ | The highest value between the mean of the 90<sup>th</sup>-95<sup>th</sup> percentile of all raw reactivities, and the 75<sup>th</sup> percentile of the raw reactivities &gt; 0.001 is used as the normalization factor by which all raw reactivities are divided. This approach introduced in Mitchell *et al.*, 2023 (PMID: [37334863](https://pubmed.ncbi.nlm.nih.gov/37334863/)) is supposedly more robust in cases where most of the bases in a transcript are unreactive.<br/>__Note:__ this normalization can only be employed for MaP data, therefore it is only compatible with the Siegfried (3) and Zubradt (4) scoring methods.
 
 <br/>
 Normalized reactivities can be further remapped to values ranging from 0 to 1 according to Zarringhalam *et al.*, 2012 (PMID: [23091593](https://www.ncbi.nlm.nih.gov/pubmed/23091593)). In this approach, values < 0.25 are linearly mapped to [0-0.35[, values &ge; 0.25 and < 0.3 are linearly mapped to [0.35-0.55[, values &ge; 0.3 and < 0.7 are linearly mapped to [0.55-0.85[, and values &ge; 0.7 are linearly mapped to [0.85-1].<br /><br />
@@ -71,7 +72,7 @@ __-o__ *or* __--output-dir__ | string | Output directory for writing normalized 
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-c__ *or* __--config-file__ | string | Path to a configuration file with normalization parameters (see *Configuration files* paragraph)<br/>__Note #1:__ If the provided file exists, the loaded configuration will override any command-line specified parameter<br/>__Note #2:__ If the provided file doesn’t exist, it will be generated using the specified command-line (or default) parameters
 __-sm__ *or* __--scoring-method__ | int | Method for score calculation (1-4, Default: __1__):<br/>__1.__ Ding *et al.*, 2014 <br/>__2.__ Rouskin *et al.*, 2014 <br/>__3.__ Siegfried *et al.*, 2014<br/>__4.__ Zubradt *et al.*, 2016
-__-nm__ *or* __--norm-method__ | int | Method for signal normalization (1-3, Default: __1__):<br/>__1.__ 2-8% Normalization <br/>__2.__ 90% Winsorizing <br/>__3.__ Box-plot Normalization
+__-nm__ *or* __--norm-method__ | int | Method for signal normalization (1-3, Default: __1__):<br/>__1.__ 2-8% Normalization <br/>__2.__ 90% Winsorizing <br/>__3.__ Box-plot Normalization<br/>__4.__ Mitchell Normalization
 __-r__ *or* __--raw__ | | Reports raw reactivities (skips data normalization)
 __-rm__ *or* __--remap-reactivities__ | | Remaps normalized reactivities to values ranging from 0 to 1 according to Zarringhalam *et al*., 2012
 __-rb__ *or* __--reactive-bases__ | string | Reactive bases to consider for signal normalization (Default: __N__ [ACGT])<br/>__Note:__ This parameter accepts any IUPAC code, or their combination (e.g. ``-rb M``, or ``-rb AC``). Any other base will be reported as NaN

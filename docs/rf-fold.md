@@ -31,6 +31,10 @@ Since version __2.9.1__, RF Fold can use __R__ to generate PDF graphical reports
     The calculation of Shannon entropy and base-pairing probabilities requires partition function to be computed. Since this is a *very slow* step, partition function folding is performed only in windowed mode, or if parameters ``-dp`` (or ``--dotplot``) or ``-sh`` (or ``--shannon``) are explicitly specified.
 
 
+Additionally, since version __2.9.4__, RF Fold can use the __RNAplot__ tool of the __ViennaRNA package__ (v2.7.0 or greater) to generate SVG secondary structure plots with overlaid reactivities:<br/>
+![Graphical report](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_secondary_structure_plot.png)
+<br/>
+
 ## Combining multiple experiments
 Since version __2.9.0__, RF Fold can combine multiple experiments into a single prediction. These can either be replicates prepared using the same chemical probe, or experiments performed by using different chemical probes.<br/>
 
@@ -83,7 +87,8 @@ __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT form
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-oc__ *or* __--only-common__ | int | In case of multiple experiments, only transcripts covered across at least this number of experiments will be folded
-__-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R)
+__-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R and, optionally, RNAplot v2.7.0 or greater)
+__-vrp__ *or* __--vienna-rnaplot__ | string | Path to ViennaRNA ``RNAplot`` v2.7.0 (or greater) executable (Default: assumes ``RNAplot`` is in PATH)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-t__ *or* __--temperature__ | float | Temperature in Celsius degrees (Default: __37.0__)
 __-sl__ *or* __--slope__ | float | Sets the slope used with structure probing data restraints (Default: __1.8__ [kcal/mol])
