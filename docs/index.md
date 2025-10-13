@@ -2,10 +2,10 @@
 <br />  
 <br />  
 
-!!! warning "News"
+!!! alert "News"
     __[2025-10-13] RNA Framework v2.9.4:__<br/>Major release, updates, improved performances and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
     
-!!! alert "Important"
+!!! warning "Important"
     A bug has been introduced in ViennaRNA v2.7.0, which breaks the pseudoknot detection functionality of `rf-fold`. However, RNAplot v2.7.0 is required to take advantage of the new secondary structure plotting functionality introduced with RNA Framework v2.9.4. Until a fix will be released, we advice the RNA Framework users to install the new ViennaRNA v2.7.0 in a separate folder and to provide the path to RNAplot v2.7.0 via the `-vrp` (or `--vienna-rnaplot`) parameter of `rf-fold`.
     
     
