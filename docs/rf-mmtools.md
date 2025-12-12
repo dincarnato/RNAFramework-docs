@@ -36,6 +36,8 @@ __-rs__ *or* __--randSubsample__ | __extract__ | int | Randomly subsamples this 
 __-a__ *or* __--annotation__ | __extract__ | string | Path to a list of regions (in BED format) to extract from the MM file<br/>__Note:__ only the portion of the read falling within the boundaries of the provided BED intervals will be retained and subjected to the other filtering steps
 __-wl__ *or* __--whitelist__ | __extract__ | string | Path to a file containing a list (one per line) of transcripts to be extracted from the MM file
 __-dp__ *or* __--discardPositions__ | __extract__ | string | Path to a blacklist file containing a list of transcript positions to be filtered out of the output file (see [Blacklist files](https://rnaframework-docs.readthedocs.io/en/latest/rf-mmtools/#blacklist-files) below for details on the file format)
+__-nr__ *or* __--minRate__ | __extract__ | float | Positions with mutation rate &lt; this value are discarded (0-1, Default: __0 [no cutoff]__)
+__-xr__ *or* __--maxRate__ | __extract__ | float | Positions with mutation rate &gt; this value are discarded (0-1, Default: __1 [no cutoff]__)
 __-mr__ *or* __--minReads__ | __correlate__ | int | Transcripts having less than these number of reads are excluded (&gt;0, Default: __1000__)
 __-S__ *or* __--spearman__ | __correlate__ | | Uses Spearman to calculate correlation (Default: __Pearson__)
 

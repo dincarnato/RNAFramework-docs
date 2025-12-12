@@ -16,8 +16,8 @@ __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exis
 __-j__ *or* __--json__ | string | A comma-separated list of DRACO JSON files from replicate experiments
 __-r__ *or* __--rc__ | string | A comma-separated list of RC files from replicate experiments<br/>__Note:__ the RC files must follow the same order of the JSON files
 __-rci__ *or* __--rc-index__ | string | A comma-separated list of RCI index files<br/>__Note #1:__ the RCI indexes must follow the same order of the RC files.<br/>__Note #2:__ if a single RCI index is provided, it will be used for all the RC files.
-__-ep__ *or* __--median-pre-cov__ | int | Windows with median *preCoverage* (see [DRACO](https://draco-docs.readthedocs.io/en/latest/draco/#output-json-files) docs for more information) below this threshold, will be discarded (Default: __1000__)
-__-ec__ *or* __--median-cov__ | int | Windows with a mediam cumulative coverage (the sum of the coverage across all the conformations for that window) below this threshold, will be discarded (Default: __5000__)
+__-ep__ *or* __--median-pre-cov__ | int | Windows with median *preCoverage* (see [DRACO](https://draco-docs.readthedocs.io/en/latest/draco/#output-json-files) docs for more information) below this threshold, will be discarded (Default: __2000__)
+__-ec__ *or* __--median-cov__ | int | Windows with a mediam cumulative coverage (the sum of the coverage across all the conformations for that window) below this threshold, will be discarded (Default: __0__)
 __-sz__ *or* __--skip-zero-cluster-wins__ | | Skips windows for which DRACO failed to identify the number of conformations
 __-nc__ *or* __--min-confs__ | int | Windows forming less than this number of conformations will be discarded (Default: __2__)
 __-xc__ *or* __--max-confs__ | int | Windows forming more than this number of conformations will be discarded (Default: __no limit__)

@@ -17,20 +17,25 @@ __-a__ *or* __--fast__ | | Reference sequences are kept in memory instead of bei
 __-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_count/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-s__ *or* __--samtools__ | string | Path to ``samtools`` executable (Default: assumes ``samtools`` is in PATH)
+__-sm__ *or* __--samtools-memory__ | string |  Maximum memory (per thread) to be used by samtools sort (Default: __500M__)<br/>__Note:__ at least `-p <files>` &times; `-wt <threads>` &times; `-sm <memory>` RAM (+swap) is needed
 __-g__ *or* __--img__ | | Enables the generation of statistic plots of per-base % mutations/RT-stops and, for MaP experiments only, of % mutated reads (requires R)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in path)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-t5__ *or* __--trim-5prime__ | int[,int] | Comma separated list (no spaces) of values indicating the number of bases trimmed from the 5'-end of reads in the respective sample SAM/BAM files (Default: __0__)<br/>__Note #1:__ Values must be provided in the same order as the input files (e.g. rf-count -t5 0,5 file1.bam file2.bam, will consider 0 bases trimmed from file1 reads, and 5 bases trimmed from file2 reads)<br/>__Note #2:__ If a single value is specified along with multiple SAM/BAM files, it will be used for all files<br/>__Note #3:__ This parameter has no effect when ``-m`` (or ``--count-mutations``) is enabled
 __-f__ *or* __--fasta__ | string | Path to a FASTA file containing the reference transcripts<br/>__Note:__ Transcripts in this file must match transcripts in SAM/BAM file headers
 __-mf__ *or* __--mask-file__ | string | Path to a mask file
 __-ndd__ *or* __--no-discard-duplicates__ | | Reads marked as PCR/optical duplicates, discarded by default, will be also considered
-__-pn__ *or* __--primary-only__ | | Considers only primary alignments (SAM bitwise flag != 256)
-__-po__ *or* __--paired-only__ | | When processing SAM/BAM files from paired-end experiments, only those reads for which both mates are mapped will be considered
-__-pp__ *or* __--properly-paired__ | | When processing SAM/BAM files from paired-end experiments, only those reads mapped in a proper pair will be considered
-__-i__ *or* __--include-clipped__ | | Include reads that have been soft/hard-clipped at their 5'-end when calculating RT-stops<br/>__Note:__ The default behavior is to exclude soft/hard-clipped reads. When this option is active, the RT-stop position is considered to be the position preceding the clipped bases. This option has no effect when ``-m`` (or ``--count-mutations``) is enabled.
-__-mq__ *or* __--map-quality__ | int | Minimum mapping quality to consider a read (Default: __10__)
+__-pn__ *or* __--primary-only__ | | Considers only primary alignments (SAM bitwise flag != 0x100)
+__-po__ *or* __--paired-only__ | | When processing SAM/BAM files from paired-end experiments, only those reads for which both mates are mapped will be considered (SAM flag = 0x01)
+__-pp__ *or* __--properly-paired__ | | When processing SAM/BAM files from paired-end experiments, only those reads mapped in a proper pair will be considered (SAM flag = 0x02)
+__-i__ *or* __--include-clipped__ | | Includes the soft-clipped portions of reads when calculating coverage (provided that the number of soft-clipped bases is &le; `--max-clipped`)<br/>__Note:__ In RT-stop mode, the default behavior is to exclude soft/hard-clipped reads.  When this option is active, the RT-stop position is considered to be the position preceding the clipped bases. These bases will be also included in the reads in MM files.
+__-mp__ *or* __--max-clipped__ | int | Maximum allowed number of clipped bases from either end of the read (requires `-ic`) (&ge;0, Default: __0 [no limit]__)<br/>__Note:__ If the number of clipped bases exceeds this value, clipped bases will not be counted in the final coverage (and will not be included in the reads in MM files). In RT-stop mode, reads having more than this number of clipped bases will be discarded.
+__-mq__ *or* __--map-quality__ | int | Minimum mapping quality to consider a read (Default: __0__)
 __-co__ *or* __--coverage-only__ | | Only calculates per-base coverage (disables RT-stops/mutations count)
 __-m__ *or* __--count-mutations__ | | Enables mutations count instead of RT-stops count (for SHAPE-MaP/DMS-MaPseq)
  | | __Mutation count mode options__
+__-sbn__ *or* __--sort-by-read-name__ | | If processing large paired-end experiments, reads will be pre-sorted by read name, so that paired-end reads will be processed consecutively, significantly reducing the memory footprint
+__-pam__ *or* __--paired-end-all-mutations__ | | When processing paired-end reads, if they overlap and mutations are only present in one of the two mates, these will be retained<br/>__Note:__ the default behavior is to discard mutations in overlapping regions that are not supported by both mates
+__-fsr__ *or* __--force-single-read__ | | When processing paired-end reads, the two mates will be treated as separate reads<br/>__Note:__ if the two mates overlap, this will cause both coverage and mutations within the overlapping portion to be counted twice. Furthermore, the two mates will be reported separately in the MM file, rather than as one long read
 __-orc__ *or* __--out-raw-counts__ | | Generates a text file reporting raw (unfiltered) mutation counts, broken down by class (single nucleotide mutations, insertions, deletions)<br/>__Note:__ the reported counts are affected by the ``-nd``, ``-na``, ``-mq`` and ``-md`` parameters, but not by deletion realignment options
 __-om__ *or* __--only-mut__ | string | Only the specified mutations will be counted<br/>__Note #1:__ mutations must be provided in the form [original]2[mutated]. For example, "A2T" (or "A>T", or "A:T") will only count mutation events in which a reference A base has been sequenced as a T. IUPAC codes are also accepted. Multiple mutations must be provided as a comma (or semi-colon) separated list (e.g. A2T;C:N,G>A)<br/>__Note #2:__ when specified, this parameter automatically disables insertion and deletion count<br/>__Note #3:__ when specified, an extra ouput folder ``frequencies/`` will be generated, with a text file for each sample, containing the overall base substitution frequencies
 __-ds__ *or* __--discard-shorter__ | int | Discards reads shorter than this length (excluding clipped bases, Default: __1__)<br/>__Note:__ when set to *MEDIAN* (case-insensitive), the median read length will be used
@@ -51,12 +56,13 @@ __-cc__ *or* __--collapse-consecutive__ | | Collapses consecutive mutations/inde
 __-mc__ *or* __--max-collapse-distance__ | int | Maximum distance between consecutive mutations/indels to allow collapsing (requires ``-cc``, &ge;0, Default_ __2__)
 __-mv__ *or* __--max-coverage__ | int | Downsamples reads to achieve this maximum mean per-base coverage (&ge;1000, Default: __off__)
 __-mm__ *or* __--mutation-map__ | | Generates a mutation map (MM) file for alternative structure deconvolution with [DRACO](https://github.com/dincarnato/draco)
+__-msp__ *or* __--mm-split-paired-end__ | int | In case of non-overlapping paired-end reads, the two mates and the respective mutatations will be reported as separate reads in the MM file if the distance between the end of R1 and the start of R2 exceeds this value (&ge; 0, Default: __0 [no limit]__)<br/>__Note:__ The default behavior is to report them as a single long read spanning from the start of R1 to the end of R2
 __-wl__ *or* __--whitelist__ | int | Generates a DRACO-compatible whitelist file, containing the IDs of transcripts with median coverage &ge; to the specified value
 
 <br/>
 ## Coverage calculation
-It is important to note that, by default (so when counting RT-stop events), RF Count will consider the contribution of the RT drop-off event to the coverage of the base on which the drop-off has occurred.<br/>
-Take into account the following example:
+It is important to note that, by default (so when counting RT-stop events), RF Count will consider the contribution of the RT drop-off event to the coverage of the base that triggered it.<br/>
+Consider the following example:
 <br/><br/>
 ![Coverage calculation](http://www.incarnatolab.com/images/docs/RNAframework/coverage.png)
 <br/><br/>
@@ -76,6 +82,19 @@ By giving a rapid look to the numerous parameters provided by RF Count, it appea
 Here follows a brief scheme aimed at illustrating the different behaviors of RF Count with different parameter combinations (dots correspond to sites of assigned mutations):
 <br/><br/>
 ![RF Count MaP handling](http://www.incarnatolab.com/images/docs/RNAframework/rf-count_MaP.png)
+<br/><br/>
+### Handling of paired-end reads
+Since version 2.9.5, RF Count can handle paired-end reads, without the need for merging pre-mapping. Below is a simple scheme showing the different behaviors of RF Count with different parameters in case of paired-end reads:
+<br/><br/>
+![RF Count paired-end MaP](http://www.incarnatolab.com/images/docs/RNAframework/rf-count_pairedend_MaP.png)
+<br/><br/>
+Particularly, different behaviors are possible when the two mates in a pair overlap. By default, within the overlap region, only mutaations common to both mates are retained. If the `-pam` parameter is specified, then also the mutations present in just one of the two mates are retained. 
+
+If the `-fsr` parameter is enabled, the two mates are treated as independent single reads, therefore mutations common to both of them will be counted twice. In such cases, also the coverage of the overlapping portion will be increased by 2&times;. This will also cause the two mates to be reported separately in the MM file. 
+
+The `-msp` parameter, instead, controls how paired-end reads should be reported in the MM file, when they do no share an overlapping portion. By default, non-overlapping paired-end reads are reported as a single long read, spanning from the start of R1 to the end of R2. When a value is specified via the `-msp` parameter, then the two mates are reported as single long read, if the distance between the end of R1 and start of R2 does not exceed the specified value, or separately otherwise. Please note that this will have no effect on overlapping paired-end reads.
+<br/><br/>
+![RF Count paired-end MM files](http://www.incarnatolab.com/images/docs/RNAframework/rf-count_pairedend_MMfiles.png)
 <br/><br/>
 ## Downsampling reads for analysis with DRACO
 
