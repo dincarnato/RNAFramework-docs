@@ -1,12 +1,18 @@
 The RF Wiggle module can process both RC or ``rf-norm`` output XML files to produce WIGGLE tracks. When provided with RC files, by default RF Wiggle reports the per-base raw RT-stop/mutation count.<br />
 RF Wiggle can be invoked both on individual RC/XML files, or on an entire RC/XML folders. <br/>Multiple RC/XML files/folders can be provided at the same time.
-<br /><br />
+<br/><br/>
 
 !!! note "Note"
     Input file names will be stripped of their extensions, and automatically used to generate output WIGGLE files.
+
 <br/>
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-wiggle [options] sample1.rc sample2.xml .. sampleN/
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-wiggle -h

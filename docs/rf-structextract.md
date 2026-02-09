@@ -1,7 +1,12 @@
 The RF StructExtract module allows extracting (portions of) individual structure elements from a structure model generated using [``rf-fold``](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/), on the basis of specific selection criteria such as size, median reactivity, median Shannon entropy, presence of a multiway junction, or thermodynamic stability higher than expected by chance.
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-structextract [options] -ro rf_fold/ -xf XML_dir/ 
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-structextract -h

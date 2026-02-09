@@ -39,7 +39,13 @@ In this example, peaks are called using a window size of 150 nt (default offset:
 <br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-peakcall [options] -c control.rc -I IP.rc
+$ rf-peakcall [options] -I IP.rc
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-peakcall -h

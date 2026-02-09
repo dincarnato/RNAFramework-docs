@@ -13,7 +13,12 @@ The __score__ is a measure of the RT-stop enrichment in the CMCT treated (or low
 The __ratio__ is a relative quantitation of the modification stoichiometry at a given position in the CMCT treated (or low dNTP) sample.<br/>
     
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-modcall [options] -u control.rc -t treated.rc
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-modcall -h

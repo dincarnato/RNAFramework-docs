@@ -73,7 +73,13 @@ At this point, a slope of 2.4 will be used for the DMS dataset and a slope of 4.
 <br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-fold [options] XML_dir_1/ XML_dir_2/ .. XML_dir_N/
+$ rf-fold [options] rna1.xml rna2.xml .. rnaN.xml
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-fold -h

@@ -2,7 +2,14 @@ The RF NormFactor module takes an arbitrary number of RC files (for example corr
 <br/><br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-normfactor [options] -t treated.rc
+$ rf-normfactor [options] -t treated.rc -u untreated.rc
+$ rf-normfactor [options] -t treated.rc -u untreated.rc -d denatured.rc
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-normfactor -h

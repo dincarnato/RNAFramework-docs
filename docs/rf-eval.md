@@ -46,7 +46,13 @@ __c.__ Histogram of scores
 <br/><br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-eval [options] -s db_dir/ -r XML_dir/
+$ rf-eval [option] -s rna.db -r rna.xml
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-eval -h

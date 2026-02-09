@@ -1,7 +1,13 @@
 The RF Index tool is designed to automatically generate a Bowtie reference index, that will be used by the RF Map module for reads mapping.<br />This tool requires an internet connection, since it relies on querying the UCSC Genome database to obtain transcripts annotation and reference genome’s sequence. Alternatively, RF Index can be used to retrieve prebuilt indexes from RNAFramework.com.<br /><br />
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-index [options] -pb <N>
+$ rf-index [options] -g <assembly> -a <annotation>
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-index -h
@@ -20,9 +26,9 @@ __-pb__ *or* __--prebuilt__ | int | Retrieves the prebuilt reference index with 
 __-H__ *or* __--host__ | string | UCSC server hostname (Default: __genome-mysql.cse.ucsc.edu__)
 __-P__ *or* __--port__ | int | UCSC server port (Default: __3306__)
 __-g__ *or* __--genome-assembly__ | string |Genome assembly for the species of interest (Default: __mm9__).<br /> For a complete list of UCSC available assemblies, please refer to the UCSC website (<https://genome.ucsc.edu/FAQ/FAQreleases.html>)
-__-rco__ *or* __--ref-chr-only__ | | Chromosome patches ("\_fix") and unassigned genomic chunks ("\_random" and "chrUn") will be ignored
-__-la__ *or* __--list-annotations__ | | Lists available gene annotation UCSC tables
 __-a__ *or* __--annotation__ | string | Name of the UCSC table containing the genes annotation (Default: __refFlat__).<br />__Note:__ For a complete list of tables available for the chosen assembly, please either use ``-la`` (or ``--list-annotations``), or refer to the UCSC website (<https://genome.ucsc.edu/cgi-bin/hgTables>)
+__-la__ *or* __--list-annotations__ | | Lists available gene annotation UCSC tables
+__-rco__ *or* __--ref-chr-only__ | | Chromosome patches ("\_fix") and unassigned genomic chunks ("\_random" and "chrUn") will be ignored
 __-n__ *or* __--gene-name__ | | If available, gene name/symbol will be used (see UCSC tables' "__name2__"/"__geneName__" columns)
 __-co__ *or* __--coding-only__ | | Builds reference index using only protein-coding transcripts
 __-no__ *or* __--noncoding-only__ | | Builds reference index using only non-coding transcripts

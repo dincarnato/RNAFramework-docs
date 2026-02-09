@@ -3,13 +3,13 @@ The RF Duplex module performs the analysis of direct RNA-RNA interaction mapping
     It is strongly advised to use [STAR](https://github.com/alexdobin/STAR) for read mapping. Currently, mapping has to be performed by directly calling STAR. In future releases, support for STAR will be added to the ``rf-index`` and ``rf-map`` modules.
 <br />
 # Usage
-RF Duplex accepts as input a comma-separated list of two files: a BAM file and a Chimeric.out.junction file. If an aligner other than STAR is being used, the Chimeric.out.junction file can be omitted.
+RF Duplex accepts as input a comma-separated list of two files: a BAM file and a Chimeric.out.junction file. If an aligner other than STAR is being used, the Chimeric.out.junction file can be omitted:
 
 ```bash
 $ rf-duplex file1.bam,file1_Chimeric.out.junction ... filen.bam,filen_Chimeric.out.junction
 ```
 
-To list the required parameters, simply type:
+To list all available parameters, simply type:
 
 ```bash
 $ rf-duplex -h
@@ -52,6 +52,16 @@ __-cb__ *or* __--make-cluster-bam__ | | Generates a BAM file for each transcript
 __-mss__ *or* __--min-sample-size__ | int | Minimum number of reads to be considered for each iteration of mini-batch clustering (>0, Default: __1000__)
 __-mo__ *or* __--min-overlap-frac__ | float | Minimum fractional overlap between the two halves of two chimeric reads to trigger clustering (>0-1, Default: __0.05__)
 __-mi__ *or* __--max-iterations__ | int | Maximum number of iterations for K-means (>0, Default __5__)
+
+<br/>
+## Sample labeling
+By default, RF Duplex uses the input file names (stripped of their extension) as labels in the output files.
+
+It is however possible to specify custom labels by prepending them to the input files, in the form `label:`:
+
+```bash
+$ rf-duplex [options] Sample_1:sample1.bam,chimeric1.out.junction Sample_2:sample2.bam,chimeric2.out.junction .. Sample_N:sampleN.bam,chimericN.out.junction
+```   
 
 <br/>
 ## Understanding the algorithm

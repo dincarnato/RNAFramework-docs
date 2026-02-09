@@ -55,7 +55,14 @@ RF Norm supports data normalization in sliding windows. Windows can be both stat
 In the above example, use of static windows of size __10 nt__ results in an erroneous overestimation of base reactivities for certain residues (marked in red). This is caused by the fact that A/C residues are unevenly distributed along the transcript, thus causing certain windows to have far less than 50% of A/C bases (contrary to what it would be expected by chance). Instead, use of dynamic windows of size __10 nt__ avoids this overestimation, as the window's size is dynamically adjusted to always include 10 A/C residues.</br> The overestimation effect can also be minimized by increasing the size of static windows.
 <br/><br/>
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-norm [options] -t treated.rc
+$ rf-norm [options] -t treated.rc -u untreated.rc
+$ rf-norm [options] -t treated.rc -u untreated.rc -d denatured.rc
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-norm -h

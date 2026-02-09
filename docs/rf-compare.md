@@ -31,7 +31,14 @@ where *u* is the number of unpaired bases common to both reference and predicted
 
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-compare [options] -r reference.db structures.db
+$ rf-compare [options] -r reference_structs/ structures.db
+$ rf-compare [options] -r reference.db structures/
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-compare -h
@@ -40,7 +47,7 @@ $ rf-compare -h
 Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-p__ *or* __--processors__ | int | Number of processors to use (&ge; 1; Default: __1__)
-__-r__ *or* __--reference__ | string | Path to a file containing reference structures in Vienna format (dot-bracket)
+__-r__ *or* __--reference__ | string | Path to (a folder) of structure file(s)<br/>__Note:__ files containing multiple structures are accepted
 __-g__ *or* __--img__ | | Enables generation of secondary structure comparison plots (requires R)
 __-o__ *or* __--output-dir__ | string | Images output directory (Default: __rf_compare/__, requires ``-g``)
 __-ow__ *or* __--overwrite__ | | Overwrites output directory (if the specified path already exists)

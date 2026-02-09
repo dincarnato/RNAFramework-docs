@@ -19,7 +19,13 @@ For additional details on how multiple replicates are combined into a single pre
 <br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-jackknife [options] XML_dir_1/ XML_dir_2/ .. XML_dir_N/
+$ rf-jackknife [options] rna1.xml rna2.xml .. rnaN.xml
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-jackknife -h

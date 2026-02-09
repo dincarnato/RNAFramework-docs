@@ -7,7 +7,7 @@ $ rf-map [options] file1.fastq ... filen.fastq.gz
 $ rf-map [options] file1_R1.fastq,file1_R2.fastq ... filen_R1.fastq.gz,filen_R2.fastq.gz
 ```
 
-To list the required parameters, simply type:
+To list all avalailable parameters, simply type:
 
 ```bash
 $ rf-map -h
@@ -64,6 +64,18 @@ __-bfg__ *or* __--bowtie-rfg__ | int[,int] | Reference's gap open and extend pen
 __-bs__ *or* __--bowtie-softclip__ | | Enables local alignment mode (Default: __entire read must align__)
 __-bma__ *or* __--bowtie-ma__ | int | Match bonus in local alignment mode (Default: __2__)
 __-bd__ *or* __--bowtie-dovetail__ | | Paired-end dovetailed reads are allowed (mates extend past each other)
+
+<br/>
+## Sample labeling
+By default, RF Map uses the input file names (stripped of their extension) as labels in the output files.
+
+It is however possible to specify custom labels by prepending them to the input files, in the form `label:`:
+
+```bash
+$ rf-map [options] Sample_1:file1.fastq Sample_2:file2.fastq .. Sample_N:fileN.fastq
+```   
+<br/>
+
 
 !!! note "Important"
     When using __Bowtie v1__, Bowtie's ``--best`` and ``--strata`` parameters are automatically added. Please check [Bowtie v1 documentation](http://bowtie-bio.sourceforge.net/manual.shtml) for additional information.

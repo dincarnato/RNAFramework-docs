@@ -4,7 +4,13 @@ Mutagenesis results are reported in XML format, one file per motif.
 <br/><br/>
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-mutate [options] -mf motifs.txt structures.db
+$ rf-mutate [options] -mf motifs.txt structures/
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-mutate -h

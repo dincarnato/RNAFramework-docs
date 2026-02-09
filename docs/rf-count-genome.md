@@ -1,7 +1,12 @@
 The RF Count Genome module is an extension of the RF Count module, introduced in version __2.8.0__ to process genome-level alignments. It can process any number of genome-level SAM/BAM files to calculate per-base RT-stops/mutations and read coverage. For any information on the RC file format, or on the RF Count algorithm, please refer to the [manual page](https://rnaframework-docs.readthedocs.io/en/latest/rf-count/) of `rf-count`.<br /><br />
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-count-genome [options] sample1.bam sample2.sam .. sampleN.bam
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-count-genome -h
@@ -30,7 +35,7 @@ __-co__ *or* __--coverage-only__ | | Only calculates per-base coverage (disables
 __-m__ *or* __--count-mutations__ | | Enables mutations count instead of RT-stops count (for SHAPE-MaP/DMS-MaPseq)
  | | __Mutation count mode options__
 __-om__ *or* __--only-mut__ | string | Only the specified mutations will be counted<br/>__Note #1:__ mutations must be provided in the form [original]2[mutated]. For example, "A2T" (or "A>T", or "A:T") will only count mutation events in which a reference A base has been sequenced as a T. IUPAC codes are also accepted. Multiple mutations must be provided as a comma (or semi-colon) separated list (e.g. A2T;C:N,G>A)<br/>__Note #2:__ when specified, this parameter automatically disables insertion and deletion count<br/>__Note #3:__ when specified, an extra ouput folder ``frequencies/`` will be generated, with a text file for each sample, containing the overall base substitution frequencies
-__-ds__ *or* __--discard-shorter__ | int | Discards reads shorter than this length (excluding clipped bases, Default: __1__)
+__-ds__ *or* __--discard-shorter__ | int | Discards reads spanning less than this number of bases, excluding clipped bases (unless `-ic` is specified) (Default: __1__)
 __-q__ *or* __--min-quality__ | int | Minimum quality score value to consider a mutation (Phred+33, requires ``-m``, Default: __20__)
 __-es__ *or* __--eval-surrounding__ | | When considering a mutation/indel, also evaluates the quality of surrounding bases (&#177;1 nt)<br/>__Note:__ the quality score threshold set by ``-q`` (or ``--min-quality``) also applies to these bases
 __-nd__ *or* __--no-deletions__ | | Ignores deletions

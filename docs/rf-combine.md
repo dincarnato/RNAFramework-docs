@@ -10,7 +10,12 @@ RF Combine further allows retaining only transcripts whose Pearson correlation c
     In XML files generated using RF Combine, the ``combined`` attribute of the ``transcript`` tag is set to ``TRUE``.
 
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-combine [options] XML_dir_1/ XML_dir_2/ .. XML_dir_N/
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-combine -h

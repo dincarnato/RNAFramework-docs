@@ -2,7 +2,12 @@ The RF Count module is the core component of the framework. It can process any n
 
 <br/>
 # Usage
-To list the required parameters, simply type:
+
+```bash
+$ rf-count [options] sample1.bam sample2.sam .. sampleN.bam
+```
+
+To list all available parameters, simply type:
 
 ```bash
 $ rf-count -h
@@ -33,12 +38,12 @@ __-mq__ *or* __--map-quality__ | int | Minimum mapping quality to consider a rea
 __-co__ *or* __--coverage-only__ | | Only calculates per-base coverage (disables RT-stops/mutations count)
 __-m__ *or* __--count-mutations__ | | Enables mutations count instead of RT-stops count (for SHAPE-MaP/DMS-MaPseq)
  | | __Mutation count mode options__
-__-sbn__ *or* __--sort-by-read-name__ | | If processing large paired-end experiments, reads will be pre-sorted by read name, so that paired-end reads will be processed consecutively, significantly reducing the memory footprint
+__-sbn__ *or* __--sort-by-read-name__ | | If processing large paired-end experiments, reads will be pre-sorted by read name, so that paired-end reads will be processed consecutively, significantly reducing the memory footprint (but to the cost of increased disk usage)
 __-pam__ *or* __--paired-end-all-mutations__ | | When processing paired-end reads, if they overlap and mutations are only present in one of the two mates, these will be retained<br/>__Note:__ the default behavior is to discard mutations in overlapping regions that are not supported by both mates
 __-fsr__ *or* __--force-single-read__ | | When processing paired-end reads, the two mates will be treated as separate reads<br/>__Note:__ if the two mates overlap, this will cause both coverage and mutations within the overlapping portion to be counted twice. Furthermore, the two mates will be reported separately in the MM file, rather than as one long read
 __-orc__ *or* __--out-raw-counts__ | | Generates a text file reporting raw (unfiltered) mutation counts, broken down by class (single nucleotide mutations, insertions, deletions)<br/>__Note:__ the reported counts are affected by the ``-nd``, ``-na``, ``-mq`` and ``-md`` parameters, but not by deletion realignment options
 __-om__ *or* __--only-mut__ | string | Only the specified mutations will be counted<br/>__Note #1:__ mutations must be provided in the form [original]2[mutated]. For example, "A2T" (or "A>T", or "A:T") will only count mutation events in which a reference A base has been sequenced as a T. IUPAC codes are also accepted. Multiple mutations must be provided as a comma (or semi-colon) separated list (e.g. A2T;C:N,G>A)<br/>__Note #2:__ when specified, this parameter automatically disables insertion and deletion count<br/>__Note #3:__ when specified, an extra ouput folder ``frequencies/`` will be generated, with a text file for each sample, containing the overall base substitution frequencies
-__-ds__ *or* __--discard-shorter__ | int | Discards reads shorter than this length (excluding clipped bases, Default: __1__)<br/>__Note:__ when set to *MEDIAN* (case-insensitive), the median read length will be used
+__-ds__ *or* __--discard-shorter__ | int | Discards reads spanning less than this number of bases, excluding clipped bases (unless `-ic` is specified) (Default: __1__)<br/>__Note:__ when set to *MEDIAN* (case-insensitive), the median read length will be used
 __-q__ *or* __--min-quality__ | int | Minimum quality score value to consider a mutation (Phred+33, requires ``-m``, Default: __20__)
 __-ncl__ *or* __--no-cov-low-qual__ | | If a mutated base (or one of the surrounding bases, if `-es` is specified) does not exceed the `-mq` minimum quality threshold, that base will be considered as non covered
 __-es__ *or* __--eval-surrounding__ | | When considering a mutation/indel, also evaluates the quality of surrounding bases (&#177;1 nt)<br/>__Note:__ the quality score threshold set by ``-q`` (or ``--min-quality``) also applies to these bases
@@ -106,7 +111,18 @@ When analyzing a transcript, DRACO keeps in memory all the reads mapping to that
 <br/><br/>
 Downsampling is controlled via the ``-mv`` (or ``--max-coverage``). In the above example, reads have been downsampled to reach a final maximum coverage per base of 1,000X. To do this, RF Count estimates the median read length, and calculates the theoretical number of reads of that length, starting at each position of the transcript, needed to achieve that mean coverage per base. However, as a consequence of adapter trimming and soft clipping, read lengths can significantly differ within the same experiment; this results in a less uniform coverage than it would be theoretically expected, as it is possible to observe in the second track (in green).<br/>
 To partially compensate for this, it is advisable to set the ``-ds`` (or ``--discard-shorter``) parameter to the value __MEDIAN__ (case insensitive). In this way, reads shorter than the median read length will be discarded, resulting in a much more uniform coverage, as it is possible to observe in the third track (in blue).
-<br/><br/>
+<br/>
+
+## Sample labeling
+By default, RF Count uses the input file names (stripped of their extension) as labels in the output files.
+
+It is however possible to specify custom labels by prepending them to the input files, in the form `label:`:
+
+```bash
+$ rf-count [options] Sample_1:file1.bam Sample_2:file2.bam .. Sample_N:fileN.bam
+```   
+
+<br/>
 ## RC (RNA Count) format
 
 RF Count produces a RC (RNA Count) file for each analyzed sample. RC files are binary files storing the transcript’s sequence, per-base RT-stop/mutation counts, per-base read coverage, and total number of mapped reads. These files can be indexed for fast random access.<br/>
