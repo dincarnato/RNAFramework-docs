@@ -51,7 +51,7 @@ Please see <http://www.gnu.org/licenses/> for more information.
 - Linux/Mac system
 - Bowtie v1.2.3 (<http://bowtie-bio.sourceforge.net/index.shtml>), or
   <br/>Bowtie v2.3.5 or greater (<http://bowtie-bio.sourceforge.net/bowtie2/index.shtml>)
-- SAMTools v1.2 or greater (<http://www.htslib.org/>)
+- SAMTools v1.15 or greater (<http://www.htslib.org/>)
 - BEDTools v2.31.0 or greater (<https://github.com/arq5x/bedtools2/>)
 - Cutadapt v2.1 or greater (<http://cutadapt.readthedocs.io/en/stable/index.html>)
 - ViennaRNA Package v2.5.0 or greater (<http://www.tbi.univie.ac.at/RNA/>), __with__ Perl bindings
