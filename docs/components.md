@@ -18,7 +18,8 @@ __rf-motifdiscovery__  | Discovers significantly enriched sequence motifs in RIP
 __rf-combine__    | Combines results of multiple experiments into a single profile
 __rf-correlate__ | Calculates pairwise correlation of structure probing experiments
 __rf-wiggle__    | Produces WIGGLE track files from RC or XML input files
-__rf-rctools__   | Allows manipulating RC files
+__rf-rctools__   | anipulation of RC files
+__rf-mmtools__    | Manipulation of MM files
 __rf-mutate__  | Designs structure disrupting (and compensatory) mutations
 __rf-json2rc__  | Post-processes DRACO JSON output files into RC files
 

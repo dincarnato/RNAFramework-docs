@@ -40,6 +40,8 @@ __-nr__ *or* __--minRate__ | __extract__ | float | Positions with mutation rate 
 __-xr__ *or* __--maxRate__ | __extract__ | float | Positions with mutation rate &gt; this value are discarded (0-1, Default: __1 [no cutoff]__)
 __-mr__ *or* __--minReads__ | __correlate__ | int | Transcripts having less than these number of reads are excluded (&gt;0, Default: __1000__)
 __-S__ *or* __--spearman__ | __correlate__ | | Uses Spearman to calculate correlation (Default: __Pearson__)
+__-b3__ *or* __--by3End__ | __split__ | | Besides splitting by transcript, reads will be split by their 3&prime; end
+__-p__ *or* __--processors__ | __split__ | int | Number of processors to use to pre-sort reads by 3&prime; end  coordinate (requires `-b3`) (&ge; 1, Default: __1__)
 
 <br/>
 ## MMtools "view" output

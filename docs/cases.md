@@ -1,74 +1,4 @@
-# 1. PARS
-
-__1.__ Download and decompress SRA files to FastQ format using the [__NCBI SRA Toolkit__](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software):
-
-```bash
-# Download/decompress reads
-$ fastq-dump -A SRR972714		# Nuclease S1 sample
-$ fastq-dump -A SRR972715		# RNase V1 sample
-
-# Rename files
-$ mv SRR972714.fastq S1.fastq
-$ mv SRR972715.fastq V1.fastq 
-```
-<br/>
-__2.__ Prepare the reference index using ``rf-index``. To build the RefSeq gene annotation for *Homo sapiens* (hg38 assembly), simply type:
-
-```bash
-$ rf-index -g hg38 -a refGene 
-```
-
-This will build a Bowtie v1 reference index. To use Bowtie v2, simply append the ``-b2`` (or ``--bowtie2``) parameter to the previous command:
-
-```bash
-$ rf-index -g hg38 -a refGene --bowtie2 
-```
-
-A folder named "*hg38\_refGene\_bt/*" (or "*hg38\_refGene\_bt2/*" in case Bowtie v2 is used) will be created in the current working directory.<br/><br/>
-
-__3.__ Map reads to reference using ``rf-map`` (__Note:__ according to the GEO dataset's page, the last 51 nt of reads should be trimmed):
-
-```bash
-# Reads will be trimmed by 51 nt from their 3'-end, an mapped to transcripts
-# sense strand only, allowing a maximum of 20 equally scoring alignments
-
-$ rf-map -bnr -b3 51 -bm 20 -bi hg38_refGene_bt/hg38_refGene S1.fastq V1.fastq
-```
-
-To use Bowtie v2, simply append the ``-b2`` (or ``--bowtie2``) parameter to the previous command:
-
-```bash
-$ rf-map -bnr -b3 51 -bi hg38_refGene_bt2/hg38_refGene S1.fastq V1.fastq --bowtie2
-```
-<br/>
-__4.__ Count RT-stops in both samples using ``rf-count``:
-
-```bash
-$ rf-count -r -f hg38_refGene_bt/hg38_refGene.fa rf_map/*.bam
-```
-<br/>
-__5.__ Normalize data using ``rf-norm``:
-
-```bash
-# Data will be normalized by default using Ding et al., 2014 
-# scoring method, and 2-8% normalization
-
-$ rf-norm -u rf_count/V1.rc -t rf_count/S1.rc -i rf_count/index.rci
-```
-<br/>
-__6.__ Perform transcriptome-wide inference of secondary structures usign ``rf-fold``:
-
-```bash
-# Inference will be performed by default according to Deigan et al., 2009,
-# using the ViennaRNA algorithm
-
-$ rf-fold -g S1_vs_V1_norm/
-```
-A folder named "*rf_fold/*" will be generated, containing two subdirectories:<br/><br/>
-- "*structures/*": inferred structures in dot-bracket notation<br/>
-- "*images/*": graphical summaries in SVG format
-<br/><br/>
-# 2. DMS-MaPseq
+# 1. DMS-MaPseq
 
 __1.__ Download and decompress SRA file to FastQ format using the [__NCBI SRA Toolkit__](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software):
 
@@ -89,7 +19,7 @@ $ rf-index -pb 3 --bowtie2
 __3.__ Map reads to reference using ``rf-map``:
 
 ```bash
-$ rf-map -ca3 CTGTCTCTTATACACATCT -bs -bi Scerevisiae_rRNA_bt2/reference Sc_Tag_rRNA.fastq --bowtie2
+$ rf-map -ca3 CTGTCTCTTATACACATCT -mp "--very-sensitive-local" -bi Scerevisiae_rRNA_bt2/reference Sc_Tag_rRNA.fastq --bowtie2
 ```
 <br/>
 __4.__ Count mutations using ``rf-count``:
@@ -108,7 +38,7 @@ $ rf-norm -t rf_count/Sc_Tag_rRNA.rc -i rf_count/index.rci -sm 4 -nm 2 -rb AC
 ```
 
 A folder named "*Sc_Tag_rRNA_norm/*" will be generated, containing one XML file for each analyzed transcript.<br/><br/>
-# 3. SHAPE-MaP 
+# 2. SHAPE-MaP 
 
 __1.__ Obtain the [HIV-1 genome](https://www.ncbi.nlm.nih.gov/nuccore/M19921.2?report=fasta&log$=seqview&format=text)'s sequence from NCBI (extracting only bases 455-9626, corresponding to the primary transcript) and save it to HIV.fasta. In case you have [__Entrez Direct__](https://www.ncbi.nlm.nih.gov/books/NBK179288/) installed, simply type:
 
@@ -140,7 +70,7 @@ $ mv 1M7/SRR1301974_2.fastq 1M7_R2.fastq$ mv Untreated/SRR1301978_1.fastq Untre
 $ mv Untreated/SRR1301978_2.fastq Untreated_R2.fastq
 ``` 
 <br/>
-__5.__ Map reads to reference using ``rf-map``:
+__5.__ Map reads to reference using ``rf-map`` (__Note:__ parameters were chosen to mimic those of the original paper):
 
 ```bash
 $ rf-map -p 3 -b2 -cqo -cq5 20 -bs -bl 15 -bN 1 -bD 20 -bR 3 -bdp 100 -bma 2 -bmp 6,2 -bdg 5,1 -bfg 5,1 -bd \
@@ -151,7 +81,7 @@ Untreated_R1.fastq,Untreated_R1.fastq
 __6.__ Count mutations using ``rf-count``:
 
 ```bash
-$ rf-count -p 3 -r -f HIV.fasta -m -na -md 200 rf_map/Denatured.bam rf_map/1M7.bam rf_map/Untreated.bam
+$ rf-count -p 3 -r -f HIV.fasta -m rf_map/Denatured.bam rf_map/1M7.bam rf_map/Untreated.bam
 ```
 <br/>
 __7.__ Normalize data using ``rf-norm``:
@@ -170,7 +100,7 @@ __8.__ Fold HIV-1 genome using ``rf-fold``:
 $ rf-fold -m 2 -g -md 500 -w -pk -km 2 -ko 100 -pw 1600 -po 375 -wt 300 -fw 3000 -fo 300 HIV_norm/
 ```
 <br/><br/>
-# 4. m<sup>6</sup>A-seq
+# 3. m<sup>6</sup>A-seq
 
 __1.__ Download and decompress SRA files to FastQ format using the [__NCBI SRA Toolkit__](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software):
 
@@ -223,7 +153,7 @@ $ rf-peakcall -c rf_count/Input.rc -I rf_count/IP.rc -i rf_count/index.rci -e 2.
 
 A BED file named "*IP\_vs\_Input.bed*" will be generated, containing the called peaks.
 <br/><br/>
-# 5. 2OMe-seq
+# 4. 2OMe-seq
 
 __1.__ Download and decompress SRA files to FastQ format using the [__NCBI SRA Toolkit__](https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software):
 
