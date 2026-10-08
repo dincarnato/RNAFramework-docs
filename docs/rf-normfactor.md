@@ -1,4 +1,5 @@
-The RF NormFactor module takes an arbitrary number of RC files (for example corrisponding to multiple replicates or different conditions of the same experiment) and derives transcriptome-wide (and experiment-wide) normalization factors for use with ``rf-norm``.<br/>For details on the different scoring and normalization methods, please refer to the [RF Norm](https://rnaframework-docs.readthedocs.io/en/latest/rf-norm/) page.
+The RF NormFactor module takes an arbitrary number of RC files (for example corrisponding to multiple replicates or different conditions of the same experiment) and derives transcriptome-wide (and experiment-wide) normalization factors for use with ``rf-norm``.<br/>
+For details on the different scoring and normalization methods, please refer to the [RF Norm](https://rnaframework-docs.readthedocs.io/en/latest/rf-norm/) page.
 <br/><br/>
 
 # Usage
@@ -26,7 +27,9 @@ __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Defa
 __-o__ *or* __--output__ | string | Output file normalization factors will be reported to (Default: __norm_factors.txt__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output file (if it already exists)
 __-sm__ *or* __--scoring-method__ | int | Method for score calculation (1-4, Default: __1__):<br/>__1.__ Ding *et al.*, 2014 <br/>__2.__ Rouskin *et al.*, 2014 <br/>__3.__ Siegfried *et al.*, 2014<br/>__4.__ Zubradt *et al.*, 2016
-__-nm__ *or* __--norm-method__ | int | Method for signal normalization (1-3, Default: __1__):<br/>__1.__ 2-8% Normalization <br/>__2.__ 90% Winsorizing <br/>__3.__ Box-plot Normalization
+__-nm__ *or* __--norm-method__ | int | Method for signal normalization (1-3, Default: __1__):<br/>__1.__ 2-8% Normalization <br/>__2.__ 90% Winsorizing <br/>__3.__ Box-plot Normalization <br/>__4.__ Mitchell *et al.,* 2023<br/>__Note #1:__ 2-8% and Box-plot normalization methods cannot be used with the Rouskin scoring method<br/>__Note #2:__ Mitchell normalization method requires the Siegfried or Zubradt scoring method
+__-ni__ *or* __--norm-independent__ | | Calculates a separate normalization factor per each reactive base, instead of a single factor across all of them<br/>__Note #1:__ 90% Winsorizing yields two factors per base, reported as "&lt;5th&gt;,&lt;95th&gt;"<br/>__Note #2:__ factors are passed on to `rf-norm` as a "&lt;base&gt;:&lt;factor&gt;" list. Bases for which no factor could be calculated are reported as NaN, and are left to `rf-norm` to normalize independently for each transcript
+__-mn__ *or* __--min-norm-factor__ | float | Bases whose normalization factor falls below this value are not passed on to `rf-norm` (&gt;0, requires ``-nm 4``)<br/>__Note:__ the base is reported as NaN, hence `rf-norm` will normalize it independently for each transcript
 __-rb__ *or* __--reactive-bases__ | string | Reactive bases to consider for signal normalization (Default: __all__ [ACGT])<br/>__Note:__ This parameter accepts any IUPAC code, or their combination (e.g. ``-rb M``, or ``-rb AC``)
 __-mc__ *or* __--min-coverage__ | int | Discards any base with coverage below this threshold (&ge;1, Default: __10__)
 __-ec__ *or* __--median-coverage__ | float | Discards transcripts having median coverage below this threshold (&ge; 0, Default: __0__)

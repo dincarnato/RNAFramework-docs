@@ -1,4 +1,5 @@
-The RF Index tool is designed to automatically generate a Bowtie reference index, that will be used by the RF Map module for reads mapping.<br />This tool requires an internet connection, since it relies on querying the UCSC Genome database to obtain transcripts annotation and reference genome’s sequence. Alternatively, RF Index can be used to retrieve prebuilt indexes from RNAFramework.com.<br /><br />
+The RF Index tool is designed to automatically generate a Bowtie reference index, that will be used by the RF Map module for reads mapping.<br />
+This tool requires an internet connection, since it relies on querying the UCSC Genome database to obtain transcripts annotation and reference genome’s sequence. Alternatively, RF Index can be used to retrieve prebuilt indexes from RNAFramework.com.<br /><br />
 
 # Usage
 
@@ -57,5 +58,12 @@ $ bowtie2-build reference_sorted.fa reference_sorted
 
 $ ls -l
 
-  -rwxrwxrwx 1 danny danny  96041105 5 mar 10.50 reference_sorted.1.ebwt  -rwxrwxrwx 1 danny danny  37313744 5 mar 10.50 reference_sorted.2.ebwt  -rwxrwxrwx 1 danny danny   1844468 5 mar 10.28 reference_sorted.3.ebwt  -rwxrwxrwx 1 danny danny  74627475 5 mar 10.28 reference_sorted.4.ebwt  -rwxrwxrwx 1 danny danny 302198817 5 mar 10.28 reference_sorted.fa  -rwxrwxrwx 1 danny danny  96041105 5 mar 11.11 reference_sorted.rev.1.ebwt  -rwxrwxrwx 1 danny danny  37313744 5 mar 11.11 reference_sorted.rev.2.ebwt  -rwxrwxrwx 1 danny danny 302198817 5 mar 10.28 reference_unsorted.fa
+  -rwxrwxrwx 1 danny danny  96041105 5 mar 10.50 reference_sorted.1.ebwt
+  -rwxrwxrwx 1 danny danny  37313744 5 mar 10.50 reference_sorted.2.ebwt
+  -rwxrwxrwx 1 danny danny   1844468 5 mar 10.28 reference_sorted.3.ebwt
+  -rwxrwxrwx 1 danny danny  74627475 5 mar 10.28 reference_sorted.4.ebwt
+  -rwxrwxrwx 1 danny danny 302198817 5 mar 10.28 reference_sorted.fa
+  -rwxrwxrwx 1 danny danny  96041105 5 mar 11.11 reference_sorted.rev.1.ebwt
+  -rwxrwxrwx 1 danny danny  37313744 5 mar 11.11 reference_sorted.rev.2.ebwt
+  -rwxrwxrwx 1 danny danny 302198817 5 mar 10.28 reference_unsorted.fa
 ```

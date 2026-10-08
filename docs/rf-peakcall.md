@@ -68,6 +68,8 @@ __-e__ *or* __--enrichment__ | float | Minimum log<sub>2</sub> enrichment in IP 
 __-v__ *or* __--p-value__ | float | P-value cutoff for reporting a peak (0 &le; *p* &le; 1, Default: __0.05__)
 __-s__ *or* __--summit__ | | Generates an additional BED file containing the coordinates of peak summits (peak regions with the highest coverage)
 __-r__ *or* __--refine__ | | Refines peak boundaries
+__-w__ *or* __--window__ | int | Window's size for peak calling (&ge;10, Default: __150__)
+__-f__ *or* __--offset__ | int | Offset for window sliding (&ge;1, Default: __window's size / 2__)
 __-x__ *or* __--relaxed__ | | Uses more relaxed criteria to refine peak boundaries (requires ``-r``)
 __-pc__ *or* __--pseudocount__ | float | Pseudocount added to read counts to avoid division by 0 (&gt;0, Default: __1__)
 __-mc__ *or* __--mean-coverage__ | float | Discards any transcript with mean coverage in control sample below this threshold (&ge;0, Default: __0__)
@@ -78,7 +80,7 @@ __-g__ *or* __--img__ | | Enables the generation of coverage plots (one per tran
 __-mp__ *or* __--meta-plot__ | | Enables the generation of meta-gene plots (requires R)
 __-mcp__ *or* __--meta-coding-plot__ | | Enables the generation of a protein-coding-only meta-gene plot, by aligning the TSS, start codon, stop codon, and TES  (requires R)
 __-of__ *or* __--orf-file__ | string | Path to a BED file containing the transcript-level coordinates of the CDSs<br/>__Note:__ if no file is provided, the longest ORF will be automatically identified using the following parameters
-__-mo__ *or* __--min-orf-length__ | int | Minimum length (in aa) to select the longest ORF (requires ``-mcp``, Default: 50)
+__-mo__ *or* __--min-orf-len__ | int | Minimum length (in aa) to select the longest ORF (requires ``-mcp``, Default: 50)
 __-als__ *or* __--alt-start__ | | The longest ORF is allowed to start with alternative start codons (requires ``-mcp``)
 __-ans__ *or* __--any-start__ | | The longest ORF is allowed to start with any codon (requires ``-mcp``)
 __-gc__ *or* __--genetic-code__ | int | Genetic code table for the reference organism (requires ``-mcp``, 1-33, Default: __1__)<br/>__Note:__ for a detailed list of the available genetic code tables, please refer to the [__RF Mutate__](https://rnaframework-docs.readthedocs.io/en/latest/rf-mutate/#genetic-code-tables) docs, or to [https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi](https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi)

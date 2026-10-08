@@ -16,7 +16,7 @@ $ rf-json2rc -h
 
 Parameter         | Type | Description
 ----------------: | :--: |:------------
-__-o__ *or* __--output-dir__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_json2rc/__)
+__-o__ *or* __--output__ | string | Output directory for writing counts in RC (RNA Count) format (Default: __rf_json2rc/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-j__ *or* __--json__ | string | A comma-separated list of DRACO JSON files from replicate experiments
 __-r__ *or* __--rc__ | string | A comma-separated list of RC files from replicate experiments<br/>__Note:__ the RC files must follow the same order of the JSON files
@@ -27,7 +27,7 @@ __-sz__ *or* __--skip-zero-cluster-wins__ | | Skips windows for which DRACO fail
 __-nc__ *or* __--min-confs__ | int | Windows forming less than this number of conformations will be discarded (Default: __2__)
 __-xc__ *or* __--max-confs__ | int | Windows forming more than this number of conformations will be discarded (Default: __no limit__)
 __-nm__ *or* __--no-merge-overlapping__ | | Disables merging of intra-replicate concordant overlapping windows
-__-mom__ *or* __--min-overlap-merge__ | float | Minimum fractional overlap between two concordant overlapping windows to be merged (0-1, Default: __0.5__)
+__-mom__ *or* __--min-overlap-merge__ | float | Minimum fractional overlap between two concordant overlapping windows to be merged (0-1, Default: __0.75__)
 __-mcm__ *or* __--min-corr-merge__ | float | Minimum average correlation between corresponding conformations for concordant overlapping windows to be merged (0-1, Default: __0.7__)
 __-e__ *or* __--extend__ | int |  Windows are extended by these many bases upstream and downstream (Default: __off__)<br/>__Note:__ these bases will be assigned a coverage and mutation count of 0
 __-sr__ *or* __--surround-to-rc__ | | Instead of getting coverage and mutation count of 0, bases in up/downstream extensions will be assigned the same coverage and mutation count they have in the input RC files (requires ``-e``)

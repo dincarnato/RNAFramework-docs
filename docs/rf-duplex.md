@@ -19,19 +19,20 @@ Parameter         | Type | Description
 ----------------: | :--: |:------------
 __-p__ *or* __--processors__ | int | Number of processors to use (Default: __1__)
 __-st__ *or* __--single-transcript__ | | Enables multithreading optimization for single trancript analysis<br/>__Note:__ when active, a single transcript at a time will be analyzed, and multiple processors will be used to speed-up time-comsuming operations such as read clustering and base-pair analysis. This is useful, for example, for the analysis of COMRADES experiments, in which a single target transcript is analyzed at a high sequencing depth
-__-o__ *or* __--output-dir__ | string | Output directory (Default: __rf_duplex/__)
+__-o__ *or* __--output__ | string | Output directory (Default: __rf_duplex/__)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
 __-f__ *or* __--fasta__ | string | Path to a FASTA file containing the reference transcripts<br>__Note:__ Transcripts in this file must match transcripts in SAM/BAM file headers
 __-wl__ *or* __--whitelist__ | string | A whitelist containing transcript IDs (one per each row) to restrict the analysis to (optional)
 __-mg__ *or* __--min-gap__ | int | Minimum gap length (in nt) to consider a chimeric read (>0, Default: __1__)
 __-mh__ *or* __--min-half__ | int | Minimum length (in nt) of each half of a chimeric read to consider it (>0, Default: __20__)
 __-xr__ *or* __--max-reads__ | int | Maximum number of chimeric reads to analyze for each transcript (>0, Default: __100000__)<br/>__Note:__ all chimeric reads are first imported, then a random sample is extracted
-__-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file containing the inferred base-pairs whose probability exceeds a given threshold (controlled by ``-ct`` or ``--constraint-theshold``), to be used with the [``rf-fold`` module](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/)
+__-c__ *or* __--constraint__ | | Generates a dot-bracket constraint file containing the inferred base-pairs whose probability exceeds a given threshold (controlled by ``-ct`` or ``--constraint-threshold``), to be used with the [``rf-fold`` module](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/)
 __-ct__ *or* __--constraint-threshold__ | float | Sets the probability threshold to include a base-pair in the constraint (0.5-1, Default: __0.5__)
+__-dp__ *or* __--dot-plot__ | | Generates, for each analyzed transcript, a dot-plot of the base-pairing probabilities inferred from the chimeric reads, under the ``dotplot/`` subfolder of the sample's output directory
 __-es__ *or* __--eval-structures__ | string | Path to a folder of structure files (in .db or .ct format), for which the number of chimeric reads supporting each base-pair will be calculated<br/>__Note:__ structure files must be named after their respective reference transcript
 __-eo__ *or* __--eval-only__ | | Only calculates the chimeric read support for a reference structure (requires ``-es``), and exits
 __-dc__ *or* __--dump-chimaeras__ | | Dumps extracted chimeric reads to file
-__do__ *or* __--dump-chimaeras-only__ | | Only dumps chimeric reads to file (requires ``-dc``) and exits
+__-do__ *or* __--dump-chimaeras-only__ | | Only dumps chimeric reads to file (requires ``-dc``) and exits
  | | __Base-pairs inference options__
 __-nv__ *or* __--no-use-vienna__ | | A modified Smith-Waterman local alignment algorithm is used instead of the ViennaRNA package to infer base-pairs from chimeric reads
 __-mr__ *or* __--min-reads__ | int | Minimum number of chimeric reads to retain a cluster (>0, Default: __2__)
@@ -48,7 +49,7 @@ __-g__ *or* __--img__ | | Enables the generation of graphical reports reporting 
 __-cs__ *or* __--color-scale__ | string | Allows specifying 4 cut-points for the color scale used to report base-pairing probabilities (Default: __0.05,0.1,0.4,0.7__ for 0.05-0.1:grey, 0.1-0.4:yellow, 0.4-0.7:blue, 0.7-1:green)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
  | | __Clustering options__
-__-cb__ *or* __--make-cluster-bam__ | | Generates a BAM file for each transcript being analyzed, with chimeric reads belonging to the same cluster grouped together via the XG tag
+__-cb__ *or* __--make-clusters-bam__ | | Generates a BAM file for each transcript being analyzed, with chimeric reads belonging to the same cluster grouped together via the XG tag
 __-mss__ *or* __--min-sample-size__ | int | Minimum number of reads to be considered for each iteration of mini-batch clustering (>0, Default: __1000__)
 __-mo__ *or* __--min-overlap-frac__ | float | Minimum fractional overlap between the two halves of two chimeric reads to trigger clustering (>0-1, Default: __0.05__)
 __-mi__ *or* __--max-iterations__ | int | Maximum number of iterations for K-means (>0, Default __5__)
@@ -77,7 +78,7 @@ When analyzing large COMRADES datasets, clustering can become challenging. To th
 <br/><br/>
 ![Centroid definition](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_centroid.png)
 <br/><br/>
-As shown above, for each cluster, a *centroid* is defined by identifying the point of maximum coverage on both sides of the chimeras making up the cluster, and by enlarging it upstream and downstream by *L*/2, where *L* is the median length of the each half of the chimeras in the cluster. A new chimeric read is assigned to a given cluster if each half of the chimera overlap by at least ``--min-overlap-frac`` with the corresponding half of the centroid. Clusters supported by &lt; ``--min-reads`` chimeric reads are discarded.<br/>The results of clustering can be visualized by enabling the generation of clustered BAM files via the ``--make-cluster-bam`` parameter. These BAM files store the cluster each read has been assigned to in their __XG__ tag, and they can be easily visualized with __Integrative Genomics Viewer (IGV)__ (for additional details, please refer to the official <a href="http://software.broadinstitute.org/software/igv/">Broad Institute's IGV page</a>).
+As shown above, for each cluster, a *centroid* is defined by identifying the point of maximum coverage on both sides of the chimeras making up the cluster, and by enlarging it upstream and downstream by *L*/2, where *L* is the median length of the each half of the chimeras in the cluster. A new chimeric read is assigned to a given cluster if each half of the chimera overlap by at least ``--min-overlap-frac`` with the corresponding half of the centroid. Clusters supported by &lt; ``--min-reads`` chimeric reads are discarded.<br/>The results of clustering can be visualized by enabling the generation of clustered BAM files via the ``--make-clusters-bam`` parameter. These BAM files store the cluster each read has been assigned to in their __XG__ tag, and they can be easily visualized with __Integrative Genomics Viewer (IGV)__ (for additional details, please refer to the official <a href="http://software.broadinstitute.org/software/igv/">Broad Institute's IGV page</a>).
 <br/><br/>
 ![IGV Clusters](http://www.incarnatolab.com/images/docs/RNAframework/rf-duplex_clusters.png)
 <br/><br/>

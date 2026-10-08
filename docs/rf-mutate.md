@@ -38,7 +38,7 @@ __-mr__ *or* __--max-results__ | int | Maximum number of mutants to report per m
 __-nm__ *or* __--n-mutations__ | int | Number of bases (or codons) to simultaneously mutate (>0, Default: __1__)
 __-nr__ *or* __--no-rescue__  | | Disables design of rescue mutations
 __-ne__ *or* __--no-ensemble-prob__ | | Disables evaluation of mutant/rescue Boltzmann ensemble
-__-vrf__ *or* __--vienna-rnafold__ | string | Path to ViennaRNA RNAfold executable (Default: assumes RNAfold is in PATH)
+__-mt__ *or* __--max-dist-to-target__ | float | Maximum (fractional) base-pair distance between the mutant and the target structure (0-1, Default: __0.2__)<br/>__Note:__ this parameter requires ``-tf`` (or ``--target-file``)
 
 <br/>
 ## Genetic code tables

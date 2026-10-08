@@ -31,7 +31,8 @@ __-o__ *or* __--output__ | __merge__, __extract__,  __split__, __alignIds__, __c
 __-ow__ *or* __--overwrite__ | __merge__, __extract__,  __split__, __alignIds__, __correlate__ *or* __toRC__ | | Overwrites output file (if the specified file already exists)
 __-kb__ *or* __--keepBases__ | __extract__ | string | Only retains mutations on specified bases (Default: __ACGT__)<br/>__Note:__ IUPAC codes are allowed
 __-mpr__ *or* __--minMutPerRead__ | __extract__ | int | Reads with &lt; than this number of mutations are discarded (&ge;0, Default: __1__)
-__-mrl__ *or* __--minReadLen__ | __extract__ | int | Reads shorter than this length are discarded (&gt;0, Default: __1__)
+__-xpr__ *or* __--maxMutPerRead__ | __extract__ | int | Reads with &gt; than this number of mutations are discarded (&ge;0, Default: __no limit__)
+__-mrl__ *or* __--minReadLen__ | __extract__ | int | Reads shorter than this length are discarded (&ge;0, Default: __0__ [no limit])
 __-rs__ *or* __--randSubsample__ | __extract__ | int | Randomly subsamples this fraction of reads (Default: __keep all reads__)<br/>__Note:__ for example, if `-rs 2`, 1/2 of the reads will be subsampled
 __-a__ *or* __--annotation__ | __extract__ | string | Path to a list of regions (in BED format) to extract from the MM file<br/>__Note:__ only the portion of the read falling within the boundaries of the provided BED intervals will be retained and subjected to the other filtering steps
 __-wl__ *or* __--whitelist__ | __extract__ | string | Path to a file containing a list (one per line) of transcripts to be extracted from the MM file
@@ -40,7 +41,8 @@ __-nr__ *or* __--minRate__ | __extract__ | float | Positions with mutation rate 
 __-xr__ *or* __--maxRate__ | __extract__ | float | Positions with mutation rate &gt; this value are discarded (0-1, Default: __1 [no cutoff]__)
 __-mr__ *or* __--minReads__ | __correlate__ | int | Transcripts having less than these number of reads are excluded (&gt;0, Default: __1000__)
 __-S__ *or* __--spearman__ | __correlate__ | | Uses Spearman to calculate correlation (Default: __Pearson__)
-__-b3__ *or* __--by3End__ | __split__ | | Besides splitting by transcript, reads will be split by their 3&prime; end
+__-b3__ *or* __--by3End__ | __split__ | | Besides splitting by transcript, reads will be split by their 3&prime; end (useful for the analysis of co-transcriptional structure mapping experiments)
+__-sf__ *or* __--singleFile__ | __split__ | | Reads split by 3&prime; end will be written to a single output MM file, rather than one file per position (requires ``-b3``)
 __-p__ *or* __--processors__ | __split__ | int | Number of processors to use to pre-sort reads by 3&prime; end  coordinate (requires `-b3`) (&ge; 1, Default: __1__)
 
 <br/>
@@ -90,7 +92,9 @@ If a [BED](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) annotation file i
 
 !!! note "Notes"
     1. BED files will be interpreted as BED3, therefore only the start (0-based) and end (1-based) coordinates (2nd and 3rd field) will be considered).
-    2. A single BED entry per transcript is allowed
+    2. Since version __2.9.8__, multiple BED entries per transcript are allowed
+    3. When a BED annotation is provided, each extracted region is reported in the output MM file as an individual transcript, named __&lt;transcript&gt;:&lt;start&gt;-&lt;end&gt;__
+    4. Regions whose end coordinate exceeds the transcript's length are clipped to the transcript's end, and a warning is reported
 
 Reads can be filtered by mutated base (e.g., `-kb AC` or `-kb M` will only retain mutations on A/C bases), length (e.g., `-mrl 100` will only retain reads &ge; 100 bp), or minimum number of mutations per base (e.g., `-mpr 2` will only retain reads with &ge; 2 mutations). 
 
@@ -133,7 +137,7 @@ GCATCGTGAGCGTATCGATGCGATGCTAGTCGAGCATCGAGCGACTGATGACTACG  Transcript
 
 15                 34
 |                  |
-CGATGCGATGCTAGTCGAGC                                      Transcript
+CGATGCGATGCTAGTCGAGC                                      Transcript:15-35
 CGcTGgGATaCTA                                             read#1
 CGcTGCGgTGCTAGTtGAGC                                      read#2
 ```

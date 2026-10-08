@@ -12,13 +12,13 @@ __rf-duplex__       | Analyzes direct RNA-RNA interaction mapping experiments (i
 __rf-compare__    | Compares secondary structures inferred by ``rf-fold`` with a set of reference structures, and computes PPV and sensitivity
 __rf-eval__    | Evaluates the agreement between reactivity data and a secondary structure model 
 __rf-jackknife__     | Iteratively optimize slope and intercept parameters to maximize PPV and sensitivity using a set of reference structures
-__rf-modcall__    | Performs analysis of &Psi;-seq/Pseudo-seq and 2OMe-seq data
+__rf-covalign__   | Iteratively builds and refines structure-informed alignments of homologous sequences, and evaluates the base-pairs of a structure motif by covariation analysis
 __rf-peakcall__   | Performs peak calling of RNA immunoprecipitation (RIP) experiments
-__rf-motifdiscovery__  | Discovers significantly enriched sequence motifs in RIP peaks
+__rf-motifdiscovery__  | Discovers significantly enriched sequence motifs in a set of RNA regions
 __rf-combine__    | Combines results of multiple experiments into a single profile
 __rf-correlate__ | Calculates pairwise correlation of structure probing experiments
 __rf-wiggle__    | Produces WIGGLE track files from RC or XML input files
-__rf-rctools__   | anipulation of RC files
+__rf-rctools__   | Manipulation of RC files
 __rf-mmtools__    | Manipulation of MM files
 __rf-mutate__  | Designs structure disrupting (and compensatory) mutations
 __rf-json2rc__  | Post-processes DRACO JSON output files into RC files

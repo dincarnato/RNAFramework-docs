@@ -20,7 +20,6 @@ __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Defa
 __-wt__ *or* __--working-threads__ | int | Number of working threads to use for each instance of SAMTools/Bowtie (Default: __1__).<br/>__Note:__ RT Counter executes 1 instance of SAMTools/Bowtie for each processor specified by ``-p``.  At least ``-p <processors>`` * ``-wt <threads>`` processors are required.
 __-o__ *or* __--output-dir__ | string | Output directory for writing mapped reads in SAM/BAM format (Default: rf_map/)
 __-ow__ *or* __--overwrite__ | | Overwrites the output directory if already exists
-__-t__ *or* __--tmp-dir__ | string | Path to a directory for temporary files creation (Default: __<output>/tmp__)<br/>__Note:__ If the provided directory does not exist, it will be created
 __-nb__ *or* __--no-bam__ | | Disables conversion of SAM files to BAM format
 __-b__ *or* __--bowtie__ | string | Path to ``bowtie`` (or ``bowtie2``) executable (Default: assumes ``bowtie``/``bowtie2`` is in PATH)
 __-c__ *or* __--cutadapt__ | string | Path to ``cutadapt`` executable (Default: assumes ``cutadapt`` is in PATH)
@@ -43,6 +42,7 @@ __-mo__ *or* __--manual-only__ | | Only uses manually specified aligner's parame
 __-bk__ *or* __--bowtie-k__ | int | Reports up to this number of mapping positions for reads (Default: __disabled__)
 __-ba__ *or* __--bowtie-all__ | | Reports all mapping positions for reads (Default: __disabled__)
 __-bnr__ *or* __--bowtie-norc__ | | Maps only to transcript's sense strand (Default: __both strands__)
+__-bnf__ *or* __--bowtie-nofw__ | | Maps only to transcript's antisense strand (Default: __both strands__)
 __-b5__ *or* __--bowtie-trim5__ | int | Number of bases to trim from 5'-end of reads (&ge;0, Default: __0__)
 __-b3__ *or* __--bowtie-trim3__ | int | Number of bases to trim from 3'-end of reads (&ge;0, Default: __0__)
 __-bi__ *or* __--bowtie-index__ | string | Path to transcriptome reference index (see ``rf-index``)

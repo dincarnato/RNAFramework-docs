@@ -15,6 +15,26 @@ $ export RF_NOCHECKUPDATES=1     # Disables check for updates
 ```
 <br/>
 
+### RF_NOVALIDATE
+
+__Description:__ Disables the validation of the arguments passed to the `Core::Mathematics` functions (`mean()`, `median()`, `sum()`, `min()`, `max()`, etc.). These functions normally check that all the provided values are numeric (and, where relevant, integer or positive) before computing, and throw an exception otherwise. On very large datasets, or in tight loops, these checks can account for a significant fraction of the runtime, hence they can be globally disabled.<br/>
+__Accepted values:__<br/>
+&nbsp;__0__ (validation enabled) [__default__]<br/>
+&nbsp;__1__ (validation disabled)<br/>
+
+!!! warning "Important"
+    When validation is disabled, invalid arguments will no longer raise an exception, and will be silently coerced by Perl (for instance, ``mean("a", 2)`` will return __1__ instead of throwing an exception). Only disable validation when the data being passed is known to be clean.
+
+!!! note "Note"
+    This variable is read when ``Core::Mathematics`` is loaded, hence it must be exported *before* invoking the program. When using the framework's modules directly, the same behaviour can be obtained by setting ``$Core::Mathematics::NOVALIDATE``.
+
+__Example:__
+
+```bash
+$ export RF_NOVALIDATE=1     # Disables arguments validation
+```
+<br/>
+
 ### RF_VERBOSITY
 
 __Description:__ Controls the level of verbosity of RNA Framework's warnings and exceptions.<br/>
@@ -76,4 +96,3 @@ __Example:__
 $ export RF_RPATH=/usr/local/bin/R 
 ```
 <br/>
-

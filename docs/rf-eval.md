@@ -1,8 +1,24 @@
-RF Eval allows evaluating the agreement between a given (set of) secondary structure(s) and a (set of) XML reactivity files.<br/>Reference structures can be provided either in Vienna format (dot-bracket notation), or in CT format. A single file containing the structure for multiple transcripts can be provided:```
+RF Eval allows evaluating the agreement between a given (set of) secondary structure(s) and a (set of) XML reactivity files.<br/>
+Reference structures can be provided either in Vienna format (dot-bracket notation), or in CT format. A single file containing the structure for multiple transcripts can be provided:
+
+```
 # Vienna format
->Transcript#1AAAAAAAAAAAAAAAAAAAAUUUUUUUUUUUUUUUUUUUUU.((((((((((((((((((....))))))))))))))))))>Transcript#2CCCCCCCCCCCCCCCCCGGGGGGGGGGGGGGGGGGGG(((((((((((((((((...)))))))))))))))))>Transcript#3GCUAGCUAGCUAGCUAGCUAGUCAAGACGAGUCGAUGCU(((((((((....))))))))).................
-```!!! note "Important"
-    The IDs of the provided structures __must__ match the file name of the reactivity XML file (e.g. "Transcript#1" expects an XML file named "Transcript#1.xml")<br/>
+
+>Transcript#1
+AAAAAAAAAAAAAAAAAAAAUUUUUUUUUUUUUUUUUUUUU
+.((((((((((((((((((....))))))))))))))))))
+>Transcript#2
+CCCCCCCCCCCCCCCCCGGGGGGGGGGGGGGGGGGGG
+(((((((((((((((((...)))))))))))))))))
+>Transcript#3
+GCUAGCUAGCUAGCUAGCUAGUCAAGACGAGUCGAUGCU
+(((((((((....))))))))).................
+```
+
+!!! note "Important"
+    The IDs of the provided structures __must__ match the file name of the reactivity XML file (e.g. "Transcript#1" expects an XML file named "Transcript#1.xml")
+
+<br/>
 ## Metrics
 RF Eval computes 3 metrics of agreement between reactivity data and structure. All 3 metrics yield values comprised between 0 and 1, with __0__ representing __0%__ agreement and __1__ representing __100%__ agreement.<br/><br/>
 
@@ -67,12 +83,9 @@ __-g__ *or* __--img__ | | Generates plots for the various metrics (requires R)
 __-ow__ *or* __--overwrite__ | | Overwrites output file (if the specified file already exists)
 __-p__ *or* __--processors__ | int | Number of processors to use (&ge;1, Default: __1__)
 __-tu__ *or* __--terminal-as-unpaired__ | | Treats terminal base-pairs as if they were unpaired<br/>__Note:__ this parameter and ``-it`` are mutually exclusive
-__-it__ *or* __--ignore_terminal__ | | Terminal base-pairs are excluded from calculations<br/>__Note:__ this parameter and ``-tu`` are mutually exclusive
+__-it__ *or* __--ignore-terminal__ | | Terminal base-pairs are excluded from calculations<br/>__Note:__ this parameter and ``-tu`` are mutually exclusive
 __-kl__ *or* __--keep-lonelypairs__ | | Lonely base-pairs (helices of 1 bp) are retained
 __-kp__ *or* __--keep-pseudoknots__ | | Pseudoknotted base-pairs are retained
 __-c__ *or* __--reactivity-cutoff__ | | Cutoff for considering a base highly-reactive when computing the unpaired coefficient (&gt;0, Default: __0.7__)
 __-no__ *or* __--no-overall__ | | Disables overall stats computation
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
-
-
-

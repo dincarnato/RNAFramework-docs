@@ -3,10 +3,10 @@
 <br />  
 
 !!! alert "News"
-    __[2026-06-03] RNA Framework v2.9.7:__<br/>Major release, updates, improved performances and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
-    
-!!! warning "Important"
-    A bug has been introduced in ViennaRNA v2.7.0, which breaks the pseudoknot detection functionality of `rf-fold`. However, RNAplot v2.7.0 is required to take advantage of the new secondary structure plotting functionality introduced with RNA Framework v2.9.4. Until a fix will be released, we advice the RNA Framework users to install the new ViennaRNA v2.7.0 in a separate folder and to provide the path to RNAplot v2.7.0 via the `-vrp` (or `--vienna-rnaplot`) parameter of `rf-fold`.
+    __[2026-10-08] RNA Framework v2.9.8:__<br/>Major release, introducing the new `rf-covalign` module, substantial performance improvements, and bug fixes! Please update and check the [changelog](https://github.com/dincarnato/RNAFramework/blob/master/CHANGELOG.md) for a complete list of the changes
+
+!!! note "Note"
+    The ViennaRNA v2.7.0 bug that used to break the pseudoknot detection functionality of `rf-fold` is now worked around, hence RNA Framework v2.9.8 (or greater) can be safely used with any ViennaRNA version from v2.5.0 onwards. Secondary structure plots are now drawn natively, so `RNAplot` is no longer required, and the `-vrp` (or `--vienna-rnaplot`) parameter of `rf-fold` has been removed.
     
     
 ## Introduction
@@ -55,7 +55,7 @@ Please see <http://www.gnu.org/licenses/> for more information.
 - BEDTools v2.31.0 or greater (<https://github.com/arq5x/bedtools2/>)
 - Cutadapt v2.1 or greater (<http://cutadapt.readthedocs.io/en/stable/index.html>)
 - ViennaRNA Package v2.5.0 or greater (<http://www.tbi.univie.ac.at/RNA/>), __with__ Perl bindings
-- RNAstructure v6.5 or greater (<http://rna.urmc.rochester.edu/RNAstructure.html>)
+- RNAstructure v6.5 or greater (<http://rna.urmc.rochester.edu/RNAstructure.html>) [optional]
 - Perl v5.12 (or greater), with ithreads support
 
 Optionally, for plot generation, the following are also required:
@@ -64,6 +64,11 @@ Optionally, for plot generation, the following are also required:
 	1. ggplot2 (<https://cran.r-project.org/web/packages/ggplot2/index.html>)
 	2. patchwork (<https://cran.r-project.org/web/packages/patchwork/index.html>)
 	3. RColorBrewer (<https://cran.r-project.org/web/packages/RColorBrewer/index.html>)
+
+The ``rf-covalign`` module additionally requires:
+
+- Infernal v1.1.4 or greater (<http://eddylab.org/infernal/>)
+- R-scape v2.0.0.q or greater (<http://eddylab.org/R-scape/>)
 
 
 ## Installation
@@ -79,3 +84,14 @@ To add RNA Framework executables to your PATH, simply type:
 ```bash
 export PATH=$PATH:/path/to/RNAFramework
 ```
+
+
+## Using RNA Framework via nf-core
+
+The `nf-core/rnastructurome` pipeline, developed and maintained by the [__RNACentral__](https://rnacentral.org/) team, is a reproducible, scalable workflow for analysing RNA chemical probing datasets. 
+<br/>
+
+It builds on RNA Framework and it follows current best practices for the analysis of RNA chemical probing data, providing a streamlined pipeline, from processing of raw sequencing data to generation of RNA reactivity profiles and RNA secondary structure predictions.
+<br/>
+
+The pipeline is available at [__nf-core__](https://nf-co.re/rnastructurome/1.0.0/).

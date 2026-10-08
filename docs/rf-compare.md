@@ -1,5 +1,8 @@
 RF Compare allows comparing RF Fold-inferred secondary structures, with a reference of known secondary structures, reporting for each comparison 4 metrics: the PPV, the sensitivity, the FMI (Fowlkes-Mallows index) and the mFMI (modified FMI). For additional details, check the [Metrics](https://rnaframework-docs.readthedocs.io/en/latest/rf-compare/#metrics) section below.<br/>
-Reference structures can be provided both in Vienna (dot-bracket), or in CT format. Since version 2.8.8, reference structures can be provided both as a single file containing multiple structures, or as a folder of individual structure files.<br/>The sequence ID of the reference structures __must__ match the compared file's name (e.g. "Transcript#1" expects a file named "Transcript#1.ct" or "Transcript#1.db").<br/>RF Compare can be invoked both on a single structure, or on an entire folder of RF Fold-predicted structure files. Structures can be provided either in CT or Vienna (dot-bracket) format.<br/>
+
+Reference structures can be provided both in Vienna (dot-bracket), or in CT format. Since version 2.8.8, reference structures can be provided both as a single file containing multiple structures, or as a folder of individual structure files.<br/>
+The sequence ID of the reference structures __must__ match the compared file's name (e.g. "Transcript#1" expects a file named "Transcript#1.ct" or "Transcript#1.db").<br/>
+RF Compare can be invoked both on a single structure, or on an entire folder of RF Fold-predicted structure files. Structures can be provided either in CT or Vienna (dot-bracket) format.<br/>
 RF Compare can further generates PDF graphical comparisons for each structure with respect to its reference:<br/><br/>
 ![RF Compare plot](http://www.incarnatolab.com/images/docs/RNAframework/rf-compare.png)
 <br/><br/>

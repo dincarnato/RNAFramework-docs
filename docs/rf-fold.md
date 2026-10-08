@@ -1,4 +1,9 @@
-The RF Fold module is designed to allow transcriptome-wide reconstruction of RNA structures, starting from XML files generated using the RF Norm tool.This tool can process a single, or an entire directory of XML files, and produces the inferred secondary structures (either in dot-bracket notation, or CT format) and their graphical representation (either in Postscript, or SVG format).<br/>Folding inference can be performed using 2 different algorithms:<br/><br/>1. __ViennaRNA__<br/>2. __RNAstructure__<br/><br/>
+The RF Fold module is designed to allow transcriptome-wide reconstruction of RNA structures, starting from XML files generated using the RF Norm tool.
+This tool can process a single, or an entire directory of XML files, and produces the inferred secondary structures (either in dot-bracket notation, or CT format) and their graphical representation (SVG secondary structure plots, and PDF graphical reports).<br/>
+Folding inference can be performed using 2 different algorithms:<br/><br/>
+1. __ViennaRNA__<br/>
+2. __RNAstructure__
+<br/><br/>
 Prediction can be performed either on the whole transcript, or through a windowed approach (see next paragraph).
 <br/><br/>
 ## Structure modelling    
@@ -18,6 +23,9 @@ If constraints from structure probing experiments are provided, these are incorp
 !!! note "Note"
     At all stages, increased sampling is performed at the 5'/3'-ends to avoid end biases
 
+!!! note "Note"
+    When multiple experiments are provided, steps I and II can alternatively be performed on all of them at once with ``RNAalifold``, rather than on each experiment individually; see "[Combining replicates with RNAalifold](https://rnaframework-docs.readthedocs.io/en/latest/rf-fold/#combining-replicates-with-rnaalifold)" below
+
 Along with the predicted structure, the windowed method also produces a WIGGLE track file containing per-base Shannon entropies.<br/>Regions with higher Shannon entropies are likely to form alternative structures, while those with low Shannon entropies correspond to regions with well-defined RNA structures, or persistent single-strandedness (Siegfried *et al*., 2014).<br/>
 Shannon entropy is calculated as: <br/>
 
@@ -31,7 +39,7 @@ Since version __2.9.1__, RF Fold can use __R__ to generate PDF graphical reports
     The calculation of Shannon entropy and base-pairing probabilities requires partition function to be computed. Since this is a *very slow* step, partition function folding is performed only in windowed mode, or if parameters ``-dp`` (or ``--dotplot``) or ``-sh`` (or ``--shannon``) are explicitly specified.
 
 
-Additionally, since version __2.9.4__, RF Fold can use the __RNAplot__ tool of the __ViennaRNA package__ (v2.7.0 or greater) to generate SVG secondary structure plots with overlaid reactivities:<br/>
+Additionally, RF Fold generates SVG secondary structure plots with overlaid reactivities. Since version __2.9.8__ these are drawn natively, and __no longer require the RNAplot tool of the ViennaRNA package__:<br/>
 ![Graphical report](http://www.incarnatolab.com/images/docs/RNAframework/rf-fold_secondary_structure_plot.png)
 <br/>
 
@@ -72,6 +80,27 @@ $ rf-fold -sl 2.4,4.5 -in -0.2 DMS_data/ CMCT_data/
 At this point, a slope of 2.4 will be used for the DMS dataset and a slope of 4.5 will be used for the CMCT datset, while the intercept will be -0.2 for both experiments.
 <br/>
 
+### Combining replicates with RNAalifold
+The *majority voting* approach described above folds each experiment independently, and combines the resulting base-pairs only at the end, by counting the windows in which each base-pair has been predicted. Since version __2.9.8__, the ``-ua`` (or ``--use-alifold``) parameter enables an alternative strategy, in which the reactivity profiles of all the experiments are handed to __RNAalifold__ *at once*, and a single consensus structure is derived from them.<br/>
+
+The two approaches differ in where the experiments are combined:
+
+- __Default.__ Steps I and II are repeated for each experiment, using ``RNAfold``. Each experiment contributes its own set of base-pair probabilities and MFE windows, which are then pooled and thresholded as detailed above
+- __With ``-ua``.__ Steps I and II are performed once per window, using ``RNAalifold``, with all the experiments restraining the same fold simultaneously. The transcript sequences of the individual experiments are passed as an alignment, and their reactivity profiles as the corresponding per-sequence restraints, so that the consensus structure is the one that best satisfies all the datasets at the same time
+
+In other words, the default approach asks which base-pairs the individual predictions agree on, while ``-ua`` asks which single structure best explains all the datasets. Window-level aggregation (>99% probability in step I, >50% of windows in step II) still applies in both cases, but with ``-ua`` it operates across windows only, rather than across windows *and* experiments.<br/>
+
+```bash
+$ rf-fold -sl 2.4 -in -0.2 -ua replicate_1/ replicate_2/ replicate_3/
+```
+
+!!! note "Note"
+    Being based on a consensus fold, this approach is best suited to combining __replicates of the same transcript__, and it requires the sequences of the combined experiments to be comparable. Pseudoknot detection (step III) is unaffected by this parameter, and is always performed on the individual datasets.
+
+!!! warning "Important"
+    ``-ua`` requires folding method #1 (``-m 1``, ViennaRNA), and it does not support experiment-specific slope/intercept pairs. Therefore, a single value must be provided to ``-sl`` and ``-in``; combining experiments generated with different chemical probes, as described above, is not possible in this mode.
+<br/>
+
 # Usage
 
 ```bash
@@ -93,14 +122,15 @@ __-ct__ *or* __--connectivity-table__ | | Writes predicted structures in CT form
 __-m__ *or* __--folding-method__ | int | Folding method (1-2, Default: __1__):<br/>__1.__ ViennaRNA <br/>__2.__ RNAstructure
 __-p__ *or* __--processors__ | int | Number of processors (threads) to use (Default: __1__)
 __-oc__ *or* __--only-common__ | int | In case of multiple experiments, only transcripts covered across at least this number of experiments will be folded
-__-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R and, optionally, RNAplot v2.7.0 or greater)
-__-vrp__ *or* __--vienna-rnaplot__ | string | Path to ViennaRNA ``RNAplot`` v2.7.0 (or greater) executable (Default: assumes ``RNAplot`` is in PATH)
+__-ua__ *or* __--use-alifold__ | | Uses ``RNAalifold`` to restrain the folding with the reactivity profiles of all the samples at once, yielding a consensus structure, instead of folding each sample individually with ``RNAfold`` and aggregating the resulting base-pairs<br/>__Note:__ this affects both the partition function and the MFE folding steps, but not pseudoknots detection. A single slope/intercept pair is allowed, and this parameter requires folding method #1 (``-m 1``)
+__-g__ *or* __--img__ | | Enables the generation of graphical reports (requires R)
+__-gr__ *or* __--gradient__ | | Colors the bases of the secondary structure plots on a continuous reactivity gradient, rather than using discrete reactivity bins (requires ``-g``)
 __-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-t__ *or* __--temperature__ | float | Temperature in Celsius degrees (Default: __37.0__)
 __-sl__ *or* __--slope__ | float | Sets the slope used with structure probing data restraints (Default: __1.8__ [kcal/mol])
 __-in__ *or* __--intercept__ | float | Sets the intercept used with structure probing data restraints (Default: __-0.6__ [kcal/mol])
 __-md__ *or* __--maximum-distance__ | int | Maximum pairing distance (in nt) between transcript's residues (Default: __0__ [no limit])
-__-nlp__ *or* __--no-lonelypairs__ | | Disallows lonely base-pairs (1 bp helices) inside predicted structures
+__-nlp__ *or* __--no-lonely-pairs__ | | Disallows lonely base-pairs (1 bp helices) inside predicted structures
 __-i__ *or* __--ignore-reactivity__ | | Ignores XML reactivity data when performing folding (MFE unconstrained prediction)
 __-is__ *or* __--ignore-sequence__ | | In case of multiple experiments, nucleotide differences (e.g. SNVs) between XML files are ignored
 __-hc__ *or* __--hard-constraint__ | | Besides performing soft-constraint folding, allows specifying a reactivity cutoff (specified by ``-f``) for hard-constraining a base to be single-stranded
@@ -115,20 +145,21 @@ __-pw__ *or* __--partition-window__ | int | Window size (in nt) for performing p
 __-po__ *or* __--partition-offset__ | int | Offset (in nt) for partition function window sliding (Default: __200__)
 __-wt__ *or* __--window-trim__ | int | Number of bases to trim from both ends of the partition windows to avoid end biases (Default: __100__)
 __-dp__ *or* __--dotplot__ | | Enables generation of dot-plots of base-pairing probabilities
+__-dpo__ *or* __--dotplotOnly__ | | Only performs the partition function step and generates the dot-plots, skipping MFE folding (implies ``-dp``)
 __-sh__ *or* __--shannon-entropy__ | | Enables generation of a WIGGLE track file with per-base Shannon entropies
+ | | __Pseudoknot detection__
+__-km__ *or* __--pseudoknot-method__ | int | Algorithm for pseudoknots prediction (1-2, Default: __1__):<br/>__1.__ RNA Framework <br/>__2.__ ShapeKnots<br/>__Note:__ the chosen folding method (specified by ``-m``) affects the algorithm used by RNA Framework (pseudoknot detection method #1) to define the initial MFE structure
 __-pk__ *or* __--pseudoknots__ | | Enables detection of pseudoknots (computationally intensive)
-__-ksl__ *or* __--pseudoknot-slope__ | float | Sets slope used for pseudoknots prediction (Default: same as ``-sl <slope>``)
-__-kin__ *or* __--pseudoknot-intercept__ | float | Sets intercept used for pseudoknots prediction (Default: same as ``-in <intercept>``)
-__-kp1__ *or* __--pseudoknot-penality1__ | float | Pseudoknot penality P1 (Default: __0.35__)
-__-kp2__ *or* __--pseudoknot-penality2__ | float | Pseudoknot penality P2 (Default: __0.65__)
+__-kp1__ *or* __--pseudoknot-penalty1__ | float | Pseudoknot penalty P1 (Default: __0.35__)
+__-kp2__ *or* __--pseudoknot-penalty2__ | float | Pseudoknot penalty P2 (Default: __0.65__)
 __-kt__ *or* __--pseudoknot-tollerance__ | float | Maximum tollerated deviation of suboptimal structures energy from MFE (>0-1, Default: __0.5__ [50%])
 __-kh__ *or* __--pseudoknot-helices__ | int | Number of candidate pseudoknotted helices to evaluate (>0, Default: __100__)
 __-kw__ *or* __--pseudoknot-window__ | int | Window size (in nt) for performing pseudoknots detection (>=50, Default: __600__)
 __-ko__ *or* __--pseudoknot-offset__ | int | Offset (in nt) for pseudoknots detection window sliding (Default: __200__)
 __-kc__ *or* __--pseudoknot-cutoff__ | float | Reactivity cutoff for retaining a pseudoknotted helix (0-1, Default: __0.5__)
-__-km__ *or* __--pseudoknot-method__ | int | Algorithm for pseudoknots prediction (1-2, Default: __1__):<br/>__1.__ RNA Framework <br/>__2.__ ShapeKnots<br/>__Note:__ the chosen folding method (specified by ``-m``) affects the algorithm used by RNA Framework (pseudoknot detection method #1) to define the initial MFE structure
  | | __RNA Framework pseudoknots detection algorithm options__
 __-vrs__ *or* __--vienna-rnasubopt__ | string | Path to ViennaRNA  ``RNAsubopt`` executable (Default: assumes ``RNAsubopt`` is in PATH)
+__-ke__ *or* __--subopt-delta-energy__ | float | Computes suboptimal structures with energy within this range of the optimum (&ge;0, Default: __1__ [kcal/mol])
 __-ks__ *or* __--pseudoknot-suboptimal__ | int | Number of suboptimal structures to evaluate for pseudoknots prediction (>0, Default: __1000__)
 __-nz__ *or* __--no-zuker__ | | Disables the inclusion of Zuker suboptimal structures (reduces the sampled folding space)
 __-zs__ *or* __--zuker-suboptimal__ | | Number of Zuker suboptimal structures to include (>0, Default: __1000__)
@@ -163,7 +194,7 @@ In the above example, the constraint file instructs the module to force the base
 <br/> 
 <br/>
 ## Output dot-plot files
-When option ``-dp`` is provided, RF Fold produces a dot-plot file for each transcript being analyzed, with the following structure:<br/>
+When option ``-dp`` is provided, RF Fold produces a dot-plot file for each transcript being analyzed, with the following structure (the ``-dpo``, or ``--dotplotOnly``, parameter produces the same files, but skips MFE folding altogether):<br/>
 
 ```
 1549                                   # RNA's length

@@ -26,14 +26,16 @@ Parameter         | Type | Description
 __-p__ *or* __--processors__ | int | Number of processors to use (Default: __1__)
 __-o__ *or* __--output__ | string | Output folder (Default: __rf_correlate/__)
 __-ow__ *or* __--overwrite__ | | Overwrites output folder (if the specified folder already exists)
+__-g__ *or* __--img__ | | Generates a correlation heatmap (requires R)
+__-R__ *or* __--R-path__ | string | Path to R executable (Default: assumes R is in PATH)<br/>__Note:__ also check `$RF_RPATH` under [Environment variables](https://rnaframework-docs.readthedocs.io/en/latest/envvars/#rf_rpath)
 __-m__ *or* __--min-values__ | float | Minimum number of values to calculate correlation (Default: __off__)<br/>__Note:__ if a value between 0 and 1 is provided, this is interpreted as a fraction of the transcript's length 
 __-cr__ *or* __--cap-react__ | float | Maximum reactivity value to cap reactivities to (&gt; 0, Default: __1e9__)<br/>__Note:__ if processing RC files, this parameter only applies to ratios (`-r`)
 __-mr__ *or* __--max-react__ | float |  Reactivity values above this threshold will be excluded from correlation calculation (&gt; 0, Default: __none__)<br/>__Note:__ if processing RC files, this parameter only applies to ratios (`-r`)
-__-I__ *or* __--ingore-sequence__ | | Ignores sequence differences (e.g. SNVs) between the compared transcripts
+__-I__ *or* __--ignore-sequence__ | | Ignores sequence differences (e.g. SNVs) between the compared transcripts
 __-S__ *or* __--spearman__ | | Uses Spearman instead of Pearson to calculate correlation
  | | __RC file-specific options__
 __-i__ *or* __--index__ | string | An RCI index file to be used for all input RC files<br/>__Note:__ If no RCI index is provided, RF Correlate will look for files with .rci extension in the same input folder as the RC files, named after the RC files (e.g., Sample.rc will look for Sample.rc.rci). If no RCI file is found, it will be created at runtime, and stored in the same folder of the input RC files.
-__--kb__ *or* __--keep-bases__ | string | Bases on which correlation should be calculated (Default: __all__)<br/>__Note:__ this option has effect only on RC files. For XML files, reactive bases are automatically identified from the ``reactive`` attribute
+__-kb__ *or* __--keep-bases__ | string | Bases on which correlation should be calculated (Default: __all__)<br/>__Note:__ this option has effect only on RC files. For XML files, reactive bases are automatically identified from the ``reactive`` attribute
 __-mc__ *or* __--min-coverage__ | int | Restricts the correlation analysis to bases exceeding this coverage
 __-c__ *or* __--coverage__ | | Correlation is calculated on the coverage, rather than on the raw RT stop/mutation counts
 __-r__ *or* __--ratio__ | | Correlation is calculated on the ratio between, the RT stop/mutation counts and the coverage, rather than on the raw RT stop/mutation counts
